@@ -1,0 +1,2886 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExfilZone Hideout Tracker - 3rd Wipe (Visual)</title>
+    <link href="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/css2.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #00ff88;
+            --primary-dim: #00cc6a;
+            --secondary: #ff4400;
+            --bg-dark: #0a0e14;
+            --bg-medium: #151a24;
+            --bg-light: #1f2937;
+            --text-primary: #e4e8f0;
+            --text-secondary: #8b95a8;
+            --accent-blue: #00d4ff;
+            --border: #2a3544;
+        }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            min-height: 100vh;
+            background-image: 
+                radial-gradient(circle at 20% 80%, rgba(0, 255, 136, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 68, 0, 0.03) 0%, transparent 50%),
+                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 212, 255, 0.03) 2px, rgba(0, 212, 255, 0.03) 4px);
+        }
+
+        .scanline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent 50%, rgba(0, 255, 136, 0.02) 50%);
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 9999;
+            animation: scan 8s linear infinite;
+        }
+
+        @keyframes scan {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(100%); }
+        }
+
+        .container {
+            max-width: 1800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 2rem;
+            margin-bottom: 3rem;
+            animation: slideDown 0.6s ease-out;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 900;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent-blue) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-weight: 300;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            background: var(--bg-medium);
+            border: 2px solid var(--border);
+            border-left: 4px solid var(--primary);
+            padding: 1.5rem;
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0, 255, 136, 0.1);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-value {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .filter-section {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+            padding: 1rem 1.5rem;
+            background: var(--bg-medium);
+            border: 2px solid var(--border);
+            color: var(--text-primary);
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.1);
+        }
+
+        .filter-btn {
+            padding: 1rem 2rem;
+            background: var(--bg-medium);
+            border: 2px solid var(--border);
+            color: var(--text-secondary);
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .filter-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .filter-btn.active {
+            background: var(--primary);
+            color: var(--bg-dark);
+            border-color: var(--primary);
+        }
+
+        .upgrades-table {
+            background: var(--bg-medium);
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: var(--bg-light);
+            border-bottom: 2px solid var(--primary);
+        }
+
+        th {
+            padding: 1.5rem 1rem;
+            text-align: left;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.9rem;
+            color: var(--primary);
+        }
+
+        td {
+            padding: 1.5rem 1rem;
+            border-bottom: 1px solid var(--border);
+            font-size: 1rem;
+        }
+
+        tbody tr {
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        tbody tr:hover {
+            background: var(--bg-light);
+        }
+
+        tbody tr.completed {
+            background: rgba(0, 255, 136, 0.05);
+            opacity: 0.7;
+        }
+
+        tbody tr.completed:hover {
+            opacity: 0.9;
+        }
+
+        .group-header {
+            background: linear-gradient(135deg, var(--bg-light) 0%, var(--bg-medium) 100%);
+            border-top: 2px solid var(--primary);
+            border-bottom: 2px solid var(--primary);
+            cursor: default;
+        }
+
+        .group-header td {
+            padding: 1rem 1.5rem;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--primary);
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+        }
+
+        .group-header:hover {
+            background: linear-gradient(135deg, var(--bg-light) 0%, var(--bg-medium) 100%);
+        }
+
+        .checkbox-cell {
+            width: 60px;
+            text-align: center;
+        }
+
+        .checkbox {
+            width: 24px;
+            height: 24px;
+            border: 2px solid var(--border);
+            border-radius: 4px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .checkbox.checked {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: var(--bg-dark);
+        }
+
+        .level-badge {
+            display: inline-block;
+            padding: 0.4rem 0.8rem;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent-blue) 100%);
+            color: var(--bg-dark);
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            border-radius: 4px;
+            font-size: 0.85rem;
+        }
+
+        .price {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--accent-blue);
+            font-weight: 700;
+        }
+
+        .item-container {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .item-row {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.3rem;
+            background: var(--bg-dark);
+            border-radius: 4px;
+        }
+
+        .item-icon {
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
+            border: 1px solid var(--border);
+            border-radius: 3px;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 2px;
+        }
+
+        .item-icon.missing {
+            display: none;
+        }
+
+        .item-name {
+            flex: 1;
+            font-size: 0.9rem;
+        }
+
+        .item-quantity {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            color: var(--primary);
+            padding: 0.2rem 0.6rem;
+            background: var(--bg-medium);
+            border-radius: 3px;
+            font-size: 0.85rem;
+        }
+
+        .requirements {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        .controls {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            background: var(--bg-medium);
+            border: 2px solid var(--border);
+            color: var(--text-primary);
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn.primary {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .btn.primary:hover {
+            background: var(--primary);
+            color: var(--bg-dark);
+        }
+
+        .btn.danger {
+            border-color: var(--secondary);
+            color: var(--secondary);
+        }
+
+        .btn.danger:hover {
+            background: var(--secondary);
+            color: var(--bg-dark);
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem; }
+            .container { padding: 1rem; }
+            th, td { padding: 0.5rem; font-size: 0.85rem; }
+            .item-icon { width: 24px; height: 24px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="scanline"></div>
+    <div class="container">
+        <header>
+            <h1>HIDEOUT TRACKER</h1>
+            <div class="subtitle">ExfilZone 3rd Wipe - Complete Visual Guide</div>
+        </header>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-label">Total Progress</div>
+                <div class="stat-value" id="progressPercent">5%</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Completed</div>
+                <div class="stat-value" id="completedCount">3/55</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Total Cost</div>
+                <div class="stat-value" id="totalCost">$10,706,000</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Money Spent</div>
+                <div class="stat-value" id="moneySpent">$450,000</div>
+            </div>
+        </div>
+
+        <div class="filter-section">
+            <input type="text" class="search-box" id="searchBox" placeholder="Search upgrades or items...">
+            <button class="filter-btn active" onclick="filterView('all')">All</button>
+            <button class="filter-btn" onclick="filterView('incomplete')">Incomplete</button>
+            <button class="filter-btn" onclick="filterView('completed')">Completed</button>
+        </div>
+
+        <div class="upgrades-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="checkbox-cell">✓</th>
+                        <th>Upgrade</th>
+                        <th>Level</th>
+                        <th>Description</th>
+                        <th>Price</th>
+                        <th>Required Items</th>
+                        <th>Requirements</th>
+                    </tr>
+                </thead>
+                <tbody id="upgradesTableBody">
+                    <tr class="" onclick="toggleUpgrade('Toilet-1')">
+                        <td class="checkbox-cell">
+                            <div class="checkbox ">
+                                
+                            </div>
+                        </td>
+                        <td><strong>Toilet</strong></td>
+                        <td><span class="level-badge">Lv 1</span></td>
+                        <td>Character experience gain +2%</td>
+                        <td class="price">$120,000</td>
+                        <td><div class="item-container">
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/D7.png" class="item-icon" alt="Toilet Paper" title="Toilet Paper" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Toilet Paper</span>
+                                <span class="item-quantity">×2</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/B24.png" class="item-icon" alt="Hammer" title="Hammer" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Hammer</span>
+                                <span class="item-quantity">×1</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/L6.png" class="item-icon" alt="Pesticide" title="Pesticide" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Pesticide</span>
+                                <span class="item-quantity">×1</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/N6.png" class="item-icon" alt="Rust cleaner" title="Rust cleaner" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Rust cleaner</span>
+                                <span class="item-quantity">×1</span>
+                            </div>
+                        </div></td>
+                        <td class="requirements">"Homecoming" Water Collector 1</td>
+                    </tr>
+                
+                    <tr class="" onclick="toggleUpgrade('Toilet-2')">
+                        <td class="checkbox-cell">
+                            <div class="checkbox ">
+                                
+                            </div>
+                        </td>
+                        <td><strong>Toilet</strong></td>
+                        <td><span class="level-badge">Lv 2</span></td>
+                        <td>Character experience gain +5%</td>
+                        <td class="price">$228,000</td>
+                        <td><div class="item-container">
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/D7.png" class="item-icon" alt="Toilet Paper" title="Toilet Paper" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Toilet Paper</span>
+                                <span class="item-quantity">×3</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/B6.png" class="item-icon" alt="BeardOil" title="BeardOil" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">BeardOil</span>
+                                <span class="item-quantity">×3</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/D6.png" class="item-icon" alt="Cleaner" title="Cleaner" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Cleaner</span>
+                                <span class="item-quantity">×3</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/P6.png" class="item-icon" alt="Pet Shampoo" title="Pet Shampoo" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Pet Shampoo</span>
+                                <span class="item-quantity">×3</span>
+                            </div>
+                        </div></td>
+                        <td class="requirements">Toilet 1 Player Level 1</td>
+                    </tr>
+                
+                    <tr class="" onclick="toggleUpgrade('Toilet-3')">
+                        <td class="checkbox-cell">
+                            <div class="checkbox ">
+                                
+                            </div>
+                        </td>
+                        <td><strong>Toilet</strong></td>
+                        <td><span class="level-badge">Lv 3</span></td>
+                        <td>Character experience gain +10%</td>
+                        <td class="price">$350,000</td>
+                        <td><div class="item-container">
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/D7.png" class="item-icon" alt="Toilet Paper" title="Toilet Paper" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Toilet Paper</span>
+                                <span class="item-quantity">×8</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/F6.png" class="item-icon" alt="Deodorant" title="Deodorant" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Deodorant</span>
+                                <span class="item-quantity">×8</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/P6.png" class="item-icon" alt="Pet Shampoo" title="Pet Shampoo" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Pet Shampoo</span>
+                                <span class="item-quantity">×5</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/B22.png" class="item-icon" alt="Piezometer" title="Piezometer" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Piezometer</span>
+                                <span class="item-quantity">×5</span>
+                            </div>
+                        </div></td>
+                        <td class="requirements">Toilet 1 Player Level 1</td>
+                    </tr>
+                
+                    <tr class="" onclick="toggleUpgrade('Sofa-1')">
+                        <td class="checkbox-cell">
+                            <div class="checkbox ">
+                                
+                            </div>
+                        </td>
+                        <td><strong>Sofa</strong></td>
+                        <td><span class="level-badge">Lv 1</span></td>
+                        <td>Increase weight bearing capacity to 75</td>
+                        <td class="price">$50,000</td>
+                        <td><div class="item-container">
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/N25.png" class="item-icon" alt="Climbing rope" title="Climbing rope" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Climbing rope</span>
+                                <span class="item-quantity">×5</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/F25.png" class="item-icon" alt="Tire Sealant" title="Tire Sealant" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Tire Sealant</span>
+                                <span class="item-quantity">×3</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/D24.png" class="item-icon" alt="Large Plier" title="Large Plier" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Large Plier</span>
+                                <span class="item-quantity">×3</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/B24.png" class="item-icon" alt="Hammer" title="Hammer" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Hammer</span>
+                                <span class="item-quantity">×5</span>
+                            </div>
+                        </div></td>
+                        <td class="requirements">"Homecoming" Workshop 1</td>
+                    </tr>
+                
+                    <tr class="" onclick="toggleUpgrade('Sofa-2')">
+                        <td class="checkbox-cell">
+                            <div class="checkbox ">
+                                
+                            </div>
+                        </td>
+                        <td><strong>Sofa</strong></td>
+                        <td><span class="level-badge">Lv 2</span></td>
+                        <td>Increase weight bearing capacity to 80</td>
+                        <td class="price">$128,000</td>
+                        <td><div class="item-container">
+                            <div class="item-row">
+                                
+                                <span class="item-name">Super Glue</span>
+                                <span class="item-quantity">×2</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                
+                                <span class="item-name">Magazine</span>
+                                <span class="item-quantity">×5</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/N21.png" class="item-icon" alt="Insulating Tape" title="Insulating Tape" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Insulating Tape</span>
+                                <span class="item-quantity">×8</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/N25.png" class="item-icon" alt="Climbing rope" title="Climbing rope" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Climbing rope</span>
+                                <span class="item-quantity">×5</span>
+                            </div>
+                        </div></td>
+                        <td class="requirements">Generator 2</td>
+                    </tr>
+                
+                    <tr class="" onclick="toggleUpgrade('Sofa-3')">
+                        <td class="checkbox-cell">
+                            <div class="checkbox ">
+                                
+                            </div>
+                        </td>
+                        <td><strong>Sofa</strong></td>
+                        <td><span class="level-badge">Lv 3</span></td>
+                        <td>Increase weight bearing capacity to 90</td>
+                        <td class="price">$500,000</td>
+                        <td><div class="item-container">
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/H27.png" class="item-icon" alt="Game console" title="Game console" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Game console</span>
+                                <span class="item-quantity">×2</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/F25.png" class="item-icon" alt="Tire Sealant" title="Tire Sealant" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Tire Sealant</span>
+                                <span class="item-quantity">×8</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/F6.png" class="item-icon" alt="Deodorant" title="Deodorant" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Deodorant</span>
+                                <span class="item-quantity">×6</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/J27.png" class="item-icon" alt="Defibrillator" title="Defibrillator" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Defibrillator</span>
+                                <span class="item-quantity">×1</span>
+                            </div>
+                        </div></td>
+                        <td class="requirements">Generator 3</td>
+                    </tr>
+                
+                    <tr class="" onclick="toggleUpgrade('Bookdesk-1')">
+                        <td class="checkbox-cell">
+                            <div class="checkbox ">
+                                
+                            </div>
+                        </td>
+                        <td><strong>Bookdesk</strong></td>
+                        <td><span class="level-badge">Lv 1</span></td>
+                        <td>Manual ammo reloading time -10%</td>
+                        <td class="price">$50,000</td>
+                        <td><div class="item-container">
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/H15.png" class="item-icon" alt="Flash light" title="Flash light" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Flash light</span>
+                                <span class="item-quantity">×5</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/P7.png" class="item-icon" alt="Energy-saving lamp" title="Energy-saving lamp" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Energy-saving lamp</span>
+                                <span class="item-quantity">×5</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/D16.png" class="item-icon" alt="Socket" title="Socket" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Socket</span>
+                                <span class="item-quantity">×3</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/H16.png" class="item-icon" alt="Civil Radio" title="Civil Radio" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Civil Radio</span>
+                                <span class="item-quantity">×2</span>
+                            </div>
+                        </div></td>
+                        <td class="requirements">"Homecoming" Workshop 1</td>
+                    </tr>
+                
+                    <tr class="" onclick="toggleUpgrade('Bookdesk-2')">
+                        <td class="checkbox-cell">
+                            <div class="checkbox ">
+                                
+                            </div>
+                        </td>
+                        <td><strong>Bookdesk</strong></td>
+                        <td><span class="level-badge">Lv 2</span></td>
+                        <td>Manual ammo reloading time -20%</td>
+                        <td class="price">$180,000</td>
+                        <td><div class="item-container">
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/D9.png" class="item-icon" alt="Tape" title="Tape" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Tape</span>
+                                <span class="item-quantity">×8</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/B10.png" class="item-icon" alt="Antiquarian Book" title="Antiquarian Book" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Antiquarian Book</span>
+                                <span class="item-quantity">×4</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/P28.png" class="item-icon" alt="Recorder" title="Recorder" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Recorder</span>
+                                <span class="item-quantity">×5</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/H18.png" class="item-icon" alt="Power Bank" title="Power Bank" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Power Bank</span>
+                                <span class="item-quantity">×4</span>
+                            </div>
+                        </div></td>
+                        <td class="requirements">Generator 2</td>
+                    </tr>
+                
+                    <tr class="" onclick="toggleUpgrade('Bookdesk-3')">
+                        <td class="checkbox-cell">
+                            <div class="checkbox ">
+                                
+                            </div>
+                        </td>
+                        <td><strong>Bookdesk</strong></td>
+                        <td><span class="level-badge">Lv 3</span></td>
+                        <td>Manual ammo reloading time -30%</td>
+                        <td class="price">$420,000</td>
+                        <td><div class="item-container">
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/N18.png" class="item-icon" alt="Voltage transformer" title="Voltage transformer" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Voltage transformer</span>
+                                <span class="item-quantity">×2</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/P9.png" class="item-icon" alt="Computer manual" title="Computer manual" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Computer manual</span>
+                                <span class="item-quantity">×8</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/N16.png" class="item-icon" alt="Digital sensor" title="Digital sensor" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Digital sensor</span>
+                                <span class="item-quantity">×2</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/B10.png" class="item-icon" alt="Antiquarian Book" title="Antiquarian Book" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Antiquarian Book</span>
+                                <span class="item-quantity">×6</span>
+                            </div>
+                        </div></td>
+                        <td class="requirements">Generator 3</td>
+                    </tr>
+                
+                    <tr class="" onclick="toggleUpgrade('TV Set-1')">
+                        <td class="checkbox-cell">
+                            <div class="checkbox ">
+                                
+                            </div>
+                        </td>
+                        <td><strong>TV Set</strong></td>
+                        <td><span class="level-badge">Lv 1</span></td>
+                        <td>Scavenger mode CD -10%</td>
+                        <td class="price">$50,000</td>
+                        <td><div class="item-container">
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/B18.png" class="item-icon" alt="Size D battery1" title="Size D battery1" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Size D battery1</span>
+                                <span class="item-quantity">×3</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/D18.png" class="item-icon" alt="Size D battery2" title="Size D battery2" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Size D battery2</span>
+                                <span class="item-quantity">×3</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/F18.png" class="item-icon" alt="Ion Battery" title="Ion Battery" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Ion Battery</span>
+                                <span class="item-quantity">×3</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/H16.png" class="item-icon" alt="Civil Radio" title="Civil Radio" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Civil Radio</span>
+                                <span class="item-quantity">×3</span>
+                            </div>
+                        </div></td>
+                        <td class="requirements">Player Level 5 Workshop 1</td>
+                    </tr>
+                
+                    <tr class="" onclick="toggleUpgrade('TV Set-2')">
+                        <td class="checkbox-cell">
+                            <div class="checkbox ">
+                                
+                            </div>
+                        </td>
+                        <td><strong>TV Set</strong></td>
+                        <td><span class="level-badge">Lv 2</span></td>
+                        <td>Scavenger mode CD -20%</td>
+                        <td class="price">$180,000</td>
+                        <td><div class="item-container">
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/B18.png" class="item-icon" alt="Size D battery1" title="Size D battery1" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Size D battery1</span>
+                                <span class="item-quantity">×5</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/D18.png" class="item-icon" alt="Size D battery2" title="Size D battery2" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Size D battery2</span>
+                                <span class="item-quantity">×5</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/H9.png" class="item-icon" alt="Videotape" title="Videotape" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Videotape</span>
+                                <span class="item-quantity">×1</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/L25.png" class="item-icon" alt="ElectricDrill" title="ElectricDrill" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">ElectricDrill</span>
+                                <span class="item-quantity">×1</span>
+                            </div>
+                        </div></td>
+                        <td class="requirements">Generator 2 Player Level 1</td>
+                    </tr>
+                
+                    <tr class="" onclick="toggleUpgrade('TV Set-3')">
+                        <td class="checkbox-cell">
+                            <div class="checkbox ">
+                                
+                            </div>
+                        </td>
+                        <td><strong>TV Set</strong></td>
+                        <td><span class="level-badge">Lv 3</span></td>
+                        <td>Scavenger mode CD -30%</td>
+                        <td class="price">$420,000</td>
+                        <td><div class="item-container">
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/B18.png" class="item-icon" alt="Size D battery1" title="Size D battery1" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Size D battery1</span>
+                                <span class="item-quantity">×8</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/D18.png" class="item-icon" alt="Size D battery2" title="Size D battery2" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Size D battery2</span>
+                                <span class="item-quantity">×8</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/H9.png" class="item-icon" alt="Videotape" title="Videotape" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Videotape</span>
+                                <span class="item-quantity">×5</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/J6.png" class="item-icon" alt="Rat Poison" title="Rat Poison" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Rat Poison</span>
+                                <span class="item-quantity">×2</span>
+                            </div>
+                        </div></td>
+                        <td class="requirements">Generator 3 Player Level 1</td>
+                    </tr>
+                
+                    <tr class="" onclick="toggleUpgrade('Medical Area-1')">
+                        <td class="checkbox-cell">
+                            <div class="checkbox ">
+                                
+                            </div>
+                        </td>
+                        <td><strong>Medical Area</strong></td>
+                        <td><span class="level-badge">Lv 1</span></td>
+                        <td>Access to a syringe holder. Unlocks Med Desk, Plant Stand, Operating Bed</td>
+                        <td class="price">$100,000</td>
+                        <td><div class="item-container">
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/J7.png" class="item-icon" alt="Disinfectant wipes" title="Disinfectant wipes" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Disinfectant wipes</span>
+                                <span class="item-quantity">×2</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                
+                                <span class="item-name">Band-aids</span>
+                                <span class="item-quantity">×3</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                
+                                <span class="item-name">Bottled glucose</span>
+                                <span class="item-quantity">×1</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                
+                                <span class="item-name">Portable medical kit</span>
+                                <span class="item-quantity">×1</span>
+                            </div>
+                        </div></td>
+                        <td class="requirements">Water Collector 1</td>
+                    </tr>
+                
+                    <tr class="" onclick="toggleUpgrade('Operating Bed-1')">
+                        <td class="checkbox-cell">
+                            <div class="checkbox ">
+                                
+                            </div>
+                        </td>
+                        <td><strong>Operating Bed</strong></td>
+                        <td><span class="level-badge">Lv 1</span></td>
+                        <td>Free limb damage repair available every hour. Faster health regeneration in Hideout.</td>
+                        <td class="price">$60,000</td>
+                        <td><div class="item-container">
+                            <div class="item-row">
+                                
+                                <span class="item-name">Bottled glucose</span>
+                                <span class="item-quantity">×1</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/J7.png" class="item-icon" alt="Disinfectant wipes" title="Disinfectant wipes" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Disinfectant wipes</span>
+                                <span class="item-quantity">×1</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/P7.png" class="item-icon" alt="Energy-saving lamp" title="Energy-saving lamp" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Energy-saving lamp</span>
+                                <span class="item-quantity">×1</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                
+                                <span class="item-name">Band-aids</span>
+                                <span class="item-quantity">×1</span>
+                            </div>
+                        </div></td>
+                        <td class="requirements">Medical Area 1 Toilet 1</td>
+                    </tr>
+                
+                    <tr class="" onclick="toggleUpgrade('Operating Bed-2')">
+                        <td class="checkbox-cell">
+                            <div class="checkbox ">
+                                
+                            </div>
+                        </td>
+                        <td><strong>Operating Bed</strong></td>
+                        <td><span class="level-badge">Lv 2</span></td>
+                        <td>Faster health regeneration in Hideout.</td>
+                        <td class="price">$120,000</td>
+                        <td><div class="item-container">
+                            <div class="item-row">
+                                
+                                <span class="item-name">Bottled glucose</span>
+                                <span class="item-quantity">×5</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                
+                                <span class="item-name">Medical scissors</span>
+                                <span class="item-quantity">×3</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                
+                                <span class="item-name">Band-aids</span>
+                                <span class="item-quantity">×2</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                
+                                <span class="item-name">Centrifuge</span>
+                                <span class="item-quantity">×1</span>
+                            </div>
+                        </div></td>
+                        <td class="requirements">Generator 2</td>
+                    </tr>
+                
+                    <tr class="" onclick="toggleUpgrade('Operating Bed-3')">
+                        <td class="checkbox-cell">
+                            <div class="checkbox ">
+                                
+                            </div>
+                        </td>
+                        <td><strong>Operating Bed</strong></td>
+                        <td><span class="level-badge">Lv 3</span></td>
+                        <td>Faster health regeneration in Hideout.</td>
+                        <td class="price">$240,000</td>
+                        <td><div class="item-container">
+                            <div class="item-row">
+                                
+                                <span class="item-name">Bottled glucose</span>
+                                <span class="item-quantity">×10</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                
+                                <span class="item-name">Medical scissors</span>
+                                <span class="item-quantity">×5</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                
+                                <span class="item-name">UV lamp</span>
+                                <span class="item-quantity">×3</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                
+                                <span class="item-name">Centrifuge</span>
+                                <span class="item-quantity">×1</span>
+                            </div>
+                        </div></td>
+                        <td class="requirements">Player Level 1 Water Collector 3</td>
+                    </tr>
+                
+                    <tr class="" onclick="toggleUpgrade('Plant Stand-1')">
+                        <td class="checkbox-cell">
+                            <div class="checkbox ">
+                                
+                            </div>
+                        </td>
+                        <td><strong>Plant Stand</strong></td>
+                        <td><span class="level-badge">Lv 1</span></td>
+                        <td>Food recovery +10%</td>
+                        <td class="price">$80,000</td>
+                        <td><div class="item-container">
+                            <div class="item-row">
+                                
+                                <span class="item-name">Moldboard</span>
+                                <span class="item-quantity">×1</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/D16.png" class="item-icon" alt="Socket" title="Socket" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Socket</span>
+                                <span class="item-quantity">×2</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/P7.png" class="item-icon" alt="Energy-saving lamp" title="Energy-saving lamp" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Energy-saving lamp</span>
+                                <span class="item-quantity">×5</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/F18.png" class="item-icon" alt="Ion Battery" title="Ion Battery" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Ion Battery</span>
+                                <span class="item-quantity">×1</span>
+                            </div>
+                        </div></td>
+                        <td class="requirements">Medical Area 1 Player Level 1 Toilet 1</td>
+                    </tr>
+                
+                    <tr class="" onclick="toggleUpgrade('Plant Stand-2')">
+                        <td class="checkbox-cell">
+                            <div class="checkbox ">
+                                
+                            </div>
+                        </td>
+                        <td><strong>Plant Stand</strong></td>
+                        <td><span class="level-badge">Lv 2</span></td>
+                        <td>Food recovery +20%</td>
+                        <td class="price">$220,000</td>
+                        <td><div class="item-container">
+                            <div class="item-row">
+                                
+                                <span class="item-name">Moldboard</span>
+                                <span class="item-quantity">×6</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                
+                                <span class="item-name">Aspirin</span>
+                                <span class="item-quantity">×2</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/L6.png" class="item-icon" alt="Pesticide" title="Pesticide" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Pesticide</span>
+                                <span class="item-quantity">×5</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                
+                                <span class="item-name">Gas pipe pliers</span>
+                                <span class="item-quantity">×2</span>
+                            </div>
+                        </div></td>
+                        <td class="requirements">Generator 2 Player Level 1</td>
+                    </tr>
+                
+                    <tr class="" onclick="toggleUpgrade('Plant Stand-3')">
+                        <td class="checkbox-cell">
+                            <div class="checkbox ">
+                                
+                            </div>
+                        </td>
+                        <td><strong>Plant Stand</strong></td>
+                        <td><span class="level-badge">Lv 3</span></td>
+                        <td>Food recovery +30%</td>
+                        <td class="price">$340,000</td>
+                        <td><div class="item-container">
+                            <div class="item-row">
+                                
+                                <span class="item-name">Moldboard</span>
+                                <span class="item-quantity">×12</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                
+                                <span class="item-name">Windproof Matches</span>
+                                <span class="item-quantity">×6</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                
+                                <span class="item-name">Iodine</span>
+                                <span class="item-quantity">×6</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                
+                                <span class="item-name">Gas pipe pliers</span>
+                                <span class="item-quantity">×3</span>
+                            </div>
+                        </div></td>
+                        <td class="requirements">Water Collector 3 Player Level 1</td>
+                    </tr>
+                
+                    <tr class="" onclick="toggleUpgrade('Med Desk-1')">
+                        <td class="checkbox-cell">
+                            <div class="checkbox ">
+                                
+                            </div>
+                        </td>
+                        <td><strong>Med Desk</strong></td>
+                        <td><span class="level-badge">Lv 1</span></td>
+                        <td>Drink recovery +10%</td>
+                        <td class="price">$80,000</td>
+                        <td><div class="item-container">
+                            <div class="item-row">
+                                
+                                <span class="item-name">UV lamp</span>
+                                <span class="item-quantity">×1</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                
+                                <span class="item-name">Portable medical kit</span>
+                                <span class="item-quantity">×3</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                
+                                <span class="item-name">Band-aids</span>
+                                <span class="item-quantity">×2</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                
+                                <span class="item-name">Aspirin</span>
+                                <span class="item-quantity">×3</span>
+                            </div>
+                        </div></td>
+                        <td class="requirements">Water Collector 1 Medical Area 1</td>
+                    </tr>
+                
+                    <tr class="" onclick="toggleUpgrade('Med Desk-2')">
+                        <td class="checkbox-cell">
+                            <div class="checkbox ">
+                                
+                            </div>
+                        </td>
+                        <td><strong>Med Desk</strong></td>
+                        <td><span class="level-badge">Lv 2</span></td>
+                        <td>Drink recovery +20%</td>
+                        <td class="price">$220,000</td>
+                        <td><div class="item-container">
+                            <div class="item-row">
+                                
+                                <span class="item-name">UV lamp</span>
+                                <span class="item-quantity">×3</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                
+                                <span class="item-name">Portable medical kit</span>
+                                <span class="item-quantity">×6</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                
+                                <span class="item-name">Asthma medicine</span>
+                                <span class="item-quantity">×4</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                
+                                <span class="item-name">Centrifuge</span>
+                                <span class="item-quantity">×2</span>
+                            </div>
+                        </div></td>
+                        <td class="requirements">Water Collector 1 Generator 2</td>
+                    </tr>
+                
+                    <tr class="" onclick="toggleUpgrade('Med Desk-3')">
+                        <td class="checkbox-cell">
+                            <div class="checkbox ">
+                                
+                            </div>
+                        </td>
+                        <td><strong>Med Desk</strong></td>
+                        <td><span class="level-badge">Lv 3</span></td>
+                        <td>Drink recovery +30%</td>
+                        <td class="price">$340,000</td>
+                        <td><div class="item-container">
+                            <div class="item-row">
+                                
+                                <span class="item-name">UV lamp</span>
+                                <span class="item-quantity">×5</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                
+                                <span class="item-name">Portable medical kit</span>
+                                <span class="item-quantity">×9</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                
+                                <span class="item-name">Asthma medicine</span>
+                                <span class="item-quantity">×5</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                
+                                <span class="item-name">Centrifuge</span>
+                                <span class="item-quantity">×3</span>
+                            </div>
+                        </div></td>
+                        <td class="requirements">Water Collector 3</td>
+                    </tr>
+                
+                    <tr class="" onclick="toggleUpgrade('Water Collector-1')">
+                        <td class="checkbox-cell">
+                            <div class="checkbox ">
+                                
+                            </div>
+                        </td>
+                        <td><strong>Water Collector</strong></td>
+                        <td><span class="level-badge">Lv 1</span></td>
+                        <td>Access to a drink holder. Regenerate Hydration faster inside Hideout.</td>
+                        <td class="price">$10,000</td>
+                        <td><div class="item-container">
+                            <div class="item-row">
+                                
+                                <span class="item-name">Valve</span>
+                                <span class="item-quantity">×2</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/D6.png" class="item-icon" alt="Cleaner" title="Cleaner" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Cleaner</span>
+                                <span class="item-quantity">×1</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                
+                                <span class="item-name">Salt can</span>
+                                <span class="item-quantity">×1</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/D24.png" class="item-icon" alt="Large Plier" title="Large Plier" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Large Plier</span>
+                                <span class="item-quantity">×1</span>
+                            </div>
+                        </div></td>
+                        <td class="requirements">"The Source of Life"</td>
+                    </tr>
+                
+                    <tr class="" onclick="toggleUpgrade('Water Collector-2')">
+                        <td class="checkbox-cell">
+                            <div class="checkbox ">
+                                
+                            </div>
+                        </td>
+                        <td><strong>Water Collector</strong></td>
+                        <td><span class="level-badge">Lv 2</span></td>
+                        <td>Regenerate Hydration faster inside Hideout.</td>
+                        <td class="price">$50,000</td>
+                        <td><div class="item-container">
+                            <div class="item-row">
+                                
+                                <span class="item-name">Valve</span>
+                                <span class="item-quantity">×5</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/N21.png" class="item-icon" alt="Insulating Tape" title="Insulating Tape" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Insulating Tape</span>
+                                <span class="item-quantity">×5</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/P21.png" class="item-icon" alt="Boxed Nails" title="Boxed Nails" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Boxed Nails</span>
+                                <span class="item-quantity">×6</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                
+                                <span class="item-name">Spray can</span>
+                                <span class="item-quantity">×2</span>
+                            </div>
+                        </div></td>
+                        <td class="requirements">-</td>
+                    </tr>
+                
+                    <tr class="" onclick="toggleUpgrade('Water Collector-3')">
+                        <td class="checkbox-cell">
+                            <div class="checkbox ">
+                                
+                            </div>
+                        </td>
+                        <td><strong>Water Collector</strong></td>
+                        <td><span class="level-badge">Lv 3</span></td>
+                        <td>Regenerate Hydration faster inside Hideout.</td>
+                        <td class="price">$100,000</td>
+                        <td><div class="item-container">
+                            <div class="item-row">
+                                
+                                <span class="item-name">Valve</span>
+                                <span class="item-quantity">×10</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/D6.png" class="item-icon" alt="Cleaner" title="Cleaner" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Cleaner</span>
+                                <span class="item-quantity">×4</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                
+                                <span class="item-name">Vehicle battery</span>
+                                <span class="item-quantity">×3</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/B22.png" class="item-icon" alt="Piezometer" title="Piezometer" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Piezometer</span>
+                                <span class="item-quantity">×1</span>
+                            </div>
+                        </div></td>
+                        <td class="requirements">-</td>
+                    </tr>
+                
+                    <tr class="" onclick="toggleUpgrade('Kitchen Area-1')">
+                        <td class="checkbox-cell">
+                            <div class="checkbox ">
+                                
+                            </div>
+                        </td>
+                        <td><strong>Kitchen Area</strong></td>
+                        <td><span class="level-badge">Lv 1</span></td>
+                        <td>Unlocks Coffee Machine, Microwave, Refrigerator</td>
+                        <td class="price">$80,000</td>
+                        <td><div class="item-container">
+                            <div class="item-row">
+                                
+                                <span class="item-name">Olive oil</span>
+                                <span class="item-quantity">×3</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                
+                                <span class="item-name">Salt can</span>
+                                <span class="item-quantity">×2</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                
+                                <span class="item-name">Gas can</span>
+                                <span class="item-quantity">×1</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/D24.png" class="item-icon" alt="Large Plier" title="Large Plier" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Large Plier</span>
+                                <span class="item-quantity">×1</span>
+                            </div>
+                        </div></td>
+                        <td class="requirements">Water Collector 1</td>
+                    </tr>
+                
+                    <tr class="" onclick="toggleUpgrade('Refrigerator-1')">
+                        <td class="checkbox-cell">
+                            <div class="checkbox ">
+                                
+                            </div>
+                        </td>
+                        <td><strong>Refrigerator</strong></td>
+                        <td><span class="level-badge">Lv 1</span></td>
+                        <td>Food and drinks Storage. Regenerate Energy faster inside Hideout.</td>
+                        <td class="price">$100,000</td>
+                        <td><div class="item-container">
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/N6.png" class="item-icon" alt="Rust cleaner" title="Rust cleaner" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Rust cleaner</span>
+                                <span class="item-quantity">×2</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                
+                                <span class="item-name">Salt can</span>
+                                <span class="item-quantity">×2</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                
+                                <span class="item-name">WD-40</span>
+                                <span class="item-quantity">×2</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/J25.png" class="item-icon" alt="Wrench" title="Wrench" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Wrench</span>
+                                <span class="item-quantity">×1</span>
+                            </div>
+                        </div></td>
+                        <td class="requirements">Kitchen Area 1</td>
+                    </tr>
+                
+                    <tr class="" onclick="toggleUpgrade('Refrigerator-2')">
+                        <td class="checkbox-cell">
+                            <div class="checkbox ">
+                                
+                            </div>
+                        </td>
+                        <td><strong>Refrigerator</strong></td>
+                        <td><span class="level-badge">Lv 2</span></td>
+                        <td>Regenerate Energy faster inside Hideout.</td>
+                        <td class="price">$160,000</td>
+                        <td><div class="item-container">
+                            <div class="item-row">
+                                
+                                <span class="item-name">Olive oil</span>
+                                <span class="item-quantity">×2</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                
+                                <span class="item-name">Windproof Matches</span>
+                                <span class="item-quantity">×2</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                
+                                <span class="item-name">Wire Cutter</span>
+                                <span class="item-quantity">×4</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/D16.png" class="item-icon" alt="Socket" title="Socket" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Socket</span>
+                                <span class="item-quantity">×2</span>
+                            </div>
+                        </div></td>
+                        <td class="requirements">Generator 2</td>
+                    </tr>
+                
+                    <tr class="" onclick="toggleUpgrade('Refrigerator-3')">
+                        <td class="checkbox-cell">
+                            <div class="checkbox ">
+                                
+                            </div>
+                        </td>
+                        <td><strong>Refrigerator</strong></td>
+                        <td><span class="level-badge">Lv 3</span></td>
+                        <td>Regenerate Energy faster inside Hideout.</td>
+                        <td class="price">$240,000</td>
+                        <td><div class="item-container">
+                            <div class="item-row">
+                                
+                                <span class="item-name">Olive oil</span>
+                                <span class="item-quantity">×4</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                
+                                <span class="item-name">Windproof Matches</span>
+                                <span class="item-quantity">×4</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/D24.png" class="item-icon" alt="Large Plier" title="Large Plier" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Large Plier</span>
+                                <span class="item-quantity">×8</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                
+                                <span class="item-name">Copper wire</span>
+                                <span class="item-quantity">×2</span>
+                            </div>
+                        </div></td>
+                        <td class="requirements">-</td>
+                    </tr>
+                
+                    <tr class="" onclick="toggleUpgrade('Microwave-1')">
+                        <td class="checkbox-cell">
+                            <div class="checkbox ">
+                                
+                            </div>
+                        </td>
+                        <td><strong>Microwave</strong></td>
+                        <td><span class="level-badge">Lv 1</span></td>
+                        <td>In-Raid Energy Consumption -5%</td>
+                        <td class="price">$100,000</td>
+                        <td><div class="item-container">
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/J21.png" class="item-icon" alt="Boxed Bolts" title="Boxed Bolts" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Boxed Bolts</span>
+                                <span class="item-quantity">×6</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                
+                                <span class="item-name">Wire Cutter</span>
+                                <span class="item-quantity">×2</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                
+                                <span class="item-name">wastechip</span>
+                                <span class="item-quantity">×1</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/D13.png" class="item-icon" alt="Oil can" title="Oil can" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Oil can</span>
+                                <span class="item-quantity">×6</span>
+                            </div>
+                        </div></td>
+                        <td class="requirements">Kitchen Area 1</td>
+                    </tr>
+                
+                    <tr class="" onclick="toggleUpgrade('Microwave-2')">
+                        <td class="checkbox-cell">
+                            <div class="checkbox ">
+                                
+                            </div>
+                        </td>
+                        <td><strong>Microwave</strong></td>
+                        <td><span class="level-badge">Lv 2</span></td>
+                        <td>In-Raid Energy Consumption -10%</td>
+                        <td class="price">$200,000</td>
+                        <td><div class="item-container">
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/D24.png" class="item-icon" alt="Large Plier" title="Large Plier" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Large Plier</span>
+                                <span class="item-quantity">×8</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                
+                                <span class="item-name">Gas can</span>
+                                <span class="item-quantity">×8</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                
+                                <span class="item-name">wastechip</span>
+                                <span class="item-quantity">×5</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                
+                                <span class="item-name">Olive oil</span>
+                                <span class="item-quantity">×3</span>
+                            </div>
+                        </div></td>
+                        <td class="requirements">Generator 2</td>
+                    </tr>
+                
+                    <tr class="" onclick="toggleUpgrade('Microwave-3')">
+                        <td class="checkbox-cell">
+                            <div class="checkbox ">
+                                
+                            </div>
+                        </td>
+                        <td><strong>Microwave</strong></td>
+                        <td><span class="level-badge">Lv 3</span></td>
+                        <td>In-Raid Energy Consumption -15%</td>
+                        <td class="price">$300,000</td>
+                        <td><div class="item-container">
+                            <div class="item-row">
+                                
+                                <span class="item-name">Copper wire</span>
+                                <span class="item-quantity">×6</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                
+                                <span class="item-name">Lighter</span>
+                                <span class="item-quantity">×6</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                
+                                <span class="item-name">WD-40</span>
+                                <span class="item-quantity">×12</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/N16.png" class="item-icon" alt="Digital sensor" title="Digital sensor" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Digital sensor</span>
+                                <span class="item-quantity">×2</span>
+                            </div>
+                        </div></td>
+                        <td class="requirements">Generator 3</td>
+                    </tr>
+                
+                    <tr class="" onclick="toggleUpgrade('Coffee Maker-1')">
+                        <td class="checkbox-cell">
+                            <div class="checkbox ">
+                                
+                            </div>
+                        </td>
+                        <td><strong>Coffee Maker</strong></td>
+                        <td><span class="level-badge">Lv 1</span></td>
+                        <td>In-Raid Hydration Consumption -5%</td>
+                        <td class="price">$100,000</td>
+                        <td><div class="item-container">
+                            <div class="item-row">
+                                
+                                <span class="item-name">Boxed Nuts</span>
+                                <span class="item-quantity">×3</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/J21.png" class="item-icon" alt="Boxed Bolts" title="Boxed Bolts" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Boxed Bolts</span>
+                                <span class="item-quantity">×2</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/D16.png" class="item-icon" alt="Socket" title="Socket" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Socket</span>
+                                <span class="item-quantity">×5</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/H16.png" class="item-icon" alt="Civil Radio" title="Civil Radio" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Civil Radio</span>
+                                <span class="item-quantity">×5</span>
+                            </div>
+                        </div></td>
+                        <td class="requirements">Kitchen Area 1</td>
+                    </tr>
+                
+                    <tr class="" onclick="toggleUpgrade('Coffee Maker-2')">
+                        <td class="checkbox-cell">
+                            <div class="checkbox ">
+                                
+                            </div>
+                        </td>
+                        <td><strong>Coffee Maker</strong></td>
+                        <td><span class="level-badge">Lv 2</span></td>
+                        <td>In-Raid Hydration Consumption -10%</td>
+                        <td class="price">$200,000</td>
+                        <td><div class="item-container">
+                            <div class="item-row">
+                                
+                                <span class="item-name">Boxed Nuts</span>
+                                <span class="item-quantity">×5</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/D6.png" class="item-icon" alt="Cleaner" title="Cleaner" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Cleaner</span>
+                                <span class="item-quantity">×3</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/H27.png" class="item-icon" alt="Game console" title="Game console" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Game console</span>
+                                <span class="item-quantity">×1</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                
+                                <span class="item-name">Salt can</span>
+                                <span class="item-quantity">×6</span>
+                            </div>
+                        </div></td>
+                        <td class="requirements">Generator 2</td>
+                    </tr>
+                
+                    <tr class="" onclick="toggleUpgrade('Coffee Maker-3')">
+                        <td class="checkbox-cell">
+                            <div class="checkbox ">
+                                
+                            </div>
+                        </td>
+                        <td><strong>Coffee Maker</strong></td>
+                        <td><span class="level-badge">Lv 3</span></td>
+                        <td>In-Raid Hydration Consumption -15%</td>
+                        <td class="price">$300,000</td>
+                        <td><div class="item-container">
+                            <div class="item-row">
+                                
+                                <span class="item-name">Boxed Nuts</span>
+                                <span class="item-quantity">×12</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/L25.png" class="item-icon" alt="ElectricDrill" title="ElectricDrill" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">ElectricDrill</span>
+                                <span class="item-quantity">×3</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                
+                                <span class="item-name">Copper wire</span>
+                                <span class="item-quantity">×3</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                
+                                <span class="item-name">Lighter</span>
+                                <span class="item-quantity">×3</span>
+                            </div>
+                        </div></td>
+                        <td class="requirements">Generator 3</td>
+                    </tr>
+                
+                    <tr class="" onclick="toggleUpgrade('Intel Center-1')">
+                        <td class="checkbox-cell">
+                            <div class="checkbox ">
+                                
+                            </div>
+                        </td>
+                        <td><strong>Intel Center</strong></td>
+                        <td><span class="level-badge">Lv 1</span></td>
+                        <td>Show item prices with M.I.C.A.</td>
+                        <td class="price">$100,000</td>
+                        <td><div class="item-container">
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/P16.png" class="item-icon" alt="CD" title="CD" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">CD</span>
+                                <span class="item-quantity">×2</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/D18.png" class="item-icon" alt="Size D battery2" title="Size D battery2" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Size D battery2</span>
+                                <span class="item-quantity">×2</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/B18.png" class="item-icon" alt="Size D battery1" title="Size D battery1" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Size D battery1</span>
+                                <span class="item-quantity">×2</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/N15.png" class="item-icon" alt="OldPhone" title="OldPhone" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">OldPhone</span>
+                                <span class="item-quantity">×1</span>
+                            </div>
+                        </div></td>
+                        <td class="requirements">-</td>
+                    </tr>
+                
+                    <tr class="" onclick="toggleUpgrade('Intel Center-2')">
+                        <td class="checkbox-cell">
+                            <div class="checkbox ">
+                                
+                            </div>
+                        </td>
+                        <td><strong>Intel Center</strong></td>
+                        <td><span class="level-badge">Lv 2</span></td>
+                        <td>Character experience gain +15%</td>
+                        <td class="price">$160,000</td>
+                        <td><div class="item-container">
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/P16.png" class="item-icon" alt="CD" title="CD" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">CD</span>
+                                <span class="item-quantity">×4</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/D9.png" class="item-icon" alt="Tape" title="Tape" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Tape</span>
+                                <span class="item-quantity">×3</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/J9.png" class="item-icon" alt="Notebook" title="Notebook" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Notebook</span>
+                                <span class="item-quantity">×3</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/J16.png" class="item-icon" alt="Radio" title="Radio" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Radio</span>
+                                <span class="item-quantity">×2</span>
+                            </div>
+                        </div></td>
+                        <td class="requirements">Workshop 1</td>
+                    </tr>
+                
+                    <tr class="" onclick="toggleUpgrade('Intel Center-3')">
+                        <td class="checkbox-cell">
+                            <div class="checkbox ">
+                                
+                            </div>
+                        </td>
+                        <td><strong>Intel Center</strong></td>
+                        <td><span class="level-badge">Lv 3</span></td>
+                        <td>Character experience gain +20%</td>
+                        <td class="price">$320,000</td>
+                        <td><div class="item-container">
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/P16.png" class="item-icon" alt="CD" title="CD" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">CD</span>
+                                <span class="item-quantity">×6</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/D9.png" class="item-icon" alt="Tape" title="Tape" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Tape</span>
+                                <span class="item-quantity">×3</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/H9.png" class="item-icon" alt="Videotape" title="Videotape" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Videotape</span>
+                                <span class="item-quantity">×2</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/H18.png" class="item-icon" alt="Power Bank" title="Power Bank" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Power Bank</span>
+                                <span class="item-quantity">×3</span>
+                            </div>
+                        </div></td>
+                        <td class="requirements">Intel Center 2 Toilet 2</td>
+                    </tr>
+                
+                    <tr class="" onclick="toggleUpgrade('Intel Center-4')">
+                        <td class="checkbox-cell">
+                            <div class="checkbox ">
+                                
+                            </div>
+                        </td>
+                        <td><strong>Intel Center</strong></td>
+                        <td><span class="level-badge">Lv 4</span></td>
+                        <td>Character experience gain +30%</td>
+                        <td class="price">$500,000</td>
+                        <td><div class="item-container">
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/P16.png" class="item-icon" alt="CD" title="CD" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">CD</span>
+                                <span class="item-quantity">×10</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/N16.png" class="item-icon" alt="Digital sensor" title="Digital sensor" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Digital sensor</span>
+                                <span class="item-quantity">×4</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/F9.png" class="item-icon" alt="FloppyDisk" title="FloppyDisk" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">FloppyDisk</span>
+                                <span class="item-quantity">×3</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/N27.png" class="item-icon" alt="Imaging module" title="Imaging module" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Imaging module</span>
+                                <span class="item-quantity">×1</span>
+                            </div>
+                        </div></td>
+                        <td class="requirements">Intel Center 3 Toilet 3</td>
+                    </tr>
+                
+                    <tr class="" onclick="toggleUpgrade('Bitcoin Mine-1')">
+                        <td class="checkbox-cell">
+                            <div class="checkbox ">
+                                
+                            </div>
+                        </td>
+                        <td><strong>Bitcoin Mine</strong></td>
+                        <td><span class="level-badge">Lv 1</span></td>
+                        <td>Generate periodic income using GPUs.</td>
+                        <td class="price">$100,000</td>
+                        <td><div class="item-container">
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/B15.png" class="item-icon" alt="CPU" title="CPU" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">CPU</span>
+                                <span class="item-quantity">×1</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/N6.png" class="item-icon" alt="Rust cleaner" title="Rust cleaner" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Rust cleaner</span>
+                                <span class="item-quantity">×5</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/P15.png" class="item-icon" alt="RAM" title="RAM" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">RAM</span>
+                                <span class="item-quantity">×6</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/B9.png" class="item-icon" alt="Hard Drive" title="Hard Drive" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Hard Drive</span>
+                                <span class="item-quantity">×5</span>
+                            </div>
+                        </div></td>
+                        <td class="requirements">"Speaking of Finance" Generator 2</td>
+                    </tr>
+                
+                    <tr class="" onclick="toggleUpgrade('Bitcoin Mine-2')">
+                        <td class="checkbox-cell">
+                            <div class="checkbox ">
+                                
+                            </div>
+                        </td>
+                        <td><strong>Bitcoin Mine</strong></td>
+                        <td><span class="level-badge">Lv 2</span></td>
+                        <td>Unlock more slots. Increase money output</td>
+                        <td class="price">$200,000</td>
+                        <td><div class="item-container">
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/B15.png" class="item-icon" alt="CPU" title="CPU" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">CPU</span>
+                                <span class="item-quantity">×4</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/D15.png" class="item-icon" alt="CPU Fan" title="CPU Fan" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">CPU Fan</span>
+                                <span class="item-quantity">×6</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/P15.png" class="item-icon" alt="RAM" title="RAM" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">RAM</span>
+                                <span class="item-quantity">×4</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/F9.png" class="item-icon" alt="FloppyDisk" title="FloppyDisk" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">FloppyDisk</span>
+                                <span class="item-quantity">×4</span>
+                            </div>
+                        </div></td>
+                        <td class="requirements">Bitcoin Mine 1</td>
+                    </tr>
+                
+                    <tr class="" onclick="toggleUpgrade('Bitcoin Mine-3')">
+                        <td class="checkbox-cell">
+                            <div class="checkbox ">
+                                
+                            </div>
+                        </td>
+                        <td><strong>Bitcoin Mine</strong></td>
+                        <td><span class="level-badge">Lv 3</span></td>
+                        <td>Unlock more slots. Increase money output</td>
+                        <td class="price">$300,000</td>
+                        <td><div class="item-container">
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/B15.png" class="item-icon" alt="CPU" title="CPU" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">CPU</span>
+                                <span class="item-quantity">×4</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/D15.png" class="item-icon" alt="CPU Fan" title="CPU Fan" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">CPU Fan</span>
+                                <span class="item-quantity">×8</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/P15.png" class="item-icon" alt="RAM" title="RAM" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">RAM</span>
+                                <span class="item-quantity">×6</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/B9.png" class="item-icon" alt="Hard Drive" title="Hard Drive" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Hard Drive</span>
+                                <span class="item-quantity">×6</span>
+                            </div>
+                        </div></td>
+                        <td class="requirements">Bitcoin Mine 2</td>
+                    </tr>
+                
+                    <tr class="" onclick="toggleUpgrade('Bitcoin Mine-4')">
+                        <td class="checkbox-cell">
+                            <div class="checkbox ">
+                                
+                            </div>
+                        </td>
+                        <td><strong>Bitcoin Mine</strong></td>
+                        <td><span class="level-badge">Lv 4</span></td>
+                        <td>Unlock more slots. Increase money output</td>
+                        <td class="price">$400,000</td>
+                        <td><div class="item-container">
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/B15.png" class="item-icon" alt="CPU" title="CPU" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">CPU</span>
+                                <span class="item-quantity">×8</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/D15.png" class="item-icon" alt="CPU Fan" title="CPU Fan" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">CPU Fan</span>
+                                <span class="item-quantity">×12</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/P15.png" class="item-icon" alt="RAM" title="RAM" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">RAM</span>
+                                <span class="item-quantity">×10</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/B9.png" class="item-icon" alt="Hard Drive" title="Hard Drive" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Hard Drive</span>
+                                <span class="item-quantity">×10</span>
+                            </div>
+                        </div></td>
+                        <td class="requirements">Bitcoin Mine 3</td>
+                    </tr>
+                
+                    <tr class="" onclick="toggleUpgrade('Generator-1')">
+                        <td class="checkbox-cell">
+                            <div class="checkbox ">
+                                
+                            </div>
+                        </td>
+                        <td><strong>Generator</strong></td>
+                        <td><span class="level-badge">Lv 1</span></td>
+                        <td>Turn on the power.</td>
+                        <td class="price">$0</td>
+                        <td><div class="item-container"><span class="item-name" style="font-style: italic; color: var(--text-secondary);">No items required</span></div></td>
+                        <td class="requirements">"Homecoming"</td>
+                    </tr>
+                
+                    <tr class="" onclick="toggleUpgrade('Generator-2')">
+                        <td class="checkbox-cell">
+                            <div class="checkbox ">
+                                
+                            </div>
+                        </td>
+                        <td><strong>Generator</strong></td>
+                        <td><span class="level-badge">Lv 2</span></td>
+                        <td>Consumes less Fuel to stay on.</td>
+                        <td class="price">$200,000</td>
+                        <td><div class="item-container">
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/L12.png" class="item-icon" alt="Lighter fluid" title="Lighter fluid" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Lighter fluid</span>
+                                <span class="item-quantity">×6</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/D13.png" class="item-icon" alt="Oil can" title="Oil can" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Oil can</span>
+                                <span class="item-quantity">×8</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/N21.png" class="item-icon" alt="Insulating Tape" title="Insulating Tape" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Insulating Tape</span>
+                                <span class="item-quantity">×6</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/B25.png" class="item-icon" alt="Spark Plug" title="Spark Plug" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Spark Plug</span>
+                                <span class="item-quantity">×1</span>
+                            </div>
+                        </div></td>
+                        <td class="requirements">Generator 1</td>
+                    </tr>
+                
+                    <tr class="" onclick="toggleUpgrade('Generator-3')">
+                        <td class="checkbox-cell">
+                            <div class="checkbox ">
+                                
+                            </div>
+                        </td>
+                        <td><strong>Generator</strong></td>
+                        <td><span class="level-badge">Lv 3</span></td>
+                        <td>Consumes less Fuel to stay on.</td>
+                        <td class="price">$400,000</td>
+                        <td><div class="item-container">
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/N27.png" class="item-icon" alt="Imaging module" title="Imaging module" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Imaging module</span>
+                                <span class="item-quantity">×4</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/B25.png" class="item-icon" alt="Spark Plug" title="Spark Plug" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Spark Plug</span>
+                                <span class="item-quantity">×4</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/N18.png" class="item-icon" alt="Voltage transformer" title="Voltage transformer" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Voltage transformer</span>
+                                <span class="item-quantity">×2</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/P18.png" class="item-icon" alt="Marine battery" title="Marine battery" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Marine battery</span>
+                                <span class="item-quantity">×3</span>
+                            </div>
+                        </div></td>
+                        <td class="requirements">Generator 2</td>
+                    </tr>
+                
+                    <tr class="completed" onclick="toggleUpgrade('Shooting Range-1')">
+                        <td class="checkbox-cell">
+                            <div class="checkbox checked">
+                                ✓
+                            </div>
+                        </td>
+                        <td><strong>Shooting Range</strong></td>
+                        <td><span class="level-badge">Lv 1</span></td>
+                        <td>Unlock weapon mastery menu.</td>
+                        <td class="price">$250,000</td>
+                        <td><div class="item-container">
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/D12.png" class="item-icon" alt="Gun oil" title="Gun oil" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Gun oil</span>
+                                <span class="item-quantity">×2</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/N21.png" class="item-icon" alt="Insulating Tape" title="Insulating Tape" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Insulating Tape</span>
+                                <span class="item-quantity">×2</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/H22.png" class="item-icon" alt="Ceramic adhesive" title="Ceramic adhesive" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Ceramic adhesive</span>
+                                <span class="item-quantity">×1</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/F25.png" class="item-icon" alt="Tire Sealant" title="Tire Sealant" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Tire Sealant</span>
+                                <span class="item-quantity">×3</span>
+                            </div>
+                        </div></td>
+                        <td class="requirements">Workshop 1 Generator 2</td>
+                    </tr>
+                
+                    <tr class="" onclick="toggleUpgrade('Workshop-1')">
+                        <td class="checkbox-cell">
+                            <div class="checkbox ">
+                                
+                            </div>
+                        </td>
+                        <td><strong>Workshop</strong></td>
+                        <td><span class="level-badge">Lv 1</span></td>
+                        <td>Unlocks weapon &amp; gear maintenance menu. Unlocks Sofa, Bookcase, TV Set, Gunsmith.</td>
+                        <td class="price">$10,000</td>
+                        <td><div class="item-container">
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/P21.png" class="item-icon" alt="Boxed Nails" title="Boxed Nails" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Boxed Nails</span>
+                                <span class="item-quantity">×5</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/J25.png" class="item-icon" alt="Wrench" title="Wrench" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Wrench</span>
+                                <span class="item-quantity">×1</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/L24.png" class="item-icon" alt="Screwdriver" title="Screwdriver" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Screwdriver</span>
+                                <span class="item-quantity">×1</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/B24.png" class="item-icon" alt="Hammer" title="Hammer" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Hammer</span>
+                                <span class="item-quantity">×3</span>
+                            </div>
+                        </div></td>
+                        <td class="requirements">"Homecoming"</td>
+                    </tr>
+                
+                    <tr class="completed" onclick="toggleUpgrade('Storage Room A-1')">
+                        <td class="checkbox-cell">
+                            <div class="checkbox checked">
+                                ✓
+                            </div>
+                        </td>
+                        <td><strong>Storage Room A</strong></td>
+                        <td><span class="level-badge">Lv 1</span></td>
+                        <td>More stash space</td>
+                        <td class="price">$50,000</td>
+                        <td><div class="item-container">
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/P21.png" class="item-icon" alt="Box Nails" title="Box Nails" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Box Nails</span>
+                                <span class="item-quantity">×4</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/J21.png" class="item-icon" alt="Boxed Bolts" title="Boxed Bolts" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Boxed Bolts</span>
+                                <span class="item-quantity">×6</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/J7.png" class="item-icon" alt="Disinfectant wipes" title="Disinfectant wipes" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Disinfectant wipes</span>
+                                <span class="item-quantity">×2</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/H12.png" class="item-icon" alt="Large gas can" title="Large gas can" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Large gas can</span>
+                                <span class="item-quantity">×1</span>
+                            </div>
+                        </div></td>
+                        <td class="requirements">"The Source of Life" Workshop 1</td>
+                    </tr>
+                
+                    <tr class="completed" onclick="toggleUpgrade('Storage Room B-1')">
+                        <td class="checkbox-cell">
+                            <div class="checkbox checked">
+                                ✓
+                            </div>
+                        </td>
+                        <td><strong>Storage Room B</strong></td>
+                        <td><span class="level-badge">Lv 1</span></td>
+                        <td>More stash space</td>
+                        <td class="price">$150,000</td>
+                        <td><div class="item-container">
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/H12.png" class="item-icon" alt="Large gas can" title="Large gas can" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Large gas can</span>
+                                <span class="item-quantity">×2</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/J25.png" class="item-icon" alt="Wrench" title="Wrench" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Wrench</span>
+                                <span class="item-quantity">×8</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/L24.png" class="item-icon" alt="Screwdriver" title="Screwdriver" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Screwdriver</span>
+                                <span class="item-quantity">×8</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/J18.png" class="item-icon" alt="Small storage battery" title="Small storage battery" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Small storage battery</span>
+                                <span class="item-quantity">×1</span>
+                            </div>
+                        </div></td>
+                        <td class="requirements">Storage Room A Workshop 1</td>
+                    </tr>
+                
+                    <tr class="" onclick="toggleUpgrade('Storage Room C-1')">
+                        <td class="checkbox-cell">
+                            <div class="checkbox ">
+                                
+                            </div>
+                        </td>
+                        <td><strong>Storage Room C</strong></td>
+                        <td><span class="level-badge">Lv 1</span></td>
+                        <td>More stash space</td>
+                        <td class="price">$500,000</td>
+                        <td><div class="item-container">
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/F12.png" class="item-icon" alt="Gunpowder" title="Gunpowder" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Gunpowder</span>
+                                <span class="item-quantity">×12</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/P12.png" class="item-icon" alt="Smokeless powder" title="Smokeless powder" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Smokeless powder</span>
+                                <span class="item-quantity">×12</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/B22.png" class="item-icon" alt="Piezometer" title="Piezometer" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Piezometer</span>
+                                <span class="item-quantity">×10</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/N27.png" class="item-icon" alt="Imaging module" title="Imaging module" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Imaging module</span>
+                                <span class="item-quantity">×5</span>
+                            </div>
+                        </div></td>
+                        <td class="requirements">Storage Room B Player Level 1</td>
+                    </tr>
+                
+                    <tr class="" onclick="toggleUpgrade('Gunsmith-1')">
+                        <td class="checkbox-cell">
+                            <div class="checkbox ">
+                                
+                            </div>
+                        </td>
+                        <td><strong>Gunsmith</strong></td>
+                        <td><span class="level-badge">Lv 1</span></td>
+                        <td>Unlock more attachment and weapon compatibility.</td>
+                        <td class="price">$50,000</td>
+                        <td><div class="item-container">
+                            <div class="item-row">
+                                
+                                <span class="item-name">WD-40</span>
+                                <span class="item-quantity">×3</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/D12.png" class="item-icon" alt="Gun oil" title="Gun oil" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Gun oil</span>
+                                <span class="item-quantity">×2</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                
+                                <span class="item-name">Boxed Nuts</span>
+                                <span class="item-quantity">×3</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/L24.png" class="item-icon" alt="Screwdriver" title="Screwdriver" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Screwdriver</span>
+                                <span class="item-quantity">×2</span>
+                            </div>
+                        </div></td>
+                        <td class="requirements">Workshop 1</td>
+                    </tr>
+                
+                    <tr class="" onclick="toggleUpgrade('Gunsmith-2')">
+                        <td class="checkbox-cell">
+                            <div class="checkbox ">
+                                
+                            </div>
+                        </td>
+                        <td><strong>Gunsmith</strong></td>
+                        <td><span class="level-badge">Lv 2</span></td>
+                        <td>Unlock more attachment and weapon compatibility.</td>
+                        <td class="price">$100,000</td>
+                        <td><div class="item-container">
+                            <div class="item-row">
+                                
+                                <span class="item-name">WD-40</span>
+                                <span class="item-quantity">×6</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/D12.png" class="item-icon" alt="Gun oil" title="Gun oil" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Gun oil</span>
+                                <span class="item-quantity">×4</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                
+                                <span class="item-name">Boxed Nuts</span>
+                                <span class="item-quantity">×5</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/J25.png" class="item-icon" alt="Wrench" title="Wrench" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Wrench</span>
+                                <span class="item-quantity">×3</span>
+                            </div>
+                        </div></td>
+                        <td class="requirements">Gunsmith 1</td>
+                    </tr>
+                
+                    <tr class="" onclick="toggleUpgrade('Gunsmith-3')">
+                        <td class="checkbox-cell">
+                            <div class="checkbox ">
+                                
+                            </div>
+                        </td>
+                        <td><strong>Gunsmith</strong></td>
+                        <td><span class="level-badge">Lv 3</span></td>
+                        <td>Unlock more attachment and weapon compatibility.</td>
+                        <td class="price">$200,000</td>
+                        <td><div class="item-container">
+                            <div class="item-row">
+                                
+                                <span class="item-name">WD-40</span>
+                                <span class="item-quantity">×10</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/D12.png" class="item-icon" alt="Gun oil" title="Gun oil" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Gun oil</span>
+                                <span class="item-quantity">×8</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                
+                                <span class="item-name">Boxed Nuts</span>
+                                <span class="item-quantity">×8</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                
+                                <span class="item-name">Wire Cutter</span>
+                                <span class="item-quantity">×2</span>
+                            </div>
+                        </div></td>
+                        <td class="requirements">Gunsmith 2 Player Level 1</td>
+                    </tr>
+                
+                    <tr class="" onclick="toggleUpgrade('Gunsmith-4')">
+                        <td class="checkbox-cell">
+                            <div class="checkbox ">
+                                
+                            </div>
+                        </td>
+                        <td><strong>Gunsmith</strong></td>
+                        <td><span class="level-badge">Lv 4</span></td>
+                        <td>Unlock more attachment and weapon compatibility.</td>
+                        <td class="price">$300,000</td>
+                        <td><div class="item-container">
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/H22.png" class="item-icon" alt="Ceramic adhesive" title="Ceramic adhesive" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Ceramic adhesive</span>
+                                <span class="item-quantity">×3</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/L12.png" class="item-icon" alt="Lighter fluid" title="Lighter fluid" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Lighter fluid</span>
+                                <span class="item-quantity">×10</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                
+                                <span class="item-name">Boxed Nuts</span>
+                                <span class="item-quantity">×12</span>
+                            </div>
+                        
+                            <div class="item-row">
+                                <img src="ExfilZone%20Hideout%20Tracker%20-%203rd%20Wipe%20(Visual)_files/J25.png" class="item-icon" alt="Wrench" title="Wrench" onerror="this.style.display='none'" style="display: none;">
+                                <span class="item-name">Wrench</span>
+                                <span class="item-quantity">×8</span>
+                            </div>
+                        </div></td>
+                        <td class="requirements">Gunsmith 3 Player Level 1</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="controls">
+            <button class="btn primary" onclick="toggleAll(true)">Mark All Complete</button>
+            <button class="btn danger" onclick="toggleAll(false)">Mark All Incomplete</button>
+            <button class="btn danger" onclick="resetProgress()">Reset All Progress</button>
+        </div>
+    </div>
+
+    <script>
+        // Item to image URL mapping - uses Images folder
+        const itemImages = {
+            "Aspirin": "Images/Aspirin.png",
+            "Antiquarian Book": "Images/B10.png",
+            "Band-aids": "Images/B12.png",
+            "Bottled glucose": "Images/B13.png",
+            "CPU": "Images/B15.png",
+            "Size D battery1": "Images/B18.png",
+            "Spark Plug": "Images/B25.png",
+            "Valve": "Images/B4.png",
+            "Hard Drive": "Images/B9.png",
+            "BeardOil": "Images/BeardOil.png",
+            "Boxed Bolts": "Images/Boxed Bolts.png",
+            "Boxed Nails": "Images/Boxed Nails.png",
+            "Boxed Nuts": "Images/Boxed Nuts.png",
+            "Ceramic adhesive": "Images/Ceramic adhesive.png",
+            "Cleaner": "Images/Cleaner.png",
+            "Climbing rope": "Images/Climbing rope.png",
+            "Copper wire": "Images/Copper wire.png",
+            "Oil can": "Images/D13.png",
+            "CPU Fan": "Images/D15.png",
+            "Size D battery2": "Images/D18.png",
+            "Centrifuge": "Images/D22.png",
+            "Tape": "Images/D9.png",
+            "Defibrillator": "Images/Defibrillator.png",
+            "Deodorant": "Images/Deodorant.png",
+            "Disinfectant wipes": "Images/Disinfectant wipes.png",
+            "Energy-saving lamp": "Images/Energy-saving lamp.png",
+            "Marine battery": "Images/F16.png",
+            "UV lamp": "Images/UV lamp.png",
+            "Salt can": "Images/F4.png",
+            "Floppydisk": "Images/F9.png",
+            "Game console": "Images/Game console.png",
+            "Gas pipe pliers": "Images/Gas pipe pliers.png",
+            "Gun oil": "Images/Gun oil.png",
+            "Gunpowder": "Images/Gunpowder.png",
+            "Flash light": "Images/H15.png",
+            "Civil Radio": "Images/H16.png",
+            "Power Bank": "Images/H18.png",
+            "Videotape": "Images/H9.png",
+            "Hammer": "Images/Hammer.png",
+            "Imaging module": "Images/Imaging module.png",
+            "Instant glue": "Images/Instant glue.png",
+            "Insulating Tape": "Images/Insulating Tape.png",
+            "Iodine": "Images/Iodine.png",
+            "Ion Battery": "Images/Ion Battery.png",
+            "Lighter fluid": "Images/J12.png",
+            "Radio": "Images/J16.png",
+            "Rat Poison": "Images/J6.png",
+            "Notebook": "Images/J9.png",
+            "Gas can": "Images/L12.png",
+            "Lighter": "Images/Lighter.png",
+            "Vehicle battery": "Images/L18.png",
+            "Portable medical kit": "Images/L21.png",
+            "ElectricDrill": "Images/L25.png",
+            "Spray can": "Images/L4.png",
+            "Medical scissors": "Images/L7.png",
+            "Large gas can": "Images/Large gas can.png",
+            "Large Plier": "Images/Large Plier.png",
+            "Magazine": "Images/Magazine.png",
+            "Moldboard": "Images/Moldboard.png",
+            "NewPhone": "Images/NewPhone.png",
+            "OldPhone": "Images/N15.png",
+            "Voltage transformer": "Images/N18.png",
+            "Digital sensor": "Images/N27.png",
+            "Asthma medicine": "Images/N4.png",
+            "wastechip": "Images/n7.png",
+            "Olive oil": "Images/Olive oil.png",
+            "RAM": "Images/P15.png",
+            "CD": "Images/P16.png",
+            "Recorder": "Images/P28.png",
+            "WD-40": "Images/P4.png",
+            "Computer manual": "Images/P9.png",
+            "Pesticide": "Images/Pesticide.png",
+            "Pet Shampoo": "Images/Pet Shampoo.png",
+            "Piezometer": "Images/Piezometer.png",
+            "Rust cleaner": "Images/Rust cleaner.png",
+            "Screwdriver": "Images/Screwdriver.png",
+            "Small storage battery": "Images/Small storage battery.png",
+            "Smokeless powder": "Images/Smokeless powder.png",
+            "Socket": "Images/Socket.png",
+            "Super Glue": "Images/Super Glue.png",
+            "Tire Sealant": "Images/Tire Sealant.png",
+            "Toilet Paper": "Images/Toilet Paper.png",
+            "WD-40": "Images/WD-40.png",
+            "Windproof Matches": "Images/Windproof Matches.png",
+            "Wire Cutter": "Images/Wire Cutter.png",
+            "Wrench": "Images/Wrench.png"
+        };
+
+        const hideoutGroups = {
+            "Workshop": ["Workshop", "Storage Room A", "Storage Room B", "Storage Room C"],
+            "Living Quarters": ["Toilet", "Sofa", "TV Set", "Bookdesk"],
+            "Tech & Utility": ["Generator", "Intel Center", "Bitcoin Mine", "Shooting Range"],
+            "Kitchen Area": ["Kitchen Area", "Water Collector", "Refrigerator", "Microwave", "Coffee Maker"],
+            "Medical": ["Medical Area", "Operating Bed", "Med Desk", "Plant Stand"],
+            "Gunsmith": ["Gunsmith"]
+        };
+
+        const hideoutUpgrades = [
+            // Workshop
+            { name: "Workshop", level: 1, description: "Access to more storage spaces. Access to Armor Repair, Ammo loader and Keys hanger.", price: 50000, items: [], requirements: "" },
+            { name: "Storage Room A", level: 1, description: "Access to storage room A", price: 80000, items: [["Boxed Nails", 3], ["Boxed Bolts", 3], ["Disinfectant wipes", 3], ["Large gas can", 3]], requirements: "Workshop 1" },
+            { name: "Storage Room B", level: 1, description: "Access to storage room B", price: 400000, items: [["Large gas can", 6], ["Wrench", 6], ["Screwdriver", 6], ["Small storage battery", 6]], requirements: "Workshop 1" },
+            { name: "Storage Room C", level: 1, description: "Access to storage room C", price: 400000, items: [["Gunpowder", 10], ["Smokeless powder", 10], ["Piezometer", 8], ["Imaging module", 6]], requirements: "Workshop 1" },
+            // Living Quarters
+            { name: "Toilet", level: 1, description: "Character experience gain +2%", price: 120000, items: [["Toilet Paper", 2], ["Hammer", 1], ["Pesticide", 1], ["Rust cleaner", 1]], requirements: "\"Homecoming\" Water Collector 1" },
+            { name: "Toilet", level: 2, description: "Character experience gain +5%", price: 228000, items: [["Toilet Paper", 3], ["BeardOil", 3], ["Cleaner", 3], ["Pet Shampoo", 3]], requirements: "Toilet 1 Player Level 1" },
+            { name: "Toilet", level: 3, description: "Character experience gain +10%", price: 350000, items: [["Toilet Paper", 8], ["Deodorant", 8], ["Pet Shampoo", 5], ["Piezometer", 5]], requirements: "Toilet 1 Player Level 1" },
+            { name: "Sofa", level: 1, description: "Increase weight bearing capacity to 75", price: 50000, items: [["Climbing rope", 5], ["Tire Sealant", 3], ["Large Plier", 3], ["Hammer", 5]], requirements: "\"Homecoming\" Workshop 1" },
+            { name: "Sofa", level: 2, description: "Increase weight bearing capacity to 80", price: 128000, items: [["Super Glue", 2], ["Magazine", 5], ["Insulating Tape", 8], ["Climbing rope", 5]], requirements: "Generator 2" },
+            { name: "Sofa", level: 3, description: "Increase weight bearing capacity to 90", price: 500000, items: [["Game console", 2], ["Tire Sealant", 8], ["Deodorant", 6], ["Defibrillator", 1]], requirements: "Generator 3" },
+            { name: "TV Set", level: 1, description: "Scavenger mode CD -10%", price: 50000, items: [["Size D battery1", 3], ["Size D battery2", 3], ["Ion Battery", 3], ["Civil Radio", 3]], requirements: "Player Level 5 Workshop 1" },
+            { name: "TV Set", level: 2, description: "Scavenger mode CD -20%", price: 180000, items: [["Size D battery1", 5], ["Size D battery2", 5], ["Videotape", 1], ["ElectricDrill", 1]], requirements: "Generator 2 Player Level 1" },
+            { name: "TV Set", level: 3, description: "Scavenger mode CD -30%", price: 420000, items: [["Size D battery1", 8], ["Size D battery2", 8], ["Videotape", 5], ["Rat Poison", 2]], requirements: "Generator 3 Player Level 1" },
+            { name: "Bookdesk", level: 1, description: "Manual ammo reloading time -10%", price: 50000, items: [["Flash light", 5], ["Energy-saving lamp", 5], ["Socket", 3], ["Civil Radio", 2]], requirements: "\"Homecoming\" Workshop 1" },
+            { name: "Bookdesk", level: 2, description: "Manual ammo reloading time -20%", price: 180000, items: [["Tape", 8], ["Antiquarian Book", 4], ["Recorder", 5], ["Power Bank", 4]], requirements: "Generator 2" },
+            { name: "Bookdesk", level: 3, description: "Manual ammo reloading time -30%", price: 420000, items: [["Voltage transformer", 2], ["Computer manual", 8], ["Digital sensor", 2], ["Antiquarian Book", 6]], requirements: "Generator 3" },
+            // Tech & Utility
+            { name: "Generator", level: 1, description: "Increase Fuel capacity, reduce power consumption. Support upgrades for more facilities.", price: 0, items: [], requirements: "" },
+            { name: "Generator", level: 2, description: "Increase Fuel capacity, reduce power consumption. Support upgrades for more facilities.", price: 100000, items: [["Lighter fluid", 6], ["Oil can", 8], ["Insulating Tape", 6], ["Spark Plug", 1]], requirements: "\"Handy Tool\" Generator 1" },
+            { name: "Generator", level: 3, description: "Increase Fuel capacity, reduce power consumption. Support upgrades for more facilities.", price: 300000, items: [["Imaging module", 4], ["Spark Plug", 4], ["Voltage transformer", 2], ["Marine battery", 3]], requirements: "Generator 2" },
+            { name: "Intel Center", level: 1, description: "Show item prices with M.I.C.A.", price: 100000, items: [["CD", 2], ["Size D battery2", 2], ["Size D battery1", 2], ["OldPhone", 1]], requirements: "" },
+            { name: "Intel Center", level: 2, description: "Character experience gain +15%", price: 160000, items: [["CD", 4], ["Tape", 3], ["Notebook", 3], ["Radio", 2]], requirements: "Workshop 1" },
+            { name: "Intel Center", level: 3, description: "Character experience gain +20%", price: 320000, items: [["CD", 6], ["Tape", 3], ["Videotape", 2], ["Power Bank", 3]], requirements: "Intel Center 2 Toilet 2" },
+            { name: "Intel Center", level: 4, description: "Character experience gain +30%", price: 500000, items: [["CD", 10], ["Digital sensor", 4], ["Floppydisk", 3], ["Imaging module", 1]], requirements: "Intel Center 3 Toilet 3" },
+            { name: "Bitcoin Mine", level: 1, description: "Generate periodic income using GPUs.", price: 100000, items: [["CPU", 1], ["Rust cleaner", 5], ["RAM", 6], ["Hard Drive", 5]], requirements: "\"Speaking of Finance\" Generator 2" },
+            { name: "Bitcoin Mine", level: 2, description: "Unlock more slots; Increase money output.", price: 200000, items: [["CPU", 4], ["CPU Fan", 6], ["RAM", 4], ["Floppydisk", 4]], requirements: "Bitcoin Mine 1" },
+            { name: "Bitcoin Mine", level: 3, description: "Unlock more slots; Increase money output.", price: 300000, items: [["CPU", 4], ["CPU Fan", 8], ["RAM", 6], ["Hard Drive", 6]], requirements: "Bitcoin Mine 2" },
+            { name: "Bitcoin Mine", level: 4, description: "Unlock more slots; Increase money output.", price: 400000, items: [["CPU", 6], ["CPU Fan", 10], ["RAM", 8], ["Hard Drive", 6]], requirements: "Bitcoin Mine 3 Generator 3" },
+            { name: "Shooting Range", level: 1, description: "Infinite ammo for firearms testing.", price: 50000, items: [["Gun oil", 2], ["Insulating Tape", 2], ["Ceramic adhesive", 1], ["Tire Sealant", 3]], requirements: "\"Lights On\"" },
+            // Kitchen Area
+            { name: "Kitchen Area", level: 1, description: "Unlocks Coffee Machine, Microwave, Refrigerator", price: 80000, items: [["Olive oil", 3], ["Salt can", 2], ["Gas can", 1], ["Large Plier", 1]], requirements: "Water Collector 1" },
+            { name: "Water Collector", level: 1, description: "Access to a drink holder. Regenerate Hydration faster inside Hideout.", price: 10000, items: [["Valve", 2], ["Cleaner", 1], ["Salt can", 1], ["Large Plier", 1]], requirements: "\"The Source of Life\"" },
+            { name: "Water Collector", level: 2, description: "Regenerate Hydration faster inside Hideout.", price: 50000, items: [["Valve", 5], ["Insulating Tape", 5], ["Boxed Nails", 6], ["Spray can", 2]], requirements: "" },
+            { name: "Water Collector", level: 3, description: "Regenerate Hydration faster inside Hideout.", price: 100000, items: [["Valve", 10], ["Cleaner", 4], ["Vehicle battery", 3], ["Piezometer", 1]], requirements: "" },
+            { name: "Refrigerator", level: 1, description: "Food and drinks Storage. Regenerate Energy faster inside Hideout.", price: 100000, items: [["Rust cleaner", 2], ["Salt can", 2], ["WD-40", 2], ["Wrench", 1]], requirements: "Kitchen Area 1" },
+            { name: "Refrigerator", level: 2, description: "Regenerate Energy faster inside Hideout.", price: 160000, items: [["Olive oil", 2], ["Windproof Matches", 2], ["Wire Cutter", 4], ["Socket", 2]], requirements: "Generator 2" },
+            { name: "Refrigerator", level: 3, description: "Regenerate Energy faster inside Hideout.", price: 240000, items: [["Olive oil", 4], ["Windproof Matches", 4], ["Large Plier", 8], ["Copper wire", 2]], requirements: "" },
+            { name: "Microwave", level: 1, description: "In-Raid Energy Consumption -5%", price: 100000, items: [["Boxed Bolts", 6], ["Wire Cutter", 2], ["wastechip", 1], ["Oil can", 6]], requirements: "Kitchen Area 1" },
+            { name: "Microwave", level: 2, description: "In-Raid Energy Consumption -10%", price: 200000, items: [["Large Plier", 8], ["Gas can", 8], ["wastechip", 5], ["Olive oil", 3]], requirements: "Generator 2" },
+            { name: "Microwave", level: 3, description: "In-Raid Energy Consumption -15%", price: 300000, items: [["Copper wire", 6], ["Lighter", 6], ["WD-40", 12], ["Digital sensor", 2]], requirements: "Generator 3" },
+            { name: "Coffee Maker", level: 1, description: "In-Raid Hydration Consumption -5%", price: 100000, items: [["Boxed Nuts", 3], ["Boxed Bolts", 2], ["Socket", 5], ["Civil Radio", 5]], requirements: "Kitchen Area 1" },
+            { name: "Coffee Maker", level: 2, description: "In-Raid Hydration Consumption -10%", price: 200000, items: [["Boxed Nuts", 5], ["Cleaner", 3], ["Game console", 1], ["Salt can", 6]], requirements: "Generator 2" },
+            { name: "Coffee Maker", level: 3, description: "In-Raid Hydration Consumption -15%", price: 300000, items: [["Boxed Nuts", 12], ["ElectricDrill", 3], ["Copper wire", 3], ["Lighter", 3]], requirements: "Generator 3" },
+            // Medical
+            { name: "Medical Area", level: 1, description: "Access to a syringe holder. Unlocks Med Desk, Plant Stand, Operating Bed", price: 100000, items: [["Disinfectant wipes", 2], ["Band-aids", 3], ["Bottled glucose", 1], ["Portable medical kit", 1]], requirements: "Water Collector 1" },
+            { name: "Operating Bed", level: 1, description: "Free limb damage repair available every hour. Faster health regeneration in Hideout.", price: 60000, items: [["Bottled glucose", 1], ["Disinfectant wipes", 1], ["Energy-saving lamp", 1], ["Band-aids", 1]], requirements: "Medical Area 1 Toilet 1" },
+            { name: "Operating Bed", level: 2, description: "Faster health regeneration in Hideout.", price: 120000, items: [["Bottled glucose", 5], ["Medical scissors", 3], ["Band-aids", 2], ["Centrifuge", 1]], requirements: "Generator 2" },
+            { name: "Operating Bed", level: 3, description: "Faster health regeneration in Hideout.", price: 240000, items: [["Bottled glucose", 10], ["Medical scissors", 5], ["UV lamp", 3], ["Centrifuge", 1]], requirements: "Player Level 1 Water Collector 3" },
+            { name: "Med Desk", level: 1, description: "Drink recovery +10%.", price: 80000, items: [["UV lamp", 1], ["Portable medical kit", 3], ["Band-aids", 2], ["Aspirin", 3]], requirements: "Water Collector 1 Medical Area 1" },
+            { name: "Med Desk", level: 2, description: "Drink recovery +20%.", price: 220000, items: [["UV lamp", 3], ["Portable medical kit", 6], ["Asthma medicine", 4], ["Centrifuge", 2]], requirements: "Water Collector 1 Generator 2" },
+            { name: "Med Desk", level: 3, description: "Drink recovery +30%.", price: 340000, items: [["UV lamp", 5], ["Portable medical kit", 9], ["Asthma medicine", 5], ["Centrifuge", 3]], requirements: "Water Collector 3" },
+            { name: "Plant Stand", level: 1, description: "Food recovery +10%.", price: 80000, items: [["Moldboard", 1], ["Socket", 2], ["Energy-saving lamp", 5], ["Ion Battery", 1]], requirements: "Medical Area 1 Player Level 1 Toilet 1" },
+            { name: "Plant Stand", level: 2, description: "Food recovery +20%.", price: 220000, items: [["Moldboard", 6], ["Aspirin", 2], ["Pesticide", 5], ["Gas pipe pliers", 2]], requirements: "Generator 2 Player Level 1" },
+            { name: "Plant Stand", level: 3, description: "Food recovery +30%.", price: 340000, items: [["Moldboard", 12], ["Windproof Matches", 6], ["Iodine", 6], ["Gas pipe pliers", 3]], requirements: "Water Collector 3 Player Level 1" },
+            // Gunsmith
+            { name: "Gunsmith", level: 1, description: "Weapon parts storage capacity + 10kg", price: 10000, items: [["Boxed Bolts", 2], ["Gas can", 2], ["Rust cleaner", 2], ["Cleaner", 2]], requirements: "Workshop 1" },
+            { name: "Gunsmith", level: 2, description: "Weapon parts storage capacity + 10kg", price: 80000, items: [["Valve", 2], ["Boxed Nails", 6], ["Ceramic adhesive", 8], ["Floppydisk", 2]], requirements: "Workshop 1" },
+            { name: "Gunsmith", level: 3, description: "Weapon parts storage capacity + 10kg", price: 200000, items: [["Power Bank", 6], ["OldPhone", 10], ["Spark Plug", 6], ["Civil Radio", 4]], requirements: "Generator 2" },
+            { name: "Gunsmith", level: 4, description: "Weapon parts storage capacity + 10kg", price: 400000, items: [["Super Glue", 10], ["NewPhone", 10], ["Instant glue", 8], ["ElectricDrill", 6]], requirements: "Generator 3" }
+        ];
+
+        const STORAGE_KEY = 'exfilzone-hideout-visual';
+        let completedUpgrades = new Set();
+        let currentFilter = 'all';
+        let imageCache = {};
+
+        // Preload images
+        async function preloadImages() {
+            const imagesToLoad = Object.values(itemImages);
+            const promises = imagesToLoad.map(filename => {
+                return new Promise((resolve) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        imageCache[filename] = true;
+                        resolve();
+                    };
+                    img.onerror = () => {
+                        imageCache[filename] = false;
+                        resolve();
+                    };
+                    img.src = `data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7`;
+                });
+            });
+            await Promise.all(promises);
+        }
+
+        // Load progress
+        function loadProgress() {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            if (saved) {
+                completedUpgrades = new Set(JSON.parse(saved));
+            }
+        }
+
+        // Save progress
+        function saveProgress() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify([...completedUpgrades]));
+        }
+
+        // Format price
+        function formatPrice(price) {
+            return '$' + price.toLocaleString();
+        }
+
+        // Get item icon HTML
+        function getItemIcon(itemName) {
+            const imagePath = itemImages[itemName];
+            if (imagePath) {
+                return `<img src="${imagePath}" class="item-icon" alt="${itemName}" title="${itemName}" onerror="this.style.display='none'">`;
+            }
+            return '';
+        }
+
+        // Render upgrades grouped by category
+        function renderUpgrades() {
+            const tbody = document.getElementById('upgradesTableBody');
+            const searchTerm = document.getElementById('searchBox').value.toLowerCase();
+
+            let html = '';
+
+            // Iterate through each group
+            Object.entries(hideoutGroups).forEach(([groupName, stationNames]) => {
+                // Get upgrades for this group
+                const groupUpgrades = hideoutUpgrades.filter(upgrade => stationNames.includes(upgrade.name));
+
+                // Filter upgrades based on current filter and search
+                const filteredUpgrades = groupUpgrades.filter(upgrade => {
+                    const upgradeId = `${upgrade.name}-${upgrade.level}`;
+                    const isCompleted = completedUpgrades.has(upgradeId);
+
+                    // Filter logic
+                    if (currentFilter === 'completed' && !isCompleted) return false;
+                    if (currentFilter === 'incomplete' && isCompleted) return false;
+
+                    // Search logic
+                    const searchableText = `${groupName} ${upgrade.name} ${upgrade.description} ${upgrade.items.map(i => i[0]).join(' ')}`.toLowerCase();
+                    if (searchTerm && !searchableText.includes(searchTerm)) return false;
+
+                    return true;
+                });
+
+                // Only show group header if there are matching upgrades
+                if (filteredUpgrades.length === 0) return;
+
+                // Add group header
+                html += `
+                    <tr class="group-header">
+                        <td colspan="7">${groupName}</td>
+                    </tr>
+                `;
+
+                // Add upgrades for this group
+                filteredUpgrades.forEach(upgrade => {
+                    const upgradeId = `${upgrade.name}-${upgrade.level}`;
+                    const isCompleted = completedUpgrades.has(upgradeId);
+
+                    // Build items HTML with icons
+                    let itemsHtml = '<div class="item-container">';
+                    if (upgrade.items.length === 0) {
+                        itemsHtml += '<span class="item-name" style="font-style: italic; color: var(--text-secondary);">No items required</span>';
+                    } else {
+                        upgrade.items.forEach(([item, quantity]) => {
+                            itemsHtml += `
+                                <div class="item-row">
+                                    ${getItemIcon(item)}
+                                    <span class="item-name">${item}</span>
+                                    <span class="item-quantity">×${quantity}</span>
+                                </div>
+                            `;
+                        });
+                    }
+                    itemsHtml += '</div>';
+
+                    html += `
+                        <tr class="${isCompleted ? 'completed' : ''}" onclick="toggleUpgrade('${upgradeId}')">
+                            <td class="checkbox-cell">
+                                <div class="checkbox ${isCompleted ? 'checked' : ''}">
+                                    ${isCompleted ? '✓' : ''}
+                                </div>
+                            </td>
+                            <td><strong>${upgrade.name}</strong></td>
+                            <td><span class="level-badge">Lv ${upgrade.level}</span></td>
+                            <td>${upgrade.description}</td>
+                            <td class="price">${formatPrice(upgrade.price)}</td>
+                            <td>${itemsHtml}</td>
+                            <td class="requirements">${upgrade.requirements || '-'}</td>
+                        </tr>
+                    `;
+                });
+            });
+
+            tbody.innerHTML = html;
+            updateStats();
+        }
+
+        // Toggle upgrade completion
+        function toggleUpgrade(upgradeId) {
+            if (completedUpgrades.has(upgradeId)) {
+                completedUpgrades.delete(upgradeId);
+            } else {
+                completedUpgrades.add(upgradeId);
+            }
+            saveProgress();
+            renderUpgrades();
+        }
+
+        // Toggle all upgrades
+        function toggleAll(completed) {
+            if (completed) {
+                hideoutUpgrades.forEach(upgrade => {
+                    completedUpgrades.add(`${upgrade.name}-${upgrade.level}`);
+                });
+            } else {
+                completedUpgrades.clear();
+            }
+            saveProgress();
+            renderUpgrades();
+        }
+
+        // Reset progress
+        function resetProgress() {
+            if (confirm('Are you sure you want to reset all progress? This cannot be undone.')) {
+                completedUpgrades.clear();
+                localStorage.removeItem(STORAGE_KEY);
+                renderUpgrades();
+            }
+        }
+
+        // Update stats
+        function updateStats() {
+            const total = hideoutUpgrades.length;
+            const completed = completedUpgrades.size;
+            const percent = Math.round((completed / total) * 100);
+            
+            const totalCost = hideoutUpgrades.reduce((sum, u) => sum + u.price, 0);
+            const moneySpent = hideoutUpgrades
+                .filter(u => completedUpgrades.has(`${u.name}-${u.level}`))
+                .reduce((sum, u) => sum + u.price, 0);
+            
+            document.getElementById('progressPercent').textContent = percent + '%';
+            document.getElementById('completedCount').textContent = `${completed}/${total}`;
+            document.getElementById('totalCost').textContent = formatPrice(totalCost);
+            document.getElementById('moneySpent').textContent = formatPrice(moneySpent);
+        }
+
+        // Filter view
+        function filterView(filter) {
+            currentFilter = filter;
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            renderUpgrades();
+        }
+
+        // Search functionality
+        document.getElementById('searchBox').addEventListener('input', renderUpgrades);
+
+        // Initialize
+        loadProgress();
+        renderUpgrades();
+    </script>
+
+
+</body></html>
