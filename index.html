@@ -390,6 +390,17 @@
             th, td { padding: 0.5rem; font-size: 0.85rem; }
             .item-icon { width: 24px; height: 24px; }
         }
+
+        .version-footer {
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 2rem;
+            border-top: 1px solid var(--border);
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 1px;
+        }
     </style>
 </head>
 <body>
@@ -2513,6 +2524,10 @@
             <button class="btn primary" onclick="toggleAll(true)">Mark All Complete</button>
             <button class="btn danger" onclick="toggleAll(false)">Mark All Incomplete</button>
             <button class="btn danger" onclick="resetProgress()">Reset All Progress</button>
+        </div>
+
+        <div class="version-footer">
+            v1.0.0
         </div>
     </div>
 
