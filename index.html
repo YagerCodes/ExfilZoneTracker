@@ -71,7 +71,9 @@
         }
 
         .nav-link {
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
             margin-top: 1rem;
             padding: 0.5rem 1rem;
             background: var(--bg-medium);
@@ -90,6 +92,12 @@
         .nav-link:hover {
             border-color: var(--accent-blue);
             background: var(--bg-light);
+        }
+
+        .nav-link svg {
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
         }
 
         /* Stats */
@@ -177,6 +185,16 @@
             border-color: var(--primary);
         }
 
+        .filter-btn.favorite {
+            border-color: var(--accent-yellow);
+            color: var(--accent-yellow);
+        }
+
+        .filter-btn.favorite.active {
+            background: var(--accent-yellow);
+            color: var(--bg-dark);
+        }
+
         /* Category Section */
         .category-section {
             margin-bottom: 2rem;
@@ -239,8 +257,7 @@
             background: linear-gradient(135deg, rgba(0, 255, 136, 0.2) 0%, var(--bg-light) 100%);
         }
 
-        .upgrade-card.completed::after {
-            content: '✓';
+        .upgrade-card.completed .completed-badge {
             position: absolute;
             top: 1rem;
             right: 1rem;
@@ -256,6 +273,34 @@
             font-size: 1rem;
         }
 
+        .favorite-btn {
+            width: 28px;
+            height: 28px;
+            background: var(--bg-dark);
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            transition: all 0.2s;
+            color: var(--text-secondary);
+            flex-shrink: 0;
+        }
+
+        .favorite-btn:hover {
+            background: var(--bg-medium);
+            border-color: var(--accent-yellow);
+            transform: scale(1.1);
+        }
+
+        .favorite-btn.active {
+            color: var(--accent-yellow);
+            background: rgba(251, 191, 36, 0.2);
+            border-color: var(--accent-yellow);
+        }
+
         .card-header {
             background: var(--bg-light);
             padding: 1rem;
@@ -266,7 +311,14 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            gap: 0.5rem;
             margin-bottom: 0.5rem;
+        }
+
+        .card-title-right {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .card-name {
@@ -745,6 +797,163 @@
             font-weight: 700;
         }
 
+        /* Favorites Section */
+        .favorites-section {
+            margin-bottom: 2rem;
+            background: var(--bg-medium);
+            border: 1px solid var(--accent-yellow);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .favorites-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem;
+            background: linear-gradient(90deg, rgba(251, 191, 36, 0.1) 0%, var(--bg-light) 100%);
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .favorites-header:hover {
+            background: linear-gradient(90deg, rgba(251, 191, 36, 0.15) 0%, var(--bg-card) 100%);
+        }
+
+        .favorites-title {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--accent-yellow);
+        }
+
+        .favorites-title::before {
+            content: '★';
+            font-size: 1.2rem;
+        }
+
+        .favorites-toggle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            transition: transform 0.3s;
+        }
+
+        .favorites-section.expanded .favorites-toggle {
+            transform: rotate(180deg);
+        }
+
+        .favorites-content {
+            display: none;
+            padding: 1rem;
+        }
+
+        .favorites-section.expanded .favorites-content {
+            display: block;
+        }
+
+        .favorites-upgrades {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .favorites-upgrade {
+            background: var(--bg-dark);
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--accent-yellow);
+            border-radius: 6px;
+            padding: 0.75rem 1rem;
+        }
+
+        .favorites-upgrade.completed {
+            opacity: 0.6;
+            border-left-color: var(--primary);
+        }
+
+        .favorites-upgrade-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .favorites-upgrade-name {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .favorites-upgrade-level {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.75rem;
+            color: var(--accent-yellow);
+            background: rgba(251, 191, 36, 0.1);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+        }
+
+        .favorites-upgrade.completed .favorites-upgrade-level {
+            color: var(--primary);
+            background: rgba(0, 255, 136, 0.1);
+        }
+
+        .favorites-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .favorites-item {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.3rem 0.5rem;
+            background: var(--bg-medium);
+            border-radius: 4px;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .favorites-item-icon {
+            width: 20px;
+            height: 20px;
+            object-fit: contain;
+        }
+
+        .favorites-item-qty {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .favorites-stats {
+            display: flex;
+            gap: 1.5rem;
+            padding: 0.75rem 1rem;
+            background: var(--bg-dark);
+            border-top: 1px solid var(--border);
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .favorites-stats span {
+            color: var(--accent-yellow);
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+        }
+
+        .favorites-empty {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
         @media (max-width: 768px) {
             h1 { font-size: 1.75rem; }
             .container { padding: 1rem; }
@@ -909,10 +1118,10 @@
             <h1>HIDEOUT TRACKER</h1>
             <div class="subtitle">ExfilZone 3rd Wipe</div>
             <div class="nav-links" style="display: flex; gap: 1rem; justify-content: center; margin-top: 1rem; flex-wrap: wrap;">
-                <a href="ammo.html" class="nav-link">Ammo TTK Chart</a>
-                <a href="keys.html" class="nav-link">Key Vault Guide</a>
-                <a href="keyspawns.html" class="nav-link">Key Spawn Guide</a>
-                <a href="maps.html" class="nav-link">Interactive Maps</a>
+                <a href="ammo.html" class="nav-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-4h2v-2h2v-2h-2V8h-2v4H9v2h2v2z"/></svg>Ammo TTK Chart</a>
+                <a href="keys.html" class="nav-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12.65 10C11.83 7.67 9.61 6 7 6c-3.31 0-6 2.69-6 6s2.69 6 6 6c2.61 0 4.83-1.67 5.65-4H17v4h4v-4h2v-4H12.65zM7 14c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/></svg>Key Vault Guide</a>
+                <a href="keyspawns.html" class="nav-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>Key Spawn Guide</a>
+                <a href="maps.html" class="nav-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.5 3l-.16.03L15 5.1 9 3 3.36 4.9c-.21.07-.36.25-.36.48V20.5c0 .28.22.5.5.5l.16-.03L9 18.9l6 2.1 5.64-1.9c.21-.07.36-.25.36-.48V3.5c0-.28-.22-.5-.5-.5zM15 19l-6-2.11V5l6 2.11V19z"/></svg>Interactive Maps</a>
             </div>
         </header>
 
@@ -940,6 +1149,18 @@
             <button class="filter-btn active" onclick="filterView('all')">All</button>
             <button class="filter-btn" onclick="filterView('incomplete')">Available</button>
             <button class="filter-btn" onclick="filterView('completed')">Maxed</button>
+            <button class="filter-btn favorite" onclick="filterView('favorites')">★ Favorites</button>
+        </div>
+
+        <div class="favorites-section expanded" id="favoritesSection" style="display: none;">
+            <div class="favorites-header" onclick="toggleFavoritesSection()">
+                <div class="favorites-title">Favorites</div>
+                <div class="favorites-toggle">▼</div>
+            </div>
+            <div class="favorites-content">
+                <div class="favorites-upgrades" id="favoritesUpgrades"></div>
+            </div>
+            <div class="favorites-stats" id="favoritesStats"></div>
         </div>
 
         <div class="items-summary-section" id="itemsSummarySection">
@@ -1216,7 +1437,9 @@
 
         const STORAGE_KEY = 'exfilzone-hideout-visual';
         const DLC_STORAGE_KEY = 'exfilzone-dlc-owned';
+        const FAVORITES_STORAGE_KEY = 'exfilzone-favorites';
         let completedUpgrades = new Set();
+        let favoriteUpgrades = new Set();
         let currentFilter = 'all';
         let ownedDlcs = { ntg: false, johnny: false };
 
@@ -1240,11 +1463,34 @@
             if (saved) {
                 completedUpgrades = new Set(JSON.parse(saved));
             }
+            loadFavorites();
             loadDlcStatus();
         }
 
         function saveProgress() {
             localStorage.setItem(STORAGE_KEY, JSON.stringify([...completedUpgrades]));
+        }
+
+        function loadFavorites() {
+            const saved = localStorage.getItem(FAVORITES_STORAGE_KEY);
+            if (saved) {
+                favoriteUpgrades = new Set(JSON.parse(saved));
+            }
+        }
+
+        function saveFavorites() {
+            localStorage.setItem(FAVORITES_STORAGE_KEY, JSON.stringify([...favoriteUpgrades]));
+        }
+
+        function toggleFavorite(upgradeId, event) {
+            event.stopPropagation();
+            if (favoriteUpgrades.has(upgradeId)) {
+                favoriteUpgrades.delete(upgradeId);
+            } else {
+                favoriteUpgrades.add(upgradeId);
+            }
+            saveFavorites();
+            renderUpgrades();
         }
 
         function loadDlcStatus() {
@@ -1324,9 +1570,11 @@
                 const filteredUpgrades = groupUpgrades.filter(upgrade => {
                     const upgradeId = `${upgrade.name}-${upgrade.level}`;
                     const isCompleted = completedUpgrades.has(upgradeId);
+                    const isFavorite = favoriteUpgrades.has(upgradeId);
 
                     if (currentFilter === 'completed' && !isCompleted) return false;
                     if (currentFilter === 'incomplete' && isCompleted) return false;
+                    if (currentFilter === 'favorites' && !isFavorite) return false;
 
                     const searchableText = `${groupName} ${upgrade.name} ${upgrade.description} ${upgrade.items.map(i => i[0]).join(' ')}`.toLowerCase();
                     if (searchTerm && !searchableText.includes(searchTerm)) return false;
@@ -1350,6 +1598,7 @@
                 filteredUpgrades.forEach(upgrade => {
                     const upgradeId = `${upgrade.name}-${upgrade.level}`;
                     const isCompleted = completedUpgrades.has(upgradeId);
+                    const isFavorite = favoriteUpgrades.has(upgradeId);
 
                     let itemsHtml = '';
                     if (upgrade.items.length === 0) {
@@ -1371,12 +1620,21 @@
                     const hideoutImage = hideoutImages[upgrade.name];
                     const imageHtml = hideoutImage ? `<div class="card-image"><img src="${hideoutImage}" alt="${upgrade.name}" onerror="this.parentElement.style.display='none'"></div>` : '';
 
+                    const favoriteBtn = !isCompleted ? `
+                                    <button class="favorite-btn ${isFavorite ? 'active' : ''}" onclick="toggleFavorite('${upgradeId}', event)" title="${isFavorite ? 'Remove from favorites' : 'Add to favorites'}">
+                                        ${isFavorite ? '★' : '☆'}
+                                    </button>` : '';
+
                     html += `
                         <div class="upgrade-card ${isCompleted ? 'completed' : ''}" onclick="toggleUpgrade('${upgradeId}')">
+                            ${isCompleted ? '<div class="completed-badge">✓</div>' : ''}
                             <div class="card-header">
                                 <div class="card-title-row">
                                     <span class="card-name">${upgrade.name}</span>
-                                    <span class="card-level">LV ${upgrade.level}</span>
+                                    <div class="card-title-right">
+                                        <span class="card-level">LV ${upgrade.level}</span>
+                                        ${favoriteBtn}
+                                    </div>
                                 </div>
                                 <div class="card-description">${upgrade.description}</div>
                             </div>
@@ -1399,6 +1657,7 @@
 
             container.innerHTML = html;
             updateStats();
+            renderFavorites();
             renderItemsSummary();
             renderUpNext();
         }
@@ -1408,6 +1667,11 @@
                 completedUpgrades.delete(upgradeId);
             } else {
                 completedUpgrades.add(upgradeId);
+                // Remove from favorites when completed
+                if (favoriteUpgrades.has(upgradeId)) {
+                    favoriteUpgrades.delete(upgradeId);
+                    saveFavorites();
+                }
             }
             saveProgress();
             renderUpgrades();
@@ -1464,6 +1728,76 @@
         function toggleUpNext() {
             const section = document.getElementById('upNextSection');
             section.classList.toggle('expanded');
+        }
+
+        function toggleFavoritesSection() {
+            const section = document.getElementById('favoritesSection');
+            section.classList.toggle('expanded');
+        }
+
+        function renderFavorites() {
+            const section = document.getElementById('favoritesSection');
+            const container = document.getElementById('favoritesUpgrades');
+            const stats = document.getElementById('favoritesStats');
+
+            if (favoriteUpgrades.size === 0) {
+                section.style.display = 'none';
+                return;
+            }
+
+            section.style.display = 'block';
+
+            // Get favorite upgrades data
+            const favorites = hideoutUpgrades.filter(upgrade => {
+                const upgradeId = `${upgrade.name}-${upgrade.level}`;
+                return favoriteUpgrades.has(upgradeId);
+            });
+
+            // Calculate total items needed for favorites
+            const itemTotals = {};
+            let incompleteCount = 0;
+            favorites.forEach(upgrade => {
+                const upgradeId = `${upgrade.name}-${upgrade.level}`;
+                const isCompleted = completedUpgrades.has(upgradeId);
+                if (!isCompleted) {
+                    incompleteCount++;
+                    upgrade.items.forEach(([itemName, quantity]) => {
+                        if (!itemTotals[itemName]) {
+                            itemTotals[itemName] = 0;
+                        }
+                        itemTotals[itemName] += quantity;
+                    });
+                }
+            });
+
+            let html = '';
+            favorites.forEach(upgrade => {
+                const upgradeId = `${upgrade.name}-${upgrade.level}`;
+                const isCompleted = completedUpgrades.has(upgradeId);
+
+                const itemsHtml = upgrade.items.map(([item, qty]) => {
+                    const imagePath = itemImages[item] || '';
+                    const iconHtml = imagePath
+                        ? `<img src="${imagePath}" class="favorites-item-icon" alt="${item}" onerror="this.style.display='none'">`
+                        : '';
+                    return `<div class="favorites-item">${iconHtml}${item} <span class="favorites-item-qty">x${qty}</span></div>`;
+                }).join('');
+
+                html += `
+                    <div class="favorites-upgrade ${isCompleted ? 'completed' : ''}">
+                        <div class="favorites-upgrade-header">
+                            <span class="favorites-upgrade-name">${upgrade.name}</span>
+                            <span class="favorites-upgrade-level">${isCompleted ? '✓ COMPLETE' : 'LV ' + upgrade.level}</span>
+                        </div>
+                        <div class="favorites-items">${itemsHtml || '<span style="color: var(--text-secondary); font-size: 0.8rem;">No items required</span>'}</div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+
+            const totalItems = Object.values(itemTotals).reduce((sum, qty) => sum + qty, 0);
+            stats.innerHTML = `Tracked: <span>${favorites.length}</span> | Remaining: <span>${incompleteCount}</span> | Items needed: <span>${totalItems}</span>`;
         }
 
         function getNextUpgrades() {
@@ -1604,6 +1938,7 @@
 
         loadProgress();
         renderUpgrades();
+        renderFavorites();
         renderItemsSummary();
         renderUpNext();
     </script>
