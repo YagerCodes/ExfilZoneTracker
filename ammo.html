@@ -207,7 +207,7 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            min-width: 1200px;
+            min-width: 1500px;
         }
 
         th {
@@ -320,6 +320,39 @@
 
         .bleed-cell {
             color: #ef4444;
+        }
+
+        .trader-cell {
+            font-weight: 600;
+        }
+
+        .lvl-cell {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .cost-cell {
+            color: #fbbf24;
+        }
+
+        .tier-header {
+            text-align: center;
+            border-left: 2px solid var(--border);
+        }
+
+        .tier-header.tier-3 { color: var(--tier3); }
+        .tier-header.tier-4 { color: var(--tier4); }
+        .tier-header.tier-5 { color: var(--tier5); }
+        .tier-header.tier-6 { color: var(--tier6); }
+
+        .tier-group-header {
+            font-size: 0.65rem;
+            padding: 0.5rem;
+        }
+
+        .tier-data {
+            border-left: 2px solid var(--border);
+            text-align: center;
         }
 
         /* Legend */
@@ -467,24 +500,7 @@
 
         <div class="table-container">
             <table id="ammoTable">
-                <thead>
-                    <tr>
-                        <th onclick="sortTable('caliber')">Caliber</th>
-                        <th onclick="sortTable('ammo')">Ammo Type</th>
-                        <th onclick="sortTable('pen')">Pen</th>
-                        <th onclick="sortTable('dmg')">Dmg</th>
-                        <th onclick="sortTable('blunt')">Blunt</th>
-                        <th onclick="sortTable('bleed')">Bleed</th>
-                        <th onclick="sortTable('velocity')">m/s</th>
-                        <th onclick="sortTable('tier')">Armor</th>
-                        <th onclick="sortTable('head')">Head</th>
-                        <th onclick="sortTable('chest')">Chest</th>
-                        <th onclick="sortTable('arm')">Chest (Arm)</th>
-                        <th onclick="sortTable('leg')">Leg</th>
-                        <th onclick="sortTable('rpm')">RPM</th>
-                        <th onclick="sortTable('ttkHead')">TTK Head</th>
-                        <th onclick="sortTable('ttkChest')">TTK Chest</th>
-                    </tr>
+                <thead id="ammoTableHead">
                 </thead>
                 <tbody id="ammoTableBody"></tbody>
             </table>
@@ -497,75 +513,98 @@
     </div>
 
     <script>
-        // Aboleth raw ammo stats - Pen, Dmg, Blunt, Bleed, Velocity
+        // Aboleth raw ammo stats - Pen, Dmg, Blunt, Bleed, Velocity, Trader info (from data-jDcMI.csv)
         const abolethStats = {
             // 9mm
-            "9mm|PSO": { pen: 1.00, dmg: 65, blunt: 3.25, bleed: 25, velocity: 350 },
-            "9mm|FMJ": { pen: 1.40, dmg: 58, blunt: 8.12, bleed: 15, velocity: 370 },
-            "9mm|GT": { pen: 1.80, dmg: 56, blunt: 8.96, bleed: 15, velocity: 370 },
-            "9mm|PST": { pen: 2.10, dmg: 54, blunt: 8.64, bleed: 15, velocity: 390 },
-            "9mm|AP": { pen: 3.40, dmg: 53, blunt: 10.60, bleed: 15, velocity: 410 },
-            "9mm|RIP": { pen: 0.20, dmg: 102, blunt: 7.14, bleed: 45, velocity: 380 },
-            "9mm|PBP": { pen: 4.10, dmg: 44, blunt: 11.00, bleed: 15, velocity: 560 },
-            "9mm|Luger CCI": { pen: 0.60, dmg: 73, blunt: 5.11, bleed: 35, velocity: 420 },
+            "9mm|PSO": { pen: 1.00, dmg: 65, blunt: 3.25, bleed: 25, velocity: 350, trader: "Ark", lvl: 1, cost: 780 },
+            "9mm|FMJ": { pen: 1.40, dmg: 58, blunt: 8.12, bleed: 15, velocity: 370, trader: "Ark", lvl: 1, cost: 1005 },
+            "9mm|GT": { pen: 1.80, dmg: 56, blunt: 8.96, bleed: 15, velocity: 370, trader: "Ark", lvl: 2, cost: 1425 },
+            "9mm|PST": { pen: 2.10, dmg: 54, blunt: 8.64, bleed: 15, velocity: 390, trader: "Ark", lvl: 2, cost: 2025 },
+            "9mm|AP": { pen: 3.40, dmg: 53, blunt: 10.60, bleed: 15, velocity: 410, trader: "Ark", lvl: 3, cost: 5565 },
+            "9mm|RIP": { pen: 0.20, dmg: 102, blunt: 7.14, bleed: 45, velocity: 380, trader: "Reg", lvl: 4, cost: 8550 },
+            "9mm|PBP": { pen: 4.10, dmg: 44, blunt: 11.00, bleed: 15, velocity: 560, trader: "Ark", lvl: 4, cost: 10050 },
+            "9mm|Luger CCI": { pen: 0.60, dmg: 73, blunt: 5.11, bleed: 35, velocity: 420, trader: "Ark", lvl: 3, cost: 2925 },
             // 9x39
-            "9x39|FMJ": { pen: 1.60, dmg: 73, blunt: 5.84, bleed: 25, velocity: 330 },
-            "9x39|SP-5": { pen: 2.70, dmg: 70, blunt: 7.00, bleed: 20, velocity: 290 },
-            "9x39|SPP": { pen: 3.50, dmg: 67, blunt: 8.71, bleed: 20, velocity: 310 },
-            "9x39|PAB-9": { pen: 4.30, dmg: 61, blunt: 9.76, bleed: 20, velocity: 320 },
-            "9x39|SP-6": { pen: 4.80, dmg: 59, blunt: 10.62, bleed: 20, velocity: 305 },
-            "9x39|BP": { pen: 5.50, dmg: 56, blunt: 14.00, bleed: 20, velocity: 290 },
+            "9x39|FMJ": { pen: 1.60, dmg: 73, blunt: 5.84, bleed: 25, velocity: 330, trader: "Reg", lvl: 1, cost: 2250 },
+            "9x39|SP-5": { pen: 2.70, dmg: 70, blunt: 7.00, bleed: 20, velocity: 290, trader: "Reg", lvl: 2, cost: 3900 },
+            "9x39|SPP": { pen: 3.50, dmg: 67, blunt: 8.71, bleed: 20, velocity: 310, trader: "Reg", lvl: 3, cost: 7650 },
+            "9x39|PAB-9": { pen: 4.30, dmg: 61, blunt: 9.76, bleed: 20, velocity: 320, trader: "Reg", lvl: 4, cost: 15255 },
+            "9x39|SP-6": { pen: 4.80, dmg: 59, blunt: 10.62, bleed: 20, velocity: 305, trader: "Reg", lvl: 4, cost: "Trade" },
+            "9x39|BP": { pen: 5.50, dmg: 56, blunt: 14.00, bleed: 20, velocity: 290, trader: "Neu", lvl: 4, cost: "Trade" },
             // .45
-            ".45|FMJ": { pen: 1.80, dmg: 75, blunt: 9.75, bleed: 22, velocity: 300 },
-            ".45|L-Match": { pen: 2.60, dmg: 68, blunt: 10.20, bleed: 22, velocity: 360 },
-            ".45|SHOCK CORE": { pen: 1.30, dmg: 100, blunt: 7.00, bleed: 30, velocity: 280 },
-            ".45|RIP": { pen: 1.10, dmg: 130, blunt: 3.90, bleed: 35, velocity: 300 },
-            ".45|AP": { pen: 3.60, dmg: 63, blunt: 12.60, bleed: 22, velocity: 390 },
+            ".45|FMJ": { pen: 1.80, dmg: 75, blunt: 9.75, bleed: 22, velocity: 300, trader: "Reg", lvl: 1, cost: 1725 },
+            ".45|L-Match": { pen: 2.60, dmg: 68, blunt: 10.20, bleed: 22, velocity: 360, trader: "Ark", lvl: 2, cost: 2625 },
+            ".45|SHOCK CORE": { pen: 1.30, dmg: 100, blunt: 7.00, bleed: 30, velocity: 280, trader: "Reg", lvl: 3, cost: 2580 },
+            ".45|RIP": { pen: 1.10, dmg: 130, blunt: 3.90, bleed: 35, velocity: 300, trader: "Ark", lvl: 4, cost: 9300 },
+            ".45|AP": { pen: 3.60, dmg: 63, blunt: 12.60, bleed: 22, velocity: 390, trader: "Reg", lvl: 4, cost: 9000 },
             // 5.45x39
-            "5.45|HP": { pen: 0.80, dmg: 78, blunt: 3.90, bleed: 35, velocity: 880 },
-            "5.45|PRS": { pen: 1.30, dmg: 70, blunt: 5.60, bleed: 30, velocity: 860 },
-            "5.45|FMJ": { pen: 2.40, dmg: 61, blunt: 7.93, bleed: 19, velocity: 880 },
-            "5.45|T": { pen: 3.00, dmg: 58, blunt: 9.28, bleed: 19, velocity: 885 },
-            "5.45|BT": { pen: 3.80, dmg: 54, blunt: 11.88, bleed: 19, velocity: 880 },
-            "5.45|PP": { pen: 3.50, dmg: 55, blunt: 11.00, bleed: 19, velocity: 885 },
-            "5.45|7N40": { pen: 4.30, dmg: 53, blunt: 13.25, bleed: 19, velocity: 895 },
-            "5.45|BS": { pen: 5.50, dmg: 46, blunt: 15.18, bleed: 19, velocity: 830 },
-            "5.45|7N39": { pen: 6.20, dmg: 38, blunt: 12.54, bleed: 19, velocity: 910 },
+            "5.45|HP": { pen: 0.80, dmg: 78, blunt: 3.90, bleed: 35, velocity: 880, trader: "Reg", lvl: 1, cost: 795 },
+            "5.45|PRS": { pen: 1.30, dmg: 70, blunt: 5.60, bleed: 30, velocity: 860, trader: "Reg", lvl: 1, cost: 1125 },
+            "5.45|FMJ": { pen: 2.40, dmg: 61, blunt: 7.93, bleed: 19, velocity: 880, trader: "Reg", lvl: 2, cost: 2505 },
+            "5.45|T": { pen: 3.00, dmg: 58, blunt: 9.28, bleed: 19, velocity: 885, trader: "Reg", lvl: 2, cost: 3765 },
+            "5.45|PP": { pen: 3.50, dmg: 55, blunt: 11.00, bleed: 19, velocity: 885, trader: "Reg", lvl: 3, cost: 6405 },
+            "5.45|BT": { pen: 3.80, dmg: 54, blunt: 11.88, bleed: 19, velocity: 880, trader: "Reg", lvl: 3, cost: 9930 },
+            "5.45|7N40": { pen: 4.30, dmg: 53, blunt: 13.25, bleed: 19, velocity: 895, trader: "Reg", lvl: 4, cost: 14940 },
+            "5.45|BS": { pen: 5.50, dmg: 46, blunt: 15.18, bleed: 19, velocity: 830, trader: "Neu", lvl: 4, cost: "Trade" },
+            "5.45|7N39": { pen: 6.20, dmg: 38, blunt: 12.54, bleed: 19, velocity: 910, trader: "Neu", lvl: 4, cost: "Trade" },
             // 5.56x45
-            "5.56|MK255": { pen: 1.20, dmg: 73, blunt: 7.30, bleed: 30, velocity: 930 },
-            "5.56|FMJ": { pen: 2.40, dmg: 62, blunt: 8.68, bleed: 20, velocity: 880 },
-            "5.56|M856": { pen: 2.90, dmg: 58, blunt: 9.28, bleed: 20, velocity: 870 },
-            "5.56|MK318": { pen: 3.30, dmg: 56, blunt: 11.20, bleed: 20, velocity: 950 },
-            "5.56|M856A1": { pen: 3.80, dmg: 52, blunt: 12.48, bleed: 20, velocity: 940 },
-            "5.56|M855A1": { pen: 4.40, dmg: 49, blunt: 13.72, bleed: 20, velocity: 945 },
-            "5.56|M995": { pen: 5.30, dmg: 46, blunt: 14.72, bleed: 20, velocity: 1010 },
-            "5.56|AP": { pen: 5.80, dmg: 39, blunt: 15.60, bleed: 20, velocity: 1010 },
-            "5.56|VITALSTRIKE": { pen: 0.30, dmg: 88, blunt: 4.40, bleed: 40, velocity: 930 },
-            "5.56|HP": { pen: 0.70, dmg: 79, blunt: 6.32, bleed: 35, velocity: 930 },
+            "5.56|HP": { pen: 0.70, dmg: 79, blunt: 6.32, bleed: 35, velocity: 930, trader: "Ark", lvl: 1, cost: 1080 },
+            "5.56|MK255": { pen: 1.20, dmg: 73, blunt: 7.30, bleed: 30, velocity: 930, trader: "Ark", lvl: 1, cost: 1905 },
+            "5.56|FMJ": { pen: 2.40, dmg: 62, blunt: 8.68, bleed: 20, velocity: 880, trader: "Ark", lvl: 2, cost: 3000 },
+            "5.56|M856": { pen: 2.90, dmg: 58, blunt: 9.28, bleed: 20, velocity: 870, trader: "Ark", lvl: 2, cost: 4890 },
+            "5.56|MK318": { pen: 3.30, dmg: 56, blunt: 11.20, bleed: 20, velocity: 950, trader: "Ark", lvl: 3, cost: 8190 },
+            "5.56|M856A1": { pen: 3.80, dmg: 52, blunt: 12.48, bleed: 20, velocity: 940, trader: "Ark", lvl: 3, cost: 9570 },
+            "5.56|M855A1": { pen: 4.40, dmg: 49, blunt: 13.72, bleed: 20, velocity: 945, trader: "Ark", lvl: 4, cost: 13590 },
+            "5.56|M995": { pen: 5.30, dmg: 46, blunt: 14.72, bleed: 20, velocity: 1010, trader: "Neu", lvl: 4, cost: "Trade" },
+            "5.56|AP": { pen: 5.80, dmg: 39, blunt: 15.60, bleed: 20, velocity: 1010, trader: "Neu", lvl: 4, cost: "Trade" },
+            "5.56|VITALSTRIKE": { pen: 0.30, dmg: 88, blunt: 4.40, bleed: 40, velocity: 930, trader: "Ark", lvl: 3, cost: 9840 },
             // 6.8x51
-            "6.8x51|Match": { pen: 2.90, dmg: 88, blunt: 8.80, bleed: 23, velocity: 840 },
-            "6.8x51|FMJ": { pen: 3.70, dmg: 80, blunt: 12.80, bleed: 23, velocity: 901 },
-            "6.8x51|Hybrid": { pen: 4.70, dmg: 73, blunt: 14.60, bleed: 23, velocity: 930 },
-            "6.8x51|AP": { pen: 5.40, dmg: 66, blunt: 18.48, bleed: 23, velocity: 1050 },
+            "6.8x51|Match": { pen: 2.90, dmg: 88, blunt: 8.80, bleed: 23, velocity: 840, trader: "Ark", lvl: 2, cost: 7050 },
+            "6.8x51|FMJ": { pen: 3.70, dmg: 80, blunt: 12.80, bleed: 23, velocity: 901, trader: "Ark", lvl: 3, cost: 9825 },
+            "6.8x51|Hybrid": { pen: 4.70, dmg: 73, blunt: 14.60, bleed: 23, velocity: 930, trader: "Ark", lvl: 4, cost: 27330 },
+            "6.8x51|AP": { pen: 5.40, dmg: 66, blunt: 18.48, bleed: 23, velocity: 1050, trader: "Neu", lvl: 4, cost: "Trade" },
             // 7.62x39
-            "7.62x39|HP": { pen: 1.40, dmg: 80, blunt: 4.00, bleed: 34, velocity: 750 },
-            "7.62x39|FMJ": { pen: 2.60, dmg: 67, blunt: 8.04, bleed: 25, velocity: 770 },
-            "7.62x39|T-45": { pen: 3.30, dmg: 65, blunt: 11.05, bleed: 25, velocity: 720 },
-            "7.62x39|PS": { pen: 3.70, dmg: 62, blunt: 13.02, bleed: 25, velocity: 720 },
-            "7.62x39|BP": { pen: 4.70, dmg: 57, blunt: 14.82, bleed: 25, velocity: 730 },
-            "7.62x39|MAI AP": { pen: 5.80, dmg: 52, blunt: 17.16, bleed: 25, velocity: 875 },
+            "7.62x39|HP": { pen: 1.40, dmg: 80, blunt: 4.00, bleed: 34, velocity: 750, trader: "Reg", lvl: 1, cost: 1335 },
+            "7.62x39|SP": { pen: 1.80, dmg: 72, blunt: 5.76, bleed: 34, velocity: 770, trader: "Reg", lvl: 1, cost: 1725 },
+            "7.62x39|FMJ": { pen: 2.60, dmg: 67, blunt: 8.04, bleed: 25, velocity: 770, trader: "Reg", lvl: 2, cost: 2460 },
+            "7.62x39|T-45": { pen: 3.30, dmg: 65, blunt: 11.05, bleed: 25, velocity: 720, trader: "Reg", lvl: 3, cost: 4920 },
+            "7.62x39|PS": { pen: 3.70, dmg: 62, blunt: 13.02, bleed: 25, velocity: 720, trader: "Reg", lvl: 3, cost: 8880 },
+            "7.62x39|PP": { pen: 4.40, dmg: 59, blunt: 15.34, bleed: 25, velocity: 730, trader: "Reg", lvl: 4, cost: 9750 },
+            "7.62x39|BP": { pen: 4.70, dmg: 57, blunt: 14.82, bleed: 25, velocity: 730, trader: "Reg", lvl: 4, cost: "Trade" },
+            "7.62x39|MAI AP": { pen: 5.80, dmg: 52, blunt: 17.16, bleed: 25, velocity: 875, trader: "Neu", lvl: 4, cost: "Trade" },
             // 7.62x51
-            "7.62x51|Ultra Nosler": { pen: 1.20, dmg: 105, blunt: 3.15, bleed: 35, velocity: 820 },
-            "7.62x51|M80": { pen: 4.30, dmg: 82, blunt: 10.66, bleed: 25, velocity: 800 },
-            "7.62x51|M62": { pen: 4.50, dmg: 80, blunt: 12.80, bleed: 25, velocity: 840 },
-            "7.62x51|M61": { pen: 6.00, dmg: 69, blunt: 16.56, bleed: 25, velocity: 820 },
-            "7.62x51|M993": { pen: 6.50, dmg: 63, blunt: 17.64, bleed: 25, velocity: 910 },
+            "7.62x51|HP": { pen: 1.90, dmg: 92, blunt: 4.60, bleed: 35, velocity: 770, trader: "Ark", lvl: 1, cost: 2700 },
+            "7.62x51|Ultra Nosler": { pen: 1.20, dmg: 105, blunt: 3.15, bleed: 35, velocity: 820, trader: "Ark", lvl: 2, cost: 2250 },
+            "7.62x51|SP": { pen: 2.50, dmg: 86, blunt: 6.88, bleed: 30, velocity: 790, trader: "Ark", lvl: 1, cost: 7350 },
+            "7.62x51|FMJ": { pen: 3.60, dmg: 83, blunt: 8.30, bleed: 25, velocity: 840, trader: "Ark", lvl: 3, cost: 10275 },
+            "7.62x51|M80": { pen: 4.30, dmg: 82, blunt: 10.66, bleed: 25, velocity: 800, trader: "Ark", lvl: 4, cost: 12900 },
+            "7.62x51|M62": { pen: 4.50, dmg: 80, blunt: 12.80, bleed: 25, velocity: 840, trader: "Ark", lvl: 4, cost: 14625 },
+            "7.62x51|M80A1": { pen: 5.30, dmg: 73, blunt: 14.60, bleed: 25, velocity: 820, trader: "Ark", lvl: 4, cost: "Trade" },
+            "7.62x51|M61": { pen: 6.00, dmg: 69, blunt: 16.56, bleed: 25, velocity: 820, trader: "Neu", lvl: 4, cost: "Trade" },
+            "7.62x51|M993": { pen: 6.50, dmg: 63, blunt: 17.64, bleed: 25, velocity: 910, trader: "Neu", lvl: 4, cost: "Trade" },
+            // 7.62x54R
+            "7.62x54R|HP": { pen: 2.10, dmg: 105, blunt: 6.30, bleed: 39, velocity: 805, trader: "Reg", lvl: 2, cost: 3150 },
+            "7.62x54R|SP": { pen: 2.80, dmg: 92, blunt: 7.36, bleed: 39, velocity: 706, trader: "Reg", lvl: 1, cost: 4425 },
+            "7.62x54R|FMJ": { pen: 3.40, dmg: 86, blunt: 8.60, bleed: 25, velocity: 760, trader: "Reg", lvl: 3, cost: 7440 },
+            "7.62x54R|T-46M": { pen: 4.10, dmg: 85, blunt: 11.05, bleed: 25, velocity: 730, trader: "Reg", lvl: 3, cost: 10410 },
+            "7.62x54R|LPS": { pen: 4.30, dmg: 84, blunt: 13.44, bleed: 25, velocity: 730, trader: "Reg", lvl: 4, cost: 13050 },
+            "7.62x54R|PS": { pen: 4.60, dmg: 78, blunt: 15.60, bleed: 25, velocity: 880, trader: "Reg", lvl: 4, cost: "Trade" },
+            "7.62x54R|BT": { pen: 5.50, dmg: 77, blunt: 16.94, bleed: 25, velocity: 880, trader: "Neu", lvl: 4, cost: "Trade" },
+            "7.62x54R|SNB": { pen: 6.10, dmg: 75, blunt: 22.50, bleed: 25, velocity: 890, trader: "Neu", lvl: 4, cost: "Trade" },
+            "7.62x54R|BS": { pen: 7.00, dmg: 72, blunt: 23.76, bleed: 25, velocity: 780, trader: "Neu", lvl: 4, cost: "Trade" },
             // 12ga
-            "12ga|Dual Sabot": { pen: 2.60, dmg: 182, blunt: 10.92, bleed: 40, velocity: 410 },
-            "12ga|AP-20": { pen: 3.80, dmg: 145, blunt: 10.15, bleed: 40, velocity: 525 },
-            "12ga|Flechette": { pen: 3.30, dmg: 22, blunt: 1.10, bleed: 22, velocity: 320 },
-            "12ga|Magnum Buck": { pen: 1.20, dmg: 20, blunt: 1.00, bleed: 22, velocity: 420 },
-            "12ga|8.5 Buck": { pen: 0.30, dmg: 35, blunt: 1.05, bleed: 22, velocity: 430 },
+            "12ga|7mm Buck": { pen: 1.20, dmg: 20, blunt: 1.00, bleed: 22, velocity: 420, trader: "Ark", lvl: 1, cost: 705 },
+            "12ga|Express": { pen: 0.30, dmg: 35, blunt: 1.05, bleed: 22, velocity: 430, trader: "Reg", lvl: 2, cost: 1125 },
+            "12ga|Lead Slug": { pen: 1.50, dmg: 168, blunt: 8.40, bleed: 55, velocity: 370, trader: "Reg", lvl: 1, cost: 1320 },
+            "12ga|Poleva-6u": { pen: 2.00, dmg: 150, blunt: 7.50, bleed: 40, velocity: 430, trader: "Reg", lvl: 2, cost: 1425 },
+            "12ga|BMG": { pen: 2.60, dmg: 182, blunt: 10.92, bleed: 40, velocity: 410, trader: "Reg", lvl: 3, cost: 6825 },
+            "12ga|Dual Sabot": { pen: 2.60, dmg: 182, blunt: 10.92, bleed: 40, velocity: 410, trader: "Reg", lvl: 3, cost: 6825 },
+            "12ga|Flechette": { pen: 3.30, dmg: 22, blunt: 1.10, bleed: 22, velocity: 320, trader: "Reg", lvl: 4, cost: 9600 },
+            "12ga|AP-20": { pen: 3.80, dmg: 145, blunt: 10.15, bleed: 40, velocity: 525, trader: "Reg", lvl: 4, cost: "Trade" },
+            "12ga|Super HP": { pen: 0.50, dmg: 220, blunt: 6.60, bleed: 22, velocity: 594, trader: "Reg", lvl: 3, cost: 3030 },
+            "12ga|RIP": { pen: 0.20, dmg: 265, blunt: 7.95, bleed: 55, velocity: 410, trader: "Neu", lvl: 4, cost: "Trade" },
+            "12ga|Magnum Buck": { pen: 1.20, dmg: 20, blunt: 1.00, bleed: 22, velocity: 420, trader: "Ark", lvl: 1, cost: 705 },
+            "12ga|8.5 Buck": { pen: 0.30, dmg: 35, blunt: 1.05, bleed: 22, velocity: 430, trader: "Reg", lvl: 2, cost: 1125 },
         };
 
         const ammoData = [
@@ -884,12 +923,121 @@
         }
 
         function renderTable() {
+            const thead = document.getElementById('ammoTableHead');
             const tbody = document.getElementById('ammoTableBody');
             const searchTerm = document.getElementById('searchBox').value.toLowerCase();
 
+            // Render different views based on tier selection
+            if (currentTier === 'all') {
+                renderAllTiersView(thead, tbody, searchTerm);
+            } else {
+                renderSingleTierView(thead, tbody, searchTerm);
+            }
+        }
+
+        function renderAllTiersView(thead, tbody, searchTerm) {
+            // Build unique ammo list grouped by caliber+ammo
+            const ammoMap = new Map();
+            ammoData.forEach(row => {
+                if (currentCaliber !== 'all' && !row.caliber.toLowerCase().includes(currentCaliber.toLowerCase())) return;
+                if (searchTerm && !`${row.caliber} ${row.ammo}`.toLowerCase().includes(searchTerm)) return;
+
+                const key = `${row.caliber}|${row.ammo}`;
+                if (!ammoMap.has(key)) {
+                    ammoMap.set(key, { caliber: row.caliber, ammo: row.ammo, rpm: row.rpm, tiers: {} });
+                }
+                ammoMap.get(key).tiers[row.tier] = { head: row.head, chest: row.chest, arm: row.arm, leg: row.leg };
+            });
+
+            let ammoList = Array.from(ammoMap.values());
+
+            // Sorting
+            if (currentSort.column) {
+                ammoList.sort((a, b) => {
+                    let valA, valB;
+                    const statsA = getAbolethStats(a.caliber, a.ammo);
+                    const statsB = getAbolethStats(b.caliber, b.ammo);
+                    switch (currentSort.column) {
+                        case 'caliber': valA = a.caliber; valB = b.caliber; break;
+                        case 'ammo': valA = a.ammo; valB = b.ammo; break;
+                        case 'pen': valA = statsA.pen || 0; valB = statsB.pen || 0; break;
+                        case 'dmg': valA = statsA.dmg || 0; valB = statsB.dmg || 0; break;
+                        case 'blunt': valA = statsA.blunt || 0; valB = statsB.blunt || 0; break;
+                        case 'bleed': valA = statsA.bleed || 0; valB = statsB.bleed || 0; break;
+                        case 'velocity': valA = statsA.velocity || 0; valB = statsB.velocity || 0; break;
+                        case 'trader': valA = statsA.trader || ''; valB = statsB.trader || ''; break;
+                        case 'lvl': valA = statsA.lvl || 0; valB = statsB.lvl || 0; break;
+                        case 'cost':
+                            valA = typeof statsA.cost === 'number' ? statsA.cost : (statsA.cost === 'Trade' ? 999999 : 0);
+                            valB = typeof statsB.cost === 'number' ? statsB.cost : (statsB.cost === 'Trade' ? 999999 : 0);
+                            break;
+                        case 'rpm': valA = a.rpm; valB = b.rpm; break;
+                        default: valA = a.caliber; valB = b.caliber; break;
+                    }
+                    if (typeof valA === 'string') {
+                        return currentSort.direction === 'asc' ? valA.localeCompare(valB) : valB.localeCompare(valA);
+                    }
+                    return currentSort.direction === 'asc' ? valA - valB : valB - valA;
+                });
+            }
+
+            // Render headers for All view
+            thead.innerHTML = `
+                <tr>
+                    <th onclick="sortTable('caliber')">Caliber</th>
+                    <th onclick="sortTable('ammo')">Ammo Type</th>
+                    <th onclick="sortTable('pen')">Pen</th>
+                    <th onclick="sortTable('dmg')">Dmg</th>
+                    <th onclick="sortTable('blunt')">Blunt</th>
+                    <th onclick="sortTable('bleed')">Bleed</th>
+                    <th onclick="sortTable('velocity')">m/s</th>
+                    <th onclick="sortTable('trader')">Trader</th>
+                    <th onclick="sortTable('lvl')">Lvl</th>
+                    <th onclick="sortTable('cost')">Cost</th>
+                    <th onclick="sortTable('rpm')">RPM</th>
+                    <th class="tier-header tier-3" title="Tier 3 Chest Shots">T3</th>
+                    <th class="tier-header tier-4" title="Tier 4 Chest Shots">T4</th>
+                    <th class="tier-header tier-5" title="Tier 5 Chest Shots">T5</th>
+                    <th class="tier-header tier-6" title="Tier 6 Chest Shots">T6</th>
+                </tr>
+            `;
+
+            let html = '';
+            ammoList.forEach(row => {
+                const stats = getAbolethStats(row.caliber, row.ammo);
+                const t3 = row.tiers[3] || {};
+                const t4 = row.tiers[4] || {};
+                const t5 = row.tiers[5] || {};
+                const t6 = row.tiers[6] || {};
+
+                html += `
+                    <tr>
+                        <td class="caliber-cell">${row.caliber}</td>
+                        <td class="ammo-name">${row.ammo}</td>
+                        <td class="stat-cell pen-cell">${stats.pen !== null ? stats.pen.toFixed(1) : '-'}</td>
+                        <td class="stat-cell dmg-cell">${stats.dmg !== null ? stats.dmg : '-'}</td>
+                        <td class="stat-cell">${stats.blunt !== null ? stats.blunt.toFixed(1) : '-'}</td>
+                        <td class="stat-cell bleed-cell">${stats.bleed !== null ? stats.bleed + '%' : '-'}</td>
+                        <td class="stat-cell">${stats.velocity !== null ? stats.velocity : '-'}</td>
+                        <td class="stat-cell trader-cell">${stats.trader || '-'}</td>
+                        <td class="stat-cell lvl-cell">${stats.lvl || '-'}</td>
+                        <td class="stat-cell cost-cell">${stats.cost !== undefined ? (typeof stats.cost === 'number' ? stats.cost.toLocaleString() : stats.cost) : '-'}</td>
+                        <td class="rpm-cell">${row.rpm}</td>
+                        <td class="tier-data shots-cell ${getShotsClass(t3.chest)}">${t3.chest || '-'}</td>
+                        <td class="tier-data shots-cell ${getShotsClass(t4.chest)}">${t4.chest || '-'}</td>
+                        <td class="tier-data shots-cell ${getShotsClass(t5.chest)}">${t5.chest || '-'}</td>
+                        <td class="tier-data shots-cell ${getShotsClass(t6.chest)}">${t6.chest || '-'}</td>
+                    </tr>
+                `;
+            });
+
+            tbody.innerHTML = html;
+        }
+
+        function renderSingleTierView(thead, tbody, searchTerm) {
             let filtered = ammoData.filter(row => {
                 if (currentCaliber !== 'all' && !row.caliber.toLowerCase().includes(currentCaliber.toLowerCase())) return false;
-                if (currentTier !== 'all' && row.tier !== currentTier) return false;
+                if (row.tier !== currentTier) return false;
                 if (searchTerm && !`${row.caliber} ${row.ammo}`.toLowerCase().includes(searchTerm)) return false;
                 return true;
             });
@@ -907,7 +1055,12 @@
                         case 'blunt': valA = statsA.blunt || 0; valB = statsB.blunt || 0; break;
                         case 'bleed': valA = statsA.bleed || 0; valB = statsB.bleed || 0; break;
                         case 'velocity': valA = statsA.velocity || 0; valB = statsB.velocity || 0; break;
-                        case 'tier': valA = a.tier; valB = b.tier; break;
+                        case 'trader': valA = statsA.trader || ''; valB = statsB.trader || ''; break;
+                        case 'lvl': valA = statsA.lvl || 0; valB = statsB.lvl || 0; break;
+                        case 'cost':
+                            valA = typeof statsA.cost === 'number' ? statsA.cost : (statsA.cost === 'Trade' ? 999999 : 0);
+                            valB = typeof statsB.cost === 'number' ? statsB.cost : (statsB.cost === 'Trade' ? 999999 : 0);
+                            break;
                         case 'head': valA = a.head; valB = b.head; break;
                         case 'chest': valA = a.chest; valB = b.chest; break;
                         case 'arm': valA = a.arm; valB = b.arm; break;
@@ -915,6 +1068,7 @@
                         case 'rpm': valA = a.rpm; valB = b.rpm; break;
                         case 'ttkHead': valA = calculateTTK(a.head, a.rpm); valB = calculateTTK(b.head, b.rpm); break;
                         case 'ttkChest': valA = calculateTTK(a.chest, a.rpm); valB = calculateTTK(b.chest, b.rpm); break;
+                        default: valA = a.caliber; valB = b.caliber; break;
                     }
                     if (typeof valA === 'string') {
                         return currentSort.direction === 'asc' ? valA.localeCompare(valB) : valB.localeCompare(valA);
@@ -923,17 +1077,28 @@
                 });
             }
 
-            // Update header sort indicators
-            document.querySelectorAll('th').forEach(th => {
-                th.classList.remove('sorted-asc', 'sorted-desc');
-            });
-            if (currentSort.column) {
-                const headers = ['caliber', 'ammo', 'pen', 'dmg', 'blunt', 'bleed', 'velocity', 'tier', 'head', 'chest', 'arm', 'leg', 'rpm', 'ttkHead', 'ttkChest'];
-                const index = headers.indexOf(currentSort.column);
-                if (index >= 0) {
-                    document.querySelectorAll('th')[index].classList.add(currentSort.direction === 'asc' ? 'sorted-asc' : 'sorted-desc');
-                }
-            }
+            // Render headers for single tier view
+            thead.innerHTML = `
+                <tr>
+                    <th onclick="sortTable('caliber')">Caliber</th>
+                    <th onclick="sortTable('ammo')">Ammo Type</th>
+                    <th onclick="sortTable('pen')">Pen</th>
+                    <th onclick="sortTable('dmg')">Dmg</th>
+                    <th onclick="sortTable('blunt')">Blunt</th>
+                    <th onclick="sortTable('bleed')">Bleed</th>
+                    <th onclick="sortTable('velocity')">m/s</th>
+                    <th onclick="sortTable('trader')">Trader</th>
+                    <th onclick="sortTable('lvl')">Lvl</th>
+                    <th onclick="sortTable('cost')">Cost</th>
+                    <th onclick="sortTable('head')">Head</th>
+                    <th onclick="sortTable('chest')">Chest</th>
+                    <th onclick="sortTable('arm')">Chest (Arm)</th>
+                    <th onclick="sortTable('leg')">Leg</th>
+                    <th onclick="sortTable('rpm')">RPM</th>
+                    <th onclick="sortTable('ttkHead')">TTK Head</th>
+                    <th onclick="sortTable('ttkChest')">TTK Chest</th>
+                </tr>
+            `;
 
             let html = '';
             filtered.forEach(row => {
@@ -950,7 +1115,9 @@
                         <td class="stat-cell">${stats.blunt !== null ? stats.blunt.toFixed(1) : '-'}</td>
                         <td class="stat-cell bleed-cell">${stats.bleed !== null ? stats.bleed + '%' : '-'}</td>
                         <td class="stat-cell">${stats.velocity !== null ? stats.velocity : '-'}</td>
-                        <td><span class="tier-cell tier-${row.tier}">${row.tier}</span></td>
+                        <td class="stat-cell trader-cell">${stats.trader || '-'}</td>
+                        <td class="stat-cell lvl-cell">${stats.lvl || '-'}</td>
+                        <td class="stat-cell cost-cell">${stats.cost !== undefined ? (typeof stats.cost === 'number' ? stats.cost.toLocaleString() : stats.cost) : '-'}</td>
                         <td class="shots-cell ${getShotsClass(row.head)}">${row.head}</td>
                         <td class="shots-cell ${getShotsClass(row.chest)}">${row.chest}</td>
                         <td class="shots-cell ${getShotsClass(row.arm)}">${row.arm}</td>
