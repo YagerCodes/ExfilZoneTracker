@@ -54,7 +54,7 @@ Pure HTML, CSS, and JavaScript - no build tools or frameworks required. Just ope
 
 ## Version
 
-v1.10.0 | Last Updated: January 4, 2025
+v2.0.0 | Last Updated: January 4, 2025
 
 ## License
 
