@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExfilZone Key & Vault Guide</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #00ff88;
+            --primary-dim: #00cc6a;
+            --secondary: #ff4400;
+            --bg-dark: #0a0e14;
+            --bg-medium: #151a24;
+            --bg-light: #1f2937;
+            --bg-card: #1a1f2e;
+            --text-primary: #e4e8f0;
+            --text-secondary: #8b95a8;
+            --accent-blue: #00d4ff;
+            --accent-yellow: #fbbf24;
+            --border: #2a3544;
+        }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            min-height: 100vh;
+            background-image:
+                radial-gradient(circle at 20% 80%, rgba(0, 255, 136, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 68, 0, 0.03) 0%, transparent 50%);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            padding-bottom: 2rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 900;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent-blue) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        .nav-link {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: var(--bg-medium);
+            border: 1px solid var(--border);
+            color: var(--accent-blue);
+            text-decoration: none;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        .nav-link:hover {
+            border-color: var(--accent-blue);
+            background: var(--bg-light);
+        }
+
+        /* Map Selection */
+        .map-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .map-tab {
+            padding: 0.75rem 1.5rem;
+            background: var(--bg-medium);
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-radius: 4px;
+        }
+
+        .map-tab:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .map-tab.active {
+            background: var(--primary);
+            color: var(--bg-dark);
+            border-color: var(--primary);
+        }
+
+        /* Keys Grid */
+        .keys-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .key-card {
+            background: var(--bg-medium);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .key-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .key-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-bottom: 1px solid var(--border);
+            background: var(--bg-dark);
+        }
+
+        .key-content {
+            padding: 1rem;
+        }
+
+        .key-name {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--accent-yellow);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .key-location {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            color: var(--accent-blue);
+            margin-bottom: 0.75rem;
+        }
+
+        .key-location::before {
+            content: '';
+            width: 16px;
+            height: 16px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%2300d4ff' viewBox='0 0 24 24'%3E%3Cpath d='M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z'/%3E%3C/svg%3E") center/contain no-repeat;
+        }
+
+        .key-description {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .key-loot {
+            margin-top: 0.75rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .key-loot-title {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+
+        .key-loot-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .loot-tag {
+            padding: 0.25rem 0.5rem;
+            background: var(--bg-dark);
+            border: 1px solid var(--border);
+            border-radius: 3px;
+            font-size: 0.75rem;
+            color: var(--text-primary);
+        }
+
+        .loot-tag.rare {
+            border-color: var(--accent-yellow);
+            color: var(--accent-yellow);
+        }
+
+        .loot-tag.key {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .key-note {
+            margin-top: 0.75rem;
+            padding: 0.5rem;
+            background: rgba(251, 191, 36, 0.1);
+            border-left: 3px solid var(--accent-yellow);
+            font-size: 0.8rem;
+            color: var(--accent-yellow);
+        }
+
+        .video-credit {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 1rem;
+            background: var(--bg-medium);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+        }
+
+        .video-credit a {
+            color: var(--accent-blue);
+            text-decoration: none;
+        }
+
+        .video-credit a:hover {
+            text-decoration: underline;
+        }
+
+        .version-footer {
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 2rem;
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 1px;
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 1.75rem; }
+            .container { padding: 1rem; }
+            .keys-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>KEY & VAULT GUIDE</h1>
+            <div class="subtitle">ExfilZone Vault Locations</div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Hideout Tracker</a>
+                <a href="ammo.html" class="nav-link">Ammo TTK Chart</a>
+            </div>
+        </header>
+
+        <div class="map-tabs">
+            <button class="map-tab active" onclick="selectMap('smuggling-tunnel')">Smuggling Tunnel</button>
+            <button class="map-tab" onclick="selectMap('coming-soon')" disabled style="opacity: 0.5; cursor: not-allowed;">More Maps Coming Soon</button>
+        </div>
+
+        <div class="keys-grid" id="keysGrid"></div>
+
+        <div class="video-credit">
+            Video guide by <a href="https://www.youtube.com/watch?v=5JdYsMU3iUY" target="_blank">YouTube</a> - Smuggling Tunnel Key Vault Locations
+        </div>
+
+        <div class="version-footer">
+            v2.0.0 | December 2025 Wipe Data
+        </div>
+    </div>
+
+    <script>
+        const keyData = {
+            'smuggling-tunnel': [
+                {
+                    name: 'Cargo Zone 01 Toilet Key',
+                    image: 'Images/Keys/Smuggling Tunnel/Cargo_Zone01_Toilet_Key.webp',
+                    location: 'Cargo Area - Toilet Room',
+                    description: 'This vault is located in the toilet room in the cargo area.',
+                    loot: ['Gun Crate'],
+                    lootRare: [],
+                    lootKeys: [],
+                    note: null
+                },
+                {
+                    name: 'Checkpoint 2F Room Key',
+                    image: 'Images/Keys/Smuggling Tunnel/Checkpoint_2F_Room_Key.webp',
+                    location: 'Cargo Area - 2nd Floor',
+                    description: 'Another vault in the cargo area with potential valuable spawns.',
+                    loot: ['Loot Crates'],
+                    lootRare: ['Floppy Disk'],
+                    lootKeys: [],
+                    note: null
+                },
+                {
+                    name: 'Central Area Secret Room Key',
+                    image: 'Images/Keys/Smuggling Tunnel/Central_Area_Secret_Room_Key.webp',
+                    location: 'Central Area - Via Ventilation Room',
+                    description: 'Accessible via the ventilation room. The most important item here is a key found in a suitcase.',
+                    loot: ['Suitcase'],
+                    lootRare: [],
+                    lootKeys: ['Key Spawn'],
+                    note: null
+                },
+                {
+                    name: 'RH02 Dorm Room Key',
+                    image: 'Images/Keys/Smuggling Tunnel/RH02_Dorm_Room_Key.webp',
+                    location: 'Third Floor - Dorm Area',
+                    description: 'This legendary room is on the third floor. Key spawn in a suitcase, plus potential key spawns on a table and elsewhere on the left.',
+                    loot: ['Suitcase', 'Table Loot'],
+                    lootRare: [],
+                    lootKeys: ['Key Spawn (Suitcase)', 'Key Spawn (Table)'],
+                    note: 'High value room - multiple key spawn locations!'
+                },
+                {
+                    name: 'Cellar Staircase Gate Key',
+                    image: 'Images/Keys/Smuggling Tunnel/Cellar_Staircase_Gate_Key.webp',
+                    location: 'One Floor Up from RH02',
+                    description: 'Located one floor up from the RH02 room. Contains a key spawn and two safes.',
+                    loot: ['Safe x2'],
+                    lootRare: [],
+                    lootKeys: ['Key Spawn'],
+                    note: null
+                },
+                {
+                    name: 'WH01 Warehouse Key',
+                    image: 'Images/Keys/Smuggling Tunnel/WH01_Warehouse_Key.webp',
+                    location: 'Warehouse Area',
+                    description: 'Found back down in the warehouse area. Loot spawns on table and chair area.',
+                    loot: ['Table Loot', 'Chair Area'],
+                    lootRare: [],
+                    lootKeys: [],
+                    note: null
+                },
+                {
+                    name: 'South EMR Control Room Key',
+                    image: 'Images/Keys/Smuggling Tunnel/South_EMR_Control_Room_Key.webp',
+                    location: 'South Side - Up the Stairs (Red Door)',
+                    description: 'This red door is found by going up the stairs. Key spawn on the right side, sometimes a radio scanner in the corner.',
+                    loot: ['General Loot'],
+                    lootRare: ['Radio Scanner'],
+                    lootKeys: ['Key Spawn'],
+                    note: 'Keep one South key for Maggie task!'
+                },
+                {
+                    name: 'North EMR Control Room Key',
+                    image: 'Images/Keys/Smuggling Tunnel/North_EMR_Control_Room_Key.webp',
+                    location: 'North Side - Across from South EMR',
+                    description: 'Located just across from the South EMR Control Room.',
+                    loot: ['General Loot'],
+                    lootRare: [],
+                    lootKeys: [],
+                    note: 'Keep one North key for Maggie task!'
+                }
+            ]
+        };
+
+        let currentMap = 'smuggling-tunnel';
+
+        function selectMap(map) {
+            if (map === 'coming-soon') return;
+
+            currentMap = map;
+            document.querySelectorAll('.map-tab').forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+            renderKeys();
+        }
+
+        function renderKeys() {
+            const grid = document.getElementById('keysGrid');
+            const keys = keyData[currentMap] || [];
+
+            let html = '';
+            keys.forEach(key => {
+                const lootTags = key.loot.map(item => `<span class="loot-tag">${item}</span>`).join('');
+                const rareTags = key.lootRare.map(item => `<span class="loot-tag rare">${item}</span>`).join('');
+                const keyTags = key.lootKeys.map(item => `<span class="loot-tag key">${item}</span>`).join('');
+                const allTags = lootTags + rareTags + keyTags;
+
+                const noteHtml = key.note ? `<div class="key-note">${key.note}</div>` : '';
+
+                html += `
+                    <div class="key-card">
+                        <img src="${key.image}" alt="${key.name}" class="key-image" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 fill=%22%238b95a8%22 viewBox=%220 0 24 24%22%3E%3Cpath d=%22M12.65 10C11.83 7.67 9.61 6 7 6c-3.31 0-6 2.69-6 6s2.69 6 6 6c2.61 0 4.83-1.67 5.65-4H17v4h4v-4h2v-4H12.65zM7 14c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z%22/%3E%3C/svg%3E'">
+                        <div class="key-content">
+                            <div class="key-name">${key.name}</div>
+                            <div class="key-location">${key.location}</div>
+                            <div class="key-description">${key.description}</div>
+                            ${allTags ? `<div class="key-loot"><div class="key-loot-title">Notable Loot</div><div class="key-loot-items">${allTags}</div></div>` : ''}
+                            ${noteHtml}
+                        </div>
+                    </div>
+                `;
+            });
+
+            grid.innerHTML = html;
+        }
+
+        renderKeys();
+    </script>
+</body>
+</html>
