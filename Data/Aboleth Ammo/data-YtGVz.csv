@@ -1,0 +1,13 @@
+﻿Column,Description
+Name,Caliber and type
+Pen,Penetration
+Dmg,Base damage
+Blunt,Blunt damage
+PenDur,Armor durability loss for a penetrating hit
+BluntDur,Armor durability loss for a non-penetrating hit
+FOS,Falloff start
+FOE,Falloff end
+FDmg,Damage when beyond falloff
+FPen,Penetration when beyond falloff
+Bleed,Percentage chance to bleed
+m/s,Muzzle velocity in meters per second
