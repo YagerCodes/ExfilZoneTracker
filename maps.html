@@ -126,11 +126,19 @@
             width: 100%;
             height: 160px;
             background: var(--bg-medium);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 4rem;
+            overflow: hidden;
             border-bottom: 1px solid var(--border);
+        }
+
+        .map-card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .map-card:hover .map-card-image img {
+            transform: scale(1.05);
         }
 
         .map-card-content {
@@ -232,7 +240,7 @@
 
         <div class="maps-grid">
             <a href="https://map.showdown.wiki/map/suburbs" target="_blank" class="map-card">
-                <div class="map-card-image">&#127961;</div>
+                <div class="map-card-image"><img src="Images/Maps/Suburbs_Map.webp" alt="Suburbs Map"></div>
                 <div class="map-card-content">
                     <div class="map-card-title">Suburbs</div>
                     <div class="map-card-description">Explore the suburban residential area with houses, a mall, police station, and motel.</div>
@@ -241,7 +249,7 @@
             </a>
 
             <a href="https://map.showdown.wiki/map/metro" target="_blank" class="map-card">
-                <div class="map-card-image">&#128647;</div>
+                <div class="map-card-image"><img src="Images/Maps/Metro_Map.webp" alt="Metro Map"></div>
                 <div class="map-card-content">
                     <div class="map-card-title">Metro</div>
                     <div class="map-card-description">Navigate the underground metro system with tunnels, stations, and hidden passages.</div>
@@ -250,7 +258,7 @@
             </a>
 
             <a href="https://map.showdown.wiki/map/dam" target="_blank" class="map-card">
-                <div class="map-card-image">&#127754;</div>
+                <div class="map-card-image"><img src="Images/Maps/Dam_Map.webp" alt="Dam Map"></div>
                 <div class="map-card-content">
                     <div class="map-card-title">Dam</div>
                     <div class="map-card-description">Explore the dam facility with its industrial structures and surrounding areas.</div>
@@ -259,7 +267,7 @@
             </a>
 
             <a href="https://map.showdown.wiki/map/resort" target="_blank" class="map-card">
-                <div class="map-card-image">&#127958;</div>
+                <div class="map-card-image"><img src="Images/Maps/Resort_Map.webp" alt="Resort Map"></div>
                 <div class="map-card-content">
                     <div class="map-card-title">Resort</div>
                     <div class="map-card-description">Discover the resort area featuring hotels, apartments, a hospital, and bank vaults.</div>
