@@ -1,17 +1,39 @@
-Changed image names of items and moved it to C:\dev_ContractorsExfil\Hideout_Tracker\Images\Items
-Need to refactor the linked names also as items were given their full names in the images.
 
 ---
 
-Add images to hideout locations unlocks.
+THE DLC "NTG Standard Issue" image located Images\DLCs\NTG Standard Issue.jpg
 
----
+unlocks instantly in the hideout:
 
-Add ammo images from Images\Ammos
+Hide Out:
 
----
+    Unlock Area: Workshop
 
-Add a link for maps that links to https://map.showdown.wiki/map/suburbs https://map.showdown.wiki/map/metro https://map.showdown.wiki/map/dam and https://map.showdown.wiki/map/dam
+    Unlock facility: TV Set
+
+    Unlock facility: Water Collector
+
+    HQ Power Fuel Can L ( 1pcs.)
+
+THE DLC "Johnny's secret stash" image located Images\DLCs\Johnny's secret stash.jpg
+
+unlocks instantly in the hideout
+
+Hideout:
+
+    All merchants below Trust-Level 2 will be upped to level 2. (Except Johnny)
+
+    Unlock Area: Workshop
+
+    Unlock Area: Storage Room A
+
+    Unlock Area: Shooting Range
+
+    Unlock facility: Intel Center
+
+    HQ Power Fuel Can L (2 pcs.)
+
+Please add to the hideout tracker page an option to ask if you have the DLC or not and then if they do, unlock those rooms in the web-page.
 
 ---
 
@@ -51,6 +73,17 @@ https://www.youtube.com/watch?v=HLNHp2vxesQ
 BELOW IS DONE.
 
 ---
+
+Add ammo images from Images\Ammos
+
+---
+
+Add images to hideout locations unlocks from Images\Hideout
+
+---
+
+Changed image names of items and moved it to C:\dev_ContractorsExfil\Hideout_Tracker\Images\Items
+Need to refactor the linked names also as items were given their full names in the images.
 
 - Adding Keys to each Map's pages.
 
