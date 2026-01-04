@@ -439,6 +439,131 @@
             letter-spacing: 1px;
         }
 
+        /* Items Summary Section */
+        .items-summary-section {
+            margin-bottom: 2rem;
+            background: var(--bg-medium);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .items-summary-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem;
+            background: var(--bg-light);
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .items-summary-header:hover {
+            background: var(--bg-card);
+        }
+
+        .items-summary-title {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--accent-blue);
+        }
+
+        .items-summary-title::before {
+            content: '';
+            width: 20px;
+            height: 20px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%2300d4ff' viewBox='0 0 24 24'%3E%3Cpath d='M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14h-2v-4H6v-2h4V7h2v4h4v2h-4v4z'/%3E%3C/svg%3E") center/contain no-repeat;
+        }
+
+        .items-summary-toggle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            transition: transform 0.3s;
+        }
+
+        .items-summary-section.expanded .items-summary-toggle {
+            transform: rotate(180deg);
+        }
+
+        .items-summary-content {
+            display: none;
+            padding: 1rem;
+        }
+
+        .items-summary-section.expanded .items-summary-content {
+            display: block;
+        }
+
+        .items-summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 0.5rem;
+        }
+
+        .summary-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            background: var(--bg-dark);
+            border-radius: 4px;
+            border: 1px solid var(--border);
+        }
+
+        .summary-item-icon {
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
+            border: 1px solid var(--border);
+            border-radius: 3px;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 2px;
+        }
+
+        .summary-item-name {
+            flex: 1;
+            font-size: 0.85rem;
+            color: var(--text-primary);
+        }
+
+        .summary-item-qty {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 0.9rem;
+            min-width: 40px;
+            text-align: right;
+        }
+
+        .items-summary-empty {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        .items-summary-stats {
+            display: flex;
+            gap: 1.5rem;
+            padding: 0.75rem 1rem;
+            background: var(--bg-dark);
+            border-top: 1px solid var(--border);
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .items-summary-stats span {
+            color: var(--primary);
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+        }
+
         @media (max-width: 768px) {
             h1 { font-size: 1.75rem; }
             .container { padding: 1rem; }
@@ -478,6 +603,17 @@
             <button class="filter-btn active" onclick="filterView('all')">All</button>
             <button class="filter-btn" onclick="filterView('incomplete')">Available</button>
             <button class="filter-btn" onclick="filterView('completed')">Maxed</button>
+        </div>
+
+        <div class="items-summary-section" id="itemsSummarySection">
+            <div class="items-summary-header" onclick="toggleItemsSummary()">
+                <div class="items-summary-title">Items Needed</div>
+                <div class="items-summary-toggle">▼</div>
+            </div>
+            <div class="items-summary-content">
+                <div class="items-summary-grid" id="itemsSummaryGrid"></div>
+            </div>
+            <div class="items-summary-stats" id="itemsSummaryStats"></div>
         </div>
 
         <div id="upgradesContainer"></div>
@@ -766,6 +902,7 @@
 
             container.innerHTML = html;
             updateStats();
+            renderItemsSummary();
         }
 
         function toggleUpgrade(upgradeId) {
@@ -821,10 +958,71 @@
             renderUpgrades();
         }
 
+        function toggleItemsSummary() {
+            const section = document.getElementById('itemsSummarySection');
+            section.classList.toggle('expanded');
+        }
+
+        function calculateItemTotals() {
+            const itemTotals = {};
+
+            hideoutUpgrades.forEach(upgrade => {
+                const upgradeId = `${upgrade.name}-${upgrade.level}`;
+                if (!completedUpgrades.has(upgradeId)) {
+                    upgrade.items.forEach(([itemName, quantity]) => {
+                        if (!itemTotals[itemName]) {
+                            itemTotals[itemName] = 0;
+                        }
+                        itemTotals[itemName] += quantity;
+                    });
+                }
+            });
+
+            return itemTotals;
+        }
+
+        function renderItemsSummary() {
+            const itemTotals = calculateItemTotals();
+            const grid = document.getElementById('itemsSummaryGrid');
+            const stats = document.getElementById('itemsSummaryStats');
+
+            const sortedItems = Object.entries(itemTotals)
+                .sort((a, b) => b[1] - a[1]);
+
+            if (sortedItems.length === 0) {
+                grid.innerHTML = '<div class="items-summary-empty">All upgrades completed! No items needed.</div>';
+                stats.innerHTML = '';
+                return;
+            }
+
+            let html = '';
+            sortedItems.forEach(([itemName, quantity]) => {
+                const imagePath = itemImages[itemName] || '';
+                const iconHtml = imagePath
+                    ? `<img src="${imagePath}" class="summary-item-icon" alt="${itemName}" title="${itemName}" onerror="this.style.display='none'">`
+                    : '';
+
+                html += `
+                    <div class="summary-item">
+                        ${iconHtml}
+                        <span class="summary-item-name">${itemName}</span>
+                        <span class="summary-item-qty">x${quantity}</span>
+                    </div>
+                `;
+            });
+
+            grid.innerHTML = html;
+
+            const uniqueItems = sortedItems.length;
+            const totalItems = sortedItems.reduce((sum, [, qty]) => sum + qty, 0);
+            stats.innerHTML = `Unique items: <span>${uniqueItems}</span> | Total items: <span>${totalItems}</span>`;
+        }
+
         document.getElementById('searchBox').addEventListener('input', renderUpgrades);
 
         loadProgress();
         renderUpgrades();
+        renderItemsSummary();
     </script>
 </body>
 </html>
