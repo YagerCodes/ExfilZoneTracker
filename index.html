@@ -775,51 +775,6 @@
             </div>
         </header>
 
-        <div class="dlc-section expanded" id="dlcSection">
-            <div class="dlc-header" onclick="toggleDlcSection()">
-                <div class="dlc-title">DLC Ownership</div>
-                <div class="dlc-toggle">▼</div>
-            </div>
-            <div class="dlc-content">
-                <div class="dlc-grid">
-                    <div class="dlc-card" id="dlc-ntg" onclick="toggleDlc('ntg')">
-                        <div class="dlc-card-image">
-                            <img src="Images/DLCs/NTG Standard Issue.jpg" alt="NTG Standard Issue">
-                        </div>
-                        <div class="dlc-card-body">
-                            <div class="dlc-card-header">
-                                <span class="dlc-card-name">NTG Standard Issue</span>
-                                <input type="checkbox" class="dlc-checkbox" id="dlc-ntg-checkbox" onclick="event.stopPropagation(); toggleDlc('ntg')">
-                            </div>
-                            <div class="dlc-unlocks">
-                                Unlocks: <strong>Workshop</strong>, <strong>TV Set Lv1</strong>, <strong>Water Collector Lv1</strong><br>
-                                + HQ Power Fuel Can L (1 pc.)
-                            </div>
-                        </div>
-                    </div>
-                    <div class="dlc-card" id="dlc-johnny" onclick="toggleDlc('johnny')">
-                        <div class="dlc-card-image">
-                            <img src="Images/DLCs/Johnny's secret stash.jpg" alt="Johnny's Secret Stash">
-                        </div>
-                        <div class="dlc-card-body">
-                            <div class="dlc-card-header">
-                                <span class="dlc-card-name">Johnny's Secret Stash</span>
-                                <input type="checkbox" class="dlc-checkbox" id="dlc-johnny-checkbox" onclick="event.stopPropagation(); toggleDlc('johnny')">
-                            </div>
-                            <div class="dlc-unlocks">
-                                Unlocks: <strong>Workshop</strong>, <strong>Storage Room A</strong>, <strong>Shooting Range Lv1</strong>, <strong>Intel Center Lv1</strong><br>
-                                + Merchants to Trust Level 2 (except Johnny)<br>
-                                + HQ Power Fuel Can L (2 pcs.)
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="dlc-info">
-                Select the DLCs you own to automatically mark unlocked hideout upgrades as complete
-            </div>
-        </div>
-
         <div class="stats-grid">
             <div class="stat-card">
                 <div class="stat-label">Progress</div>
@@ -863,6 +818,51 @@
             <button class="btn primary" onclick="toggleAll(true)">Mark All Complete</button>
             <button class="btn danger" onclick="toggleAll(false)">Mark All Incomplete</button>
             <button class="btn danger" onclick="resetProgress()">Reset Progress</button>
+        </div>
+
+        <div class="dlc-section" id="dlcSection">
+            <div class="dlc-header" onclick="toggleDlcSection()">
+                <div class="dlc-title">DLC Ownership</div>
+                <div class="dlc-toggle">▼</div>
+            </div>
+            <div class="dlc-content">
+                <div class="dlc-grid">
+                    <div class="dlc-card" id="dlc-ntg" onclick="toggleDlc('ntg')">
+                        <div class="dlc-card-image">
+                            <img src="Images/DLCs/NTG Standard Issue.jpg" alt="NTG Standard Issue">
+                        </div>
+                        <div class="dlc-card-body">
+                            <div class="dlc-card-header">
+                                <span class="dlc-card-name">NTG Standard Issue</span>
+                                <input type="checkbox" class="dlc-checkbox" id="dlc-ntg-checkbox" onclick="event.stopPropagation(); toggleDlc('ntg')">
+                            </div>
+                            <div class="dlc-unlocks">
+                                Unlocks: <strong>Workshop</strong>, <strong>TV Set Lv1</strong>, <strong>Water Collector Lv1</strong><br>
+                                + HQ Power Fuel Can L (1 pc.)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dlc-card" id="dlc-johnny" onclick="toggleDlc('johnny')">
+                        <div class="dlc-card-image">
+                            <img src="Images/DLCs/Johnny's secret stash.jpg" alt="Johnny's Secret Stash">
+                        </div>
+                        <div class="dlc-card-body">
+                            <div class="dlc-card-header">
+                                <span class="dlc-card-name">Johnny's Secret Stash</span>
+                                <input type="checkbox" class="dlc-checkbox" id="dlc-johnny-checkbox" onclick="event.stopPropagation(); toggleDlc('johnny')">
+                            </div>
+                            <div class="dlc-unlocks">
+                                Unlocks: <strong>Workshop</strong>, <strong>Storage Room A</strong>, <strong>Shooting Range Lv1</strong>, <strong>Intel Center Lv1</strong><br>
+                                + Merchants to Trust Level 2 (except Johnny)<br>
+                                + HQ Power Fuel Can L (2 pcs.)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="dlc-info">
+                Select the DLCs you own to automatically mark unlocked hideout upgrades as complete
+            </div>
         </div>
 
         <div class="version-footer">
