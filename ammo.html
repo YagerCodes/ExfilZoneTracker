@@ -207,7 +207,7 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            min-width: 900px;
+            min-width: 1200px;
         }
 
         th {
@@ -302,6 +302,26 @@
             font-size: 0.85rem;
         }
 
+        .stat-cell {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            text-align: center;
+        }
+
+        .pen-cell {
+            color: var(--accent-blue);
+            font-weight: 600;
+        }
+
+        .dmg-cell {
+            color: var(--secondary);
+            font-weight: 600;
+        }
+
+        .bleed-cell {
+            color: #ef4444;
+        }
+
         /* Legend */
         .legend {
             display: flex;
@@ -380,7 +400,7 @@
     <div class="container">
         <header>
             <h1>AMMO TTK CHART</h1>
-            <div class="subtitle">ExfilZone December Wipe</div>
+            <div class="subtitle">ExfilZone December 2025 Wipe</div>
             <a href="index.html" class="nav-link">← Hideout Tracker</a>
         </header>
 
@@ -451,6 +471,11 @@
                     <tr>
                         <th onclick="sortTable('caliber')">Caliber</th>
                         <th onclick="sortTable('ammo')">Ammo Type</th>
+                        <th onclick="sortTable('pen')">Pen</th>
+                        <th onclick="sortTable('dmg')">Dmg</th>
+                        <th onclick="sortTable('blunt')">Blunt</th>
+                        <th onclick="sortTable('bleed')">Bleed</th>
+                        <th onclick="sortTable('velocity')">m/s</th>
                         <th onclick="sortTable('tier')">Armor</th>
                         <th onclick="sortTable('head')">Head</th>
                         <th onclick="sortTable('chest')">Chest</th>
@@ -466,12 +491,83 @@
         </div>
 
         <div class="version-footer">
-            v1.0.0 | December 2024 Wipe Data
-            <div class="credit">Data by <a href="https://www.youtube.com/@LuxTyrantGaming" target="_blank">LuxTyrant</a> | 1,200+ tests</div>
+            v2.0.0 | December 2025 Wipe Data
+            <div class="credit">TTK data by <a href="https://www.youtube.com/@LuxTyrantGaming" target="_blank">LuxTyrant</a> | Raw stats by Aboleth</div>
         </div>
     </div>
 
     <script>
+        // Aboleth raw ammo stats - Pen, Dmg, Blunt, Bleed, Velocity
+        const abolethStats = {
+            // 9mm
+            "9mm|PSO": { pen: 1.00, dmg: 65, blunt: 3.25, bleed: 25, velocity: 350 },
+            "9mm|FMJ": { pen: 1.40, dmg: 58, blunt: 8.12, bleed: 15, velocity: 370 },
+            "9mm|GT": { pen: 1.80, dmg: 56, blunt: 8.96, bleed: 15, velocity: 370 },
+            "9mm|PST": { pen: 2.10, dmg: 54, blunt: 8.64, bleed: 15, velocity: 390 },
+            "9mm|AP": { pen: 3.40, dmg: 53, blunt: 10.60, bleed: 15, velocity: 410 },
+            "9mm|RIP": { pen: 0.20, dmg: 102, blunt: 7.14, bleed: 45, velocity: 380 },
+            "9mm|PBP": { pen: 4.10, dmg: 44, blunt: 11.00, bleed: 15, velocity: 560 },
+            "9mm|Luger CCI": { pen: 0.60, dmg: 73, blunt: 5.11, bleed: 35, velocity: 420 },
+            // 9x39
+            "9x39|FMJ": { pen: 1.60, dmg: 73, blunt: 5.84, bleed: 25, velocity: 330 },
+            "9x39|SP-5": { pen: 2.70, dmg: 70, blunt: 7.00, bleed: 20, velocity: 290 },
+            "9x39|SPP": { pen: 3.50, dmg: 67, blunt: 8.71, bleed: 20, velocity: 310 },
+            "9x39|PAB-9": { pen: 4.30, dmg: 61, blunt: 9.76, bleed: 20, velocity: 320 },
+            "9x39|SP-6": { pen: 4.80, dmg: 59, blunt: 10.62, bleed: 20, velocity: 305 },
+            "9x39|BP": { pen: 5.50, dmg: 56, blunt: 14.00, bleed: 20, velocity: 290 },
+            // .45
+            ".45|FMJ": { pen: 1.80, dmg: 75, blunt: 9.75, bleed: 22, velocity: 300 },
+            ".45|L-Match": { pen: 2.60, dmg: 68, blunt: 10.20, bleed: 22, velocity: 360 },
+            ".45|SHOCK CORE": { pen: 1.30, dmg: 100, blunt: 7.00, bleed: 30, velocity: 280 },
+            ".45|RIP": { pen: 1.10, dmg: 130, blunt: 3.90, bleed: 35, velocity: 300 },
+            ".45|AP": { pen: 3.60, dmg: 63, blunt: 12.60, bleed: 22, velocity: 390 },
+            // 5.45x39
+            "5.45|HP": { pen: 0.80, dmg: 78, blunt: 3.90, bleed: 35, velocity: 880 },
+            "5.45|PRS": { pen: 1.30, dmg: 70, blunt: 5.60, bleed: 30, velocity: 860 },
+            "5.45|FMJ": { pen: 2.40, dmg: 61, blunt: 7.93, bleed: 19, velocity: 880 },
+            "5.45|T": { pen: 3.00, dmg: 58, blunt: 9.28, bleed: 19, velocity: 885 },
+            "5.45|BT": { pen: 3.80, dmg: 54, blunt: 11.88, bleed: 19, velocity: 880 },
+            "5.45|PP": { pen: 3.50, dmg: 55, blunt: 11.00, bleed: 19, velocity: 885 },
+            "5.45|7N40": { pen: 4.30, dmg: 53, blunt: 13.25, bleed: 19, velocity: 895 },
+            "5.45|BS": { pen: 5.50, dmg: 46, blunt: 15.18, bleed: 19, velocity: 830 },
+            "5.45|7N39": { pen: 6.20, dmg: 38, blunt: 12.54, bleed: 19, velocity: 910 },
+            // 5.56x45
+            "5.56|MK255": { pen: 1.20, dmg: 73, blunt: 7.30, bleed: 30, velocity: 930 },
+            "5.56|FMJ": { pen: 2.40, dmg: 62, blunt: 8.68, bleed: 20, velocity: 880 },
+            "5.56|M856": { pen: 2.90, dmg: 58, blunt: 9.28, bleed: 20, velocity: 870 },
+            "5.56|MK318": { pen: 3.30, dmg: 56, blunt: 11.20, bleed: 20, velocity: 950 },
+            "5.56|M856A1": { pen: 3.80, dmg: 52, blunt: 12.48, bleed: 20, velocity: 940 },
+            "5.56|M855A1": { pen: 4.40, dmg: 49, blunt: 13.72, bleed: 20, velocity: 945 },
+            "5.56|M995": { pen: 5.30, dmg: 46, blunt: 14.72, bleed: 20, velocity: 1010 },
+            "5.56|AP": { pen: 5.80, dmg: 39, blunt: 15.60, bleed: 20, velocity: 1010 },
+            "5.56|VITALSTRIKE": { pen: 0.30, dmg: 88, blunt: 4.40, bleed: 40, velocity: 930 },
+            "5.56|HP": { pen: 0.70, dmg: 79, blunt: 6.32, bleed: 35, velocity: 930 },
+            // 6.8x51
+            "6.8x51|Match": { pen: 2.90, dmg: 88, blunt: 8.80, bleed: 23, velocity: 840 },
+            "6.8x51|FMJ": { pen: 3.70, dmg: 80, blunt: 12.80, bleed: 23, velocity: 901 },
+            "6.8x51|Hybrid": { pen: 4.70, dmg: 73, blunt: 14.60, bleed: 23, velocity: 930 },
+            "6.8x51|AP": { pen: 5.40, dmg: 66, blunt: 18.48, bleed: 23, velocity: 1050 },
+            // 7.62x39
+            "7.62x39|HP": { pen: 1.40, dmg: 80, blunt: 4.00, bleed: 34, velocity: 750 },
+            "7.62x39|FMJ": { pen: 2.60, dmg: 67, blunt: 8.04, bleed: 25, velocity: 770 },
+            "7.62x39|T-45": { pen: 3.30, dmg: 65, blunt: 11.05, bleed: 25, velocity: 720 },
+            "7.62x39|PS": { pen: 3.70, dmg: 62, blunt: 13.02, bleed: 25, velocity: 720 },
+            "7.62x39|BP": { pen: 4.70, dmg: 57, blunt: 14.82, bleed: 25, velocity: 730 },
+            "7.62x39|MAI AP": { pen: 5.80, dmg: 52, blunt: 17.16, bleed: 25, velocity: 875 },
+            // 7.62x51
+            "7.62x51|Ultra Nosler": { pen: 1.20, dmg: 105, blunt: 3.15, bleed: 35, velocity: 820 },
+            "7.62x51|M80": { pen: 4.30, dmg: 82, blunt: 10.66, bleed: 25, velocity: 800 },
+            "7.62x51|M62": { pen: 4.50, dmg: 80, blunt: 12.80, bleed: 25, velocity: 840 },
+            "7.62x51|M61": { pen: 6.00, dmg: 69, blunt: 16.56, bleed: 25, velocity: 820 },
+            "7.62x51|M993": { pen: 6.50, dmg: 63, blunt: 17.64, bleed: 25, velocity: 910 },
+            // 12ga
+            "12ga|Dual Sabot": { pen: 2.60, dmg: 182, blunt: 10.92, bleed: 40, velocity: 410 },
+            "12ga|AP-20": { pen: 3.80, dmg: 145, blunt: 10.15, bleed: 40, velocity: 525 },
+            "12ga|Flechette": { pen: 3.30, dmg: 22, blunt: 1.10, bleed: 22, velocity: 320 },
+            "12ga|Magnum Buck": { pen: 1.20, dmg: 20, blunt: 1.00, bleed: 22, velocity: 420 },
+            "12ga|8.5 Buck": { pen: 0.30, dmg: 35, blunt: 1.05, bleed: 22, velocity: 430 },
+        };
+
         const ammoData = [
             // 9mm
             { caliber: "9mm", ammo: "PSO", tier: 3, head: 19, chest: 29, arm: 10, leg: 8, rpm: 1000 },
@@ -733,6 +829,12 @@
             { caliber: "12ga", ammo: "8.5 Buck", tier: 6, head: 14, chest: 44, arm: 3, leg: 2, rpm: 300 },
         ];
 
+        // Merge Aboleth stats into ammoData
+        function getAbolethStats(caliber, ammo) {
+            const key = `${caliber}|${ammo}`;
+            return abolethStats[key] || { pen: null, dmg: null, blunt: null, bleed: null, velocity: null };
+        }
+
         let currentCaliber = 'all';
         let currentTier = 'all';
         let currentSort = { column: null, direction: 'asc' };
@@ -795,9 +897,16 @@
             if (currentSort.column) {
                 filtered.sort((a, b) => {
                     let valA, valB;
+                    const statsA = getAbolethStats(a.caliber, a.ammo);
+                    const statsB = getAbolethStats(b.caliber, b.ammo);
                     switch (currentSort.column) {
                         case 'caliber': valA = a.caliber; valB = b.caliber; break;
                         case 'ammo': valA = a.ammo; valB = b.ammo; break;
+                        case 'pen': valA = statsA.pen || 0; valB = statsB.pen || 0; break;
+                        case 'dmg': valA = statsA.dmg || 0; valB = statsB.dmg || 0; break;
+                        case 'blunt': valA = statsA.blunt || 0; valB = statsB.blunt || 0; break;
+                        case 'bleed': valA = statsA.bleed || 0; valB = statsB.bleed || 0; break;
+                        case 'velocity': valA = statsA.velocity || 0; valB = statsB.velocity || 0; break;
                         case 'tier': valA = a.tier; valB = b.tier; break;
                         case 'head': valA = a.head; valB = b.head; break;
                         case 'chest': valA = a.chest; valB = b.chest; break;
@@ -819,7 +928,7 @@
                 th.classList.remove('sorted-asc', 'sorted-desc');
             });
             if (currentSort.column) {
-                const headers = ['caliber', 'ammo', 'tier', 'head', 'chest', 'arm', 'leg', 'rpm', 'ttkHead', 'ttkChest'];
+                const headers = ['caliber', 'ammo', 'pen', 'dmg', 'blunt', 'bleed', 'velocity', 'tier', 'head', 'chest', 'arm', 'leg', 'rpm', 'ttkHead', 'ttkChest'];
                 const index = headers.indexOf(currentSort.column);
                 if (index >= 0) {
                     document.querySelectorAll('th')[index].classList.add(currentSort.direction === 'asc' ? 'sorted-asc' : 'sorted-desc');
@@ -830,11 +939,17 @@
             filtered.forEach(row => {
                 const ttkHead = calculateTTK(row.head, row.rpm);
                 const ttkChest = calculateTTK(row.chest, row.rpm);
+                const stats = getAbolethStats(row.caliber, row.ammo);
 
                 html += `
                     <tr>
                         <td class="caliber-cell">${row.caliber}</td>
                         <td class="ammo-name">${row.ammo}</td>
+                        <td class="stat-cell pen-cell">${stats.pen !== null ? stats.pen.toFixed(1) : '-'}</td>
+                        <td class="stat-cell dmg-cell">${stats.dmg !== null ? stats.dmg : '-'}</td>
+                        <td class="stat-cell">${stats.blunt !== null ? stats.blunt.toFixed(1) : '-'}</td>
+                        <td class="stat-cell bleed-cell">${stats.bleed !== null ? stats.bleed + '%' : '-'}</td>
+                        <td class="stat-cell">${stats.velocity !== null ? stats.velocity : '-'}</td>
                         <td><span class="tier-cell tier-${row.tier}">${row.tier}</span></td>
                         <td class="shots-cell ${getShotsClass(row.head)}">${row.head}</td>
                         <td class="shots-cell ${getShotsClass(row.chest)}">${row.chest}</td>
