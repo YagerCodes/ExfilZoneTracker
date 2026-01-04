@@ -44,6 +44,7 @@ Pure HTML, CSS, and JavaScript - no build tools or frameworks required. Just ope
 - Map images from [AbolethVR 3rd Wipe Maps](https://abolethvr.substack.com/p/3rd-wipe-maps)
 - Interactive maps provided by [Showdown Wiki](https://map.showdown.wiki)
 - Key vault video guides by [RadFox VR University](https://www.youtube.com/@RadFoxVRUniversity)
+- Dam & Metro key data from [ExfilZoneTracker](https://exfilzonetracker.com/keys) by PlumberKarl
 
 ## Local Development
 

@@ -298,6 +298,8 @@
         <div class="map-tabs">
             <button class="map-tab active" onclick="selectMap('smuggling-tunnel')">Smuggling Tunnel</button>
             <button class="map-tab" onclick="selectMap('suburbs')">Suburbs</button>
+            <button class="map-tab" onclick="selectMap('dam')">Dam</button>
+            <button class="map-tab" onclick="selectMap('metro')">Metro</button>
             <button class="map-tab" onclick="selectMap('resort')">Resort</button>
         </div>
 
@@ -483,9 +485,9 @@
                     name: 'Resort Hotel 208 Key',
                     image: 'Images/Keys/Resort/Resort_Hotel_208_Key.webp',
                     location: 'Resort Hotel - Room 208',
-                    description: 'Use this key to unlock room 208 in the resort hotel. High chance of spawning ammo, mags, guns, raid poison, climbing rope, and gunpowder.',
+                    description: 'Use this key to unlock room 208 in the resort hotel. High chance of spawning ammo, mags, guns, rat poison, climbing rope, and gunpowder.',
                     loot: ['Ammo', 'Mags', 'Guns'],
-                    lootRare: ['Raid Poison', 'Climbing Rope', 'Gunpowder'],
+                    lootRare: ['Rat Poison', 'Climbing Rope', 'Gunpowder'],
                     lootKeys: ['Key Spawn'],
                     note: 'RARE | Avg: 161,029'
                 },
@@ -549,6 +551,170 @@
                     lootKeys: [],
                     note: null
                 }
+            ],
+            'dam': [
+                {
+                    name: "Ellie's Shop Key",
+                    image: "Images/Keys/Dam/Ellie's_Shop_Key.png",
+                    location: 'Clifton - 2F Office',
+                    description: "Use this key to unlock Ellie's shop 2F office in Clifton. Contains meds, loose loot, food, white drawer cabinet, and a safe.",
+                    loot: ['Meds', 'Food', 'Loose Loot', 'Cabinet'],
+                    lootRare: ['Safe'],
+                    lootKeys: [],
+                    note: 'Obtain via NTG Barter'
+                },
+                {
+                    name: 'East Dam Inlet Key',
+                    image: 'Images/Keys/Dam/East_Dam_Inlet_Key.png',
+                    location: 'East Dam - Inlet Building',
+                    description: 'Use this key to unlock the east dam inlet building room. Contains loose loot, lockers, and a safe.',
+                    loot: ['Loose Loot', 'Lockers'],
+                    lootRare: ['Safe'],
+                    lootKeys: [],
+                    note: 'Spawns on crate in dam power room'
+                },
+                {
+                    name: 'West Dam Inlet Key',
+                    image: 'Images/Keys/Dam/West_Dam_Inlet_Key.png',
+                    location: 'West Dam - Inlet Building',
+                    description: 'Use this key to unlock the west dam inlet building room. Contains loose loot, lockers, and a safe.',
+                    loot: ['Loose Loot', 'Lockers'],
+                    lootRare: ['Safe'],
+                    lootKeys: [],
+                    note: 'Spawns on crate in dam power room'
+                },
+                {
+                    name: 'Dam Central Bunker Key',
+                    image: 'Images/Keys/Dam/Dam_Central_Bunker_Key.png',
+                    location: 'Exfil - South of Barber Shop',
+                    description: 'Use this key to unlock the bunker door south of the barber shop. This is an extraction point.',
+                    loot: ['Extract Point'],
+                    lootRare: [],
+                    lootKeys: [],
+                    note: 'Obtain via Igor Barter | EXFIL KEY'
+                },
+                {
+                    name: 'Dock Office Key',
+                    image: 'Images/Keys/Dam/Dock_Office_Key.png',
+                    location: 'Docks - 2F Office Building (West)',
+                    description: 'Use this key to unlock the 2nd floor docks office building by metal shelves on the west side. Great loot room with GPU spawn.',
+                    loot: ['Loose Loot', 'Weapon Crate', 'Armor Crate', 'Lockers', 'Cabinet'],
+                    lootRare: ['Safe', 'GPU'],
+                    lootKeys: [],
+                    note: 'Spawns on Dock office 2F desk | One as quest reward'
+                },
+                {
+                    name: 'Factory B Zone Key',
+                    image: 'Images/Keys/Dam/Factory_B_Zone_Key.png',
+                    location: 'South Factory - 2F (Two Entrances)',
+                    description: 'Use this key to unlock the 2nd floor of the south factory building. Has two entrances.',
+                    loot: ['Loose Loot', 'Weapon Crate', 'Armor Crate'],
+                    lootRare: ['Safe'],
+                    lootKeys: [],
+                    note: 'One as quest reward'
+                },
+                {
+                    name: 'Factory A1 Zone Key',
+                    image: 'Images/Keys/Dam/Factory_A1_Zone_Key.png',
+                    location: 'Factory - 2F (West of Train Car)',
+                    description: 'Use this key to unlock the 2nd floor factory building, located west of the train car.',
+                    loot: ['Loose Loot', 'Weapon Crate', 'Armor Crate'],
+                    lootRare: ['Safe'],
+                    lootKeys: [],
+                    note: null
+                }
+            ],
+            'metro': [
+                {
+                    name: 'Sewer Room Key',
+                    image: 'Images/Keys/Metro/Sewer_Room_Key.png',
+                    location: 'Basement - Large Sewer Room',
+                    description: 'Use this key to unlock the large sewer room in the basement.',
+                    loot: ['Loose Loot', 'Weapon Crate', 'Armor Crate', 'Lockers'],
+                    lootRare: ['Safe'],
+                    lootKeys: [],
+                    note: 'Obtain via NTG Barter'
+                },
+                {
+                    name: 'Armory Key',
+                    image: 'Images/Keys/Metro/Armory_Key.png',
+                    location: 'Data Storage Stairwell - Main Floor',
+                    description: 'Use this key to unlock the armory at the top of the Data Storage stairwell, main floor by west rock passage bathroom.',
+                    loot: ['Loose Loot', 'Armor Crate', 'Lockers'],
+                    lootRare: ['Safe', 'Bomb Spawn'],
+                    lootKeys: [],
+                    note: 'Obtain via NTG Barter'
+                },
+                {
+                    name: 'Lower Sewer Exit Key',
+                    image: 'Images/Keys/Metro/Lower_Sewer_Exit_Key.png',
+                    location: 'Exfil - Near Sewer Area',
+                    description: 'Use this key to unlock the lower sewer exit near the sewer area. This is an extraction point.',
+                    loot: ['Extract Point'],
+                    lootRare: [],
+                    lootKeys: [],
+                    note: 'One as quest reward; NTG Barter | EXFIL KEY'
+                },
+                {
+                    name: 'West Railways Exit Key',
+                    image: 'Images/Keys/Metro/West_Railways_Exit_Key.png',
+                    location: 'Exfil - Near Rail',
+                    description: 'Use this key to unlock the west railways exit near the rail. This is an extraction point.',
+                    loot: ['Extract Point'],
+                    lootRare: [],
+                    lootKeys: [],
+                    note: 'Obtain via NTG Barter | EXFIL KEY'
+                },
+                {
+                    name: 'Medical Lab Key',
+                    image: 'Images/Keys/Metro/Medical_Lab_Key.png',
+                    location: 'Basement Med Base - East 2F',
+                    description: 'Use this key to unlock the medical lab in the basement med base, east upstairs 2nd floor.',
+                    loot: ['Medical Loot'],
+                    lootRare: [],
+                    lootKeys: [],
+                    note: 'Found via key spawns'
+                },
+                {
+                    name: 'Data Storage Key',
+                    image: 'Images/Keys/Metro/Data_Storage_Key.png',
+                    location: 'Bomb Shelter - Stairwell by Military Extract',
+                    description: 'Use this key to unlock the bomb shelter door on stairwell by military extraction with tanks.',
+                    loot: ['Loose Loot', 'Cabinet'],
+                    lootRare: ['GPU'],
+                    lootKeys: [],
+                    note: 'Found via key spawns | GPU in PC!'
+                },
+                {
+                    name: 'Metro Pass',
+                    image: 'Images/Keys/Metro/Metro_Pass.png',
+                    location: 'Map Entry Ticket',
+                    description: 'Entry ticket required to access the Metro map.',
+                    loot: ['Map Access'],
+                    lootRare: [],
+                    lootKeys: [],
+                    note: 'Found in locked rooms; ARK Purchase $200,000'
+                },
+                {
+                    name: "Officer's Room Key",
+                    image: "Images/Keys/Metro/Officer's_Room_Key.png",
+                    location: 'Metro Office - Open Area by Military Extract',
+                    description: 'Use this key to unlock the metro office room in the open area by military extract.',
+                    loot: ['Loose Loot', 'Lockers'],
+                    lootRare: ['Safe', 'GPU'],
+                    lootKeys: [],
+                    note: 'Found via key spawns | GPU spawn!'
+                },
+                {
+                    name: 'Demolition BOMB',
+                    image: 'Images/Keys/Metro/Demolition_BOMB.png',
+                    location: 'Control Room - Place on Red X',
+                    description: 'Used to demolish the wall in control room. Place on the red (X) marker.',
+                    loot: ['Loose Loot', 'Cabinet'],
+                    lootRare: ['GPU', 'VHS'],
+                    lootKeys: [],
+                    note: 'Found in Metro loose spawns & Dam factory locked room'
+                }
             ]
         };
 
@@ -566,6 +732,8 @@
         const videoCredits = {
             'smuggling-tunnel': 'Video guide by <a href="https://www.youtube.com/watch?v=5JdYsMU3iUY" target="_blank">RadFox VR University</a> - Smuggling Tunnel Key Vault Locations',
             'suburbs': 'Suburbs key data coming soon',
+            'dam': 'Key data from <a href="https://exfilzonetracker.com/keys" target="_blank">ExfilZoneTracker</a> by PlumberKarl',
+            'metro': 'Key data from <a href="https://exfilzonetracker.com/keys" target="_blank">ExfilZoneTracker</a> by PlumberKarl',
             'resort': 'Video guide by <a href="https://www.youtube.com/watch?v=e-B_GviCX2Y" target="_blank">RadFox VR University</a> - Resort Key Vault Locations'
         };
 
