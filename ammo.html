@@ -307,7 +307,7 @@
             display: flex;
             gap: 2rem;
             flex-wrap: wrap;
-            margin-top: 2rem;
+            margin-bottom: 2rem;
             padding: 1rem;
             background: var(--bg-medium);
             border: 1px solid var(--border);
@@ -422,26 +422,6 @@
             </div>
         </div>
 
-        <div class="table-container">
-            <table id="ammoTable">
-                <thead>
-                    <tr>
-                        <th onclick="sortTable('caliber')">Caliber</th>
-                        <th onclick="sortTable('ammo')">Ammo Type</th>
-                        <th onclick="sortTable('tier')">Armor</th>
-                        <th onclick="sortTable('head')">Head</th>
-                        <th onclick="sortTable('chest')">Chest</th>
-                        <th onclick="sortTable('arm')">Chest (Arm)</th>
-                        <th onclick="sortTable('leg')">Leg</th>
-                        <th onclick="sortTable('rpm')">RPM</th>
-                        <th onclick="sortTable('ttkHead')">TTK Head</th>
-                        <th onclick="sortTable('ttkChest')">TTK Chest</th>
-                    </tr>
-                </thead>
-                <tbody id="ammoTableBody"></tbody>
-            </table>
-        </div>
-
         <div class="legend">
             <div class="legend-group">
                 <div class="legend-title">Shots to Kill</div>
@@ -465,9 +445,29 @@
             </div>
         </div>
 
+        <div class="table-container">
+            <table id="ammoTable">
+                <thead>
+                    <tr>
+                        <th onclick="sortTable('caliber')">Caliber</th>
+                        <th onclick="sortTable('ammo')">Ammo Type</th>
+                        <th onclick="sortTable('tier')">Armor</th>
+                        <th onclick="sortTable('head')">Head</th>
+                        <th onclick="sortTable('chest')">Chest</th>
+                        <th onclick="sortTable('arm')">Chest (Arm)</th>
+                        <th onclick="sortTable('leg')">Leg</th>
+                        <th onclick="sortTable('rpm')">RPM</th>
+                        <th onclick="sortTable('ttkHead')">TTK Head</th>
+                        <th onclick="sortTable('ttkChest')">TTK Chest</th>
+                    </tr>
+                </thead>
+                <tbody id="ammoTableBody"></tbody>
+            </table>
+        </div>
+
         <div class="version-footer">
             v1.0.0 | December 2024 Wipe Data
-            <div class="credit">Data by <a href="https://www.youtube.com/@LuxTyrant" target="_blank">LuxTyrant</a> | 1,200+ tests</div>
+            <div class="credit">Data by <a href="https://www.youtube.com/@LuxTyrantGaming" target="_blank">LuxTyrant</a> | 1,200+ tests</div>
         </div>
     </div>
 
