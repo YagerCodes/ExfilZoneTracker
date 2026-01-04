@@ -1,18 +1,79 @@
 Changed image names of items and moved it to C:\dev_ContractorsExfil\Hideout_Tracker\Images\Items
+Need to refactor the linked names.
+
 Add images to hideout locations.
-Attribute Aboleth to their website "https://abolethvr.substack.com/"
+
+---
+
 Add a link for maps that links to https://map.showdown.wiki/map/suburbs https://map.showdown.wiki/map/metro https://map.showdown.wiki/map/dam and https://map.showdown.wiki/map/dam
+
+---
 
 Add attribution that many images were sourced from: https://www.exfil-zone-assistant.app
 
+---
 
 Add key spawn locations for each key and a radfox video URL of opening 10 keys.
+
+---
+
+Key Spawn Locations for Smugglers Den: https://www.youtube.com/watch?v=7ZL5PMvkSIU
+
+---
+
+Bank 2f Key opening video: https://www.youtube.com/watch?v=0xFlS1uaLYg
+
+----
+
+RadFox University: 12 Key Spawn Locations in Metro | Showdown Exfil Zone 
+https://www.youtube.com/watch?v=FOU13-lcGXE
+
+---
+
+
+
+
+
+
+
+
+
+
+
+
+BELOW IS DONE.
+
+---
+
+- Adding Keys to each Map's pages.
+
 Key's page: https://www.exfil-zone-assistant.app/items?category=keys&subcategory=Dam
 https://www.exfil-zone-assistant.app/items?category=keys&subcategory=Suburb
 https://www.exfil-zone-assistant.app/items?category=keys&subcategory=Metro
 https://www.exfil-zone-assistant.app/items?category=keys&subcategory=Resort
 
-Added images for resort at "C:\dev_ContractorsExfil\Hideout_Tracker\Images\Keys\Resort"
+---
+
+- Key Vault guide for Resort
+
+RadFox University: Key Room Comparison in Resort. What's The Best Vault? | Showdown Exfil Zone 
+https://www.youtube.com/watch?v=e-B_GviCX2Y 
+
+
+    Key Room Types: There are six key rooms: three rare, two epic, and one legendary (0:13-0:22).
+    Checking for Keys: It's recommended to check all key rooms, even those with worse loot, as most can have key spawns, except possibly the legendary room (0:29-0:37). The legendary Bank 2F key has only been found in Apartment 2F and Sunset Tunnel (0:42-0:50).
+    Farming Keys: A good strategy is to start by buying the Hospital key and exchanging it for other keys (0:50-0:57). Keep checking the Hotel and Halifax rooms as well, as other keys can be found there (0:58-1:07).
+    Room Comparisons:
+        Bank 2F (Legendary): This room (1:39) generally contains only about five items, but they are typically expensive, making it ideal for quick money or finding "elephants" (high-value items) (1:41-1:49).
+        Sunset Tunnel (Epic): This room (1:51) is recommended if you need a variety of items for upgrades or better armor, as it contains an average of 17 items (1:53-2:01). It's also the only place on the map with a PC that guarantees CPUs and GPUs (2:01-2:10).
+        Hotel 208: This room (2:10) often has a high chance of spawning ammo, mags, guns, raid poison, climbing rope, and gunpowder (2:13-2:22).
+        Halifax: This room (2:22) sometimes has a figurine spawn, along with armor and gun crates (2:25-2:31).
+        Hospital: Good for finding stimulant injectors (2:31-2:36).
+        Apartment 2F: This room is generally good overall (2:37-2:39). If you find a vertical suitcase there, it's highly likely to contain a Bank 2F key (2:41-2:48).
+
+---
+
+- Key Spawn Guide for Resort
 
 Key spawn locations resort: https://www.youtube.com/watch?v=qJ2rjoH0Mpc
     Modern Apartment: Located at the reception, this spot is potentially a static spawn but is less consistent (0:41-1:01).
@@ -34,28 +95,7 @@ Bank 2F Key is found in the Sunset Tunnel room and Hotel 208.
 
 ---
 
-Key Spawn Locations for Smugglers Den: https://www.youtube.com/watch?v=7ZL5PMvkSIU
-
-
-Bank 2f Key opening video: https://www.youtube.com/watch?v=0xFlS1uaLYg
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-BELOW IS DONE.
-
----
+- Key Vault guide for Smuggling Tunnel
 
 Smuggling Tunnel Key Vault Locations: https://www.youtube.com/watch?v=5JdYsMU3iUY 
 
@@ -73,6 +113,9 @@ Images of keyse are here: C:\dev_ContractorsExfil\Hideout_Tracker\Images\Keys\Sm
 
 ---
 
+- Random TODOs for Ammo
+
 .45 ammo shows also shows 5.45 ammo on the table.
 remove .300 and ask claude where it came from?
+Attribute Aboleth to their website "https://abolethvr.substack.com/"
 
