@@ -254,6 +254,16 @@
         .ammo-name {
             font-weight: 600;
             color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .ammo-icon {
+            width: 28px;
+            height: 28px;
+            object-fit: contain;
+            border-radius: 3px;
         }
 
         .caliber-cell {
@@ -610,6 +620,66 @@
             "12ga|Magnum Buck": { pen: 1.20, dmg: 20, blunt: 1.00, bleed: 22, velocity: 420, trader: "Ark", lvl: 1, cost: 705 },
             "12ga|8.5 Buck": { pen: 0.30, dmg: 35, blunt: 1.05, bleed: 22, velocity: 430, trader: "Reg", lvl: 2, cost: 1125 },
         };
+
+        // Ammo images mapping
+        const ammoImages = {
+            // 9mm
+            "9mm|FMJ": "Images/Ammos/9x19mm_FMJ.png",
+            "9mm|AP": "Images/Ammos/9x19mm_APV1.png",
+            "9mm|PSO": "Images/Ammos/9x19mm_Hpv1.png",
+            "9mm|GT": "Images/Ammos/9x19mm_tracer.png",
+            // .45 ACP
+            ".45|FMJ": "Images/Ammos/45acp_FMJ.png",
+            ".45|AP": "Images/Ammos/45acp_APV1.png",
+            ".45|L-Match": "Images/Ammos/45acp_L-Match.png",
+            // 5.45x39
+            "5.45|FMJ": "Images/Ammos/545x39mm_FMJ.png",
+            "5.45|PP": "Images/Ammos/545x39mm_PP.png",
+            "5.45|BS": "Images/Ammos/545x39mm_BS.png",
+            "5.45|7N40": "Images/Ammos/545x39mm_7N40.png",
+            "5.45|PRS": "Images/Ammos/545x39mm_PRS.png",
+            // 5.56x45
+            "5.56|FMJ": "Images/Ammos/556X45_FMJ.png",
+            "5.56|MK255": "Images/Ammos/556X45_MK255.png",
+            "5.56|MK318": "Images/Ammos/556X45_MK318.png",
+            "5.56|M995": "Images/Ammos/556X45_M995.png",
+            "5.56|AP": "Images/Ammos/556X45_AP.png",
+            // 6.8x51
+            "6.8|FMJ": "Images/Ammos/105px-68x51mm_FMJ.webp",
+            "6.8|Hybrid": "Images/Ammos/68x51mm_APV1.png",
+            // 7.62x39
+            "7.62x39|FMJ": "Images/Ammos/762x39mm_FMJ.png",
+            "7.62x39|SP": "Images/Ammos/762x39mm_SP.png",
+            "7.62x39|PS": "Images/Ammos/105px-762x39mm_PS.webp",
+            "7.62x39|BP": "Images/Ammos/762x39mm_BP.png",
+            "7.62x39|AP": "Images/Ammos/105px-762x39mm_AP.webp",
+            // 7.62x51
+            "7.62x51|FMJ": "Images/Ammos/762x51mm_FMJ.png",
+            "7.62x51|SP": "Images/Ammos/762x51mm_SP.png",
+            "7.62x51|M80": "Images/Ammos/762x51mm_M80.png",
+            "7.62x51|M61": "Images/Ammos/762x51mm_M61.png",
+            "7.62x51|M993": "Images/Ammos/762x51mm_M993.png",
+            // 7.62x54R
+            "7.62x54R|FMJ": "Images/Ammos/105px-762x54r_FMJ.webp",
+            "7.62x54R|HP": "Images/Ammos/762x54r_hp.png",
+            "7.62x54R|LPS": "Images/Ammos/762x54r_lps.png",
+            "7.62x54R|PS": "Images/Ammos/762x54r_Ps.png",
+            "7.62x54R|SNB": "Images/Ammos/762x54r_SNB.png",
+            // 12ga
+            "12ga|AP20": "Images/Ammos/12ga_SLUG_AP.png",
+            "12ga|BMG": "Images/Ammos/12ga_SLUG_HP.png",
+            "12ga|Flechette": "Images/Ammos/12ga_BUCK_AP.png",
+            "12ga|Magnum Buck": "Images/Ammos/12ga_BUCK_HP.png"
+        };
+
+        function getAmmoImage(caliber, ammo) {
+            const key = `${caliber}|${ammo}`;
+            const imagePath = ammoImages[key];
+            if (imagePath) {
+                return `<img src="${imagePath}" class="ammo-icon" alt="${ammo}" title="${caliber} ${ammo}" onerror="this.style.display='none'">`;
+            }
+            return '';
+        }
 
         const ammoData = [
             // 9mm
@@ -1008,7 +1078,7 @@
                 html += `
                     <tr>
                         <td class="caliber-cell">${row.caliber}</td>
-                        <td class="ammo-name">${row.ammo}</td>
+                        <td class="ammo-name">${getAmmoImage(row.caliber, row.ammo)}${row.ammo}</td>
                         <td class="stat-cell pen-cell">${stats.pen !== null ? stats.pen.toFixed(1) : '-'}</td>
                         <td class="stat-cell dmg-cell">${stats.dmg !== null ? stats.dmg : '-'}</td>
                         <td class="stat-cell">${stats.blunt !== null ? stats.blunt.toFixed(1) : '-'}</td>
@@ -1104,7 +1174,7 @@
                 html += `
                     <tr>
                         <td class="caliber-cell">${row.caliber}</td>
-                        <td class="ammo-name">${row.ammo}</td>
+                        <td class="ammo-name">${getAmmoImage(row.caliber, row.ammo)}${row.ammo}</td>
                         <td class="stat-cell pen-cell">${stats.pen !== null ? stats.pen.toFixed(1) : '-'}</td>
                         <td class="stat-cell dmg-cell">${stats.dmg !== null ? stats.dmg : '-'}</td>
                         <td class="stat-cell">${stats.blunt !== null ? stats.blunt.toFixed(1) : '-'}</td>
