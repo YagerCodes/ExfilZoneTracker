@@ -610,6 +610,156 @@
             .cards-grid { grid-template-columns: 1fr; }
             .stats-grid { grid-template-columns: repeat(2, 1fr); }
         }
+
+        /* DLC Section */
+        .dlc-section {
+            margin-bottom: 2rem;
+            background: var(--bg-medium);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .dlc-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem;
+            background: var(--bg-light);
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .dlc-header:hover {
+            background: var(--bg-card);
+        }
+
+        .dlc-title {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--accent-yellow);
+        }
+
+        .dlc-title::before {
+            content: '';
+            width: 20px;
+            height: 20px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23fbbf24' viewBox='0 0 24 24'%3E%3Cpath d='M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z'/%3E%3C/svg%3E") center/contain no-repeat;
+        }
+
+        .dlc-toggle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            transition: transform 0.3s;
+        }
+
+        .dlc-section.expanded .dlc-toggle {
+            transform: rotate(180deg);
+        }
+
+        .dlc-content {
+            display: none;
+            padding: 1rem;
+        }
+
+        .dlc-section.expanded .dlc-content {
+            display: block;
+        }
+
+        .dlc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+        }
+
+        .dlc-card {
+            background: var(--bg-dark);
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .dlc-card:hover {
+            border-color: var(--accent-yellow);
+        }
+
+        .dlc-card.selected {
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.2);
+        }
+
+        .dlc-card-image {
+            width: 100%;
+            height: 140px;
+            overflow: hidden;
+            border-bottom: 1px solid var(--border);
+            background: var(--bg-medium);
+        }
+
+        .dlc-card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            object-position: center;
+            transition: transform 0.3s;
+        }
+
+        .dlc-card:hover .dlc-card-image img {
+            transform: scale(1.05);
+        }
+
+        .dlc-card-body {
+            padding: 1rem;
+        }
+
+        .dlc-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+        }
+
+        .dlc-card-name {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--accent-yellow);
+        }
+
+        .dlc-checkbox {
+            width: 20px;
+            height: 20px;
+            accent-color: var(--primary);
+            cursor: pointer;
+        }
+
+        .dlc-unlocks {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .dlc-unlocks strong {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .dlc-info {
+            padding: 0.75rem 1rem;
+            background: var(--bg-dark);
+            border-top: 1px solid var(--border);
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -624,6 +774,51 @@
                 <a href="maps.html" class="nav-link">Interactive Maps</a>
             </div>
         </header>
+
+        <div class="dlc-section expanded" id="dlcSection">
+            <div class="dlc-header" onclick="toggleDlcSection()">
+                <div class="dlc-title">DLC Ownership</div>
+                <div class="dlc-toggle">▼</div>
+            </div>
+            <div class="dlc-content">
+                <div class="dlc-grid">
+                    <div class="dlc-card" id="dlc-ntg" onclick="toggleDlc('ntg')">
+                        <div class="dlc-card-image">
+                            <img src="Images/DLCs/NTG Standard Issue.jpg" alt="NTG Standard Issue">
+                        </div>
+                        <div class="dlc-card-body">
+                            <div class="dlc-card-header">
+                                <span class="dlc-card-name">NTG Standard Issue</span>
+                                <input type="checkbox" class="dlc-checkbox" id="dlc-ntg-checkbox" onclick="event.stopPropagation(); toggleDlc('ntg')">
+                            </div>
+                            <div class="dlc-unlocks">
+                                Unlocks: <strong>Workshop</strong>, <strong>TV Set Lv1</strong>, <strong>Water Collector Lv1</strong><br>
+                                + HQ Power Fuel Can L (1 pc.)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dlc-card" id="dlc-johnny" onclick="toggleDlc('johnny')">
+                        <div class="dlc-card-image">
+                            <img src="Images/DLCs/Johnny's secret stash.jpg" alt="Johnny's Secret Stash">
+                        </div>
+                        <div class="dlc-card-body">
+                            <div class="dlc-card-header">
+                                <span class="dlc-card-name">Johnny's Secret Stash</span>
+                                <input type="checkbox" class="dlc-checkbox" id="dlc-johnny-checkbox" onclick="event.stopPropagation(); toggleDlc('johnny')">
+                            </div>
+                            <div class="dlc-unlocks">
+                                Unlocks: <strong>Workshop</strong>, <strong>Storage Room A</strong>, <strong>Shooting Range Lv1</strong>, <strong>Intel Center Lv1</strong><br>
+                                + Merchants to Trust Level 2 (except Johnny)<br>
+                                + HQ Power Fuel Can L (2 pcs.)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="dlc-info">
+                Select the DLCs you own to automatically mark unlocked hideout upgrades as complete
+            </div>
+        </div>
 
         <div class="stats-grid">
             <div class="stat-card">
@@ -866,18 +1061,81 @@
         ];
 
         const STORAGE_KEY = 'exfilzone-hideout-visual';
+        const DLC_STORAGE_KEY = 'exfilzone-dlc-owned';
         let completedUpgrades = new Set();
         let currentFilter = 'all';
+        let ownedDlcs = { ntg: false, johnny: false };
+
+        // DLC unlock definitions
+        const dlcUnlocks = {
+            ntg: [
+                'Workshop-1',
+                'TV Set-1',
+                'Water Collector-1'
+            ],
+            johnny: [
+                'Workshop-1',
+                'Storage Room A-1',
+                'Shooting Range-1',
+                'Intel Center-1'
+            ]
+        };
 
         function loadProgress() {
             const saved = localStorage.getItem(STORAGE_KEY);
             if (saved) {
                 completedUpgrades = new Set(JSON.parse(saved));
             }
+            loadDlcStatus();
         }
 
         function saveProgress() {
             localStorage.setItem(STORAGE_KEY, JSON.stringify([...completedUpgrades]));
+        }
+
+        function loadDlcStatus() {
+            const saved = localStorage.getItem(DLC_STORAGE_KEY);
+            if (saved) {
+                ownedDlcs = JSON.parse(saved);
+            }
+            updateDlcUI();
+        }
+
+        function saveDlcStatus() {
+            localStorage.setItem(DLC_STORAGE_KEY, JSON.stringify(ownedDlcs));
+        }
+
+        function updateDlcUI() {
+            document.getElementById('dlc-ntg-checkbox').checked = ownedDlcs.ntg;
+            document.getElementById('dlc-johnny-checkbox').checked = ownedDlcs.johnny;
+            document.getElementById('dlc-ntg').classList.toggle('selected', ownedDlcs.ntg);
+            document.getElementById('dlc-johnny').classList.toggle('selected', ownedDlcs.johnny);
+        }
+
+        function toggleDlcSection() {
+            const section = document.getElementById('dlcSection');
+            section.classList.toggle('expanded');
+        }
+
+        function toggleDlc(dlcId) {
+            ownedDlcs[dlcId] = !ownedDlcs[dlcId];
+            saveDlcStatus();
+            updateDlcUI();
+            applyDlcUnlocks();
+            renderUpgrades();
+            renderItemsSummary();
+        }
+
+        function applyDlcUnlocks() {
+            // Apply unlocks for owned DLCs
+            Object.entries(ownedDlcs).forEach(([dlcId, owned]) => {
+                if (owned && dlcUnlocks[dlcId]) {
+                    dlcUnlocks[dlcId].forEach(upgradeId => {
+                        completedUpgrades.add(upgradeId);
+                    });
+                }
+            });
+            saveProgress();
         }
 
         function formatPrice(price) {
