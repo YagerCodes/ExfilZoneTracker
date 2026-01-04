@@ -70,6 +70,28 @@
             letter-spacing: 3px;
         }
 
+        .nav-link {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.5rem 1rem;
+            background: var(--bg-medium);
+            border: 1px solid var(--border);
+            color: var(--accent-blue);
+            text-decoration: none;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        .nav-link:hover {
+            border-color: var(--accent-blue);
+            background: var(--bg-light);
+        }
+
         /* Stats */
         .stats-grid {
             display: grid;
@@ -577,6 +599,7 @@
         <header>
             <h1>HIDEOUT TRACKER</h1>
             <div class="subtitle">ExfilZone 3rd Wipe</div>
+            <a href="ammo.html" class="nav-link">Ammo Chart →</a>
         </header>
 
         <div class="stats-grid">

@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExfilZone Ammo Chart - December Wipe</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #00ff88;
+            --primary-dim: #00cc6a;
+            --secondary: #ff4400;
+            --bg-dark: #0a0e14;
+            --bg-medium: #151a24;
+            --bg-light: #1f2937;
+            --bg-card: #1a1f2e;
+            --text-primary: #e4e8f0;
+            --text-secondary: #8b95a8;
+            --accent-blue: #00d4ff;
+            --border: #2a3544;
+            --tier3: #4ade80;
+            --tier4: #60a5fa;
+            --tier5: #a78bfa;
+            --tier6: #f472b6;
+        }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            min-height: 100vh;
+            background-image:
+                radial-gradient(circle at 20% 80%, rgba(0, 255, 136, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 68, 0, 0.03) 0%, transparent 50%);
+        }
+
+        .container {
+            max-width: 1800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            padding-bottom: 2rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 900;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent-blue) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        .nav-link {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.5rem 1rem;
+            background: var(--bg-medium);
+            border: 1px solid var(--border);
+            color: var(--accent-blue);
+            text-decoration: none;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        .nav-link:hover {
+            border-color: var(--accent-blue);
+            background: var(--bg-light);
+        }
+
+        /* Filter Section */
+        .filter-section {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .filter-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            background: var(--bg-medium);
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-radius: 4px;
+        }
+
+        .filter-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .filter-btn.active {
+            background: var(--primary);
+            color: var(--bg-dark);
+            border-color: var(--primary);
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 150px;
+            max-width: 250px;
+            padding: 0.5rem 1rem;
+            background: var(--bg-medium);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1rem;
+            border-radius: 4px;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        /* Info Panel */
+        .info-panel {
+            background: var(--bg-medium);
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--accent-blue);
+            padding: 1rem;
+            margin-bottom: 2rem;
+            border-radius: 4px;
+        }
+
+        .info-panel h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            color: var(--accent-blue);
+            margin-bottom: 0.5rem;
+        }
+
+        .info-panel p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .info-panel ul {
+            margin-top: 0.5rem;
+            padding-left: 1.5rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .info-panel li {
+            margin-bottom: 0.25rem;
+        }
+
+        /* Table Styles */
+        .table-container {
+            overflow-x: auto;
+            background: var(--bg-medium);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 900px;
+        }
+
+        th {
+            background: var(--bg-light);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-primary);
+            padding: 1rem 0.75rem;
+            text-align: left;
+            border-bottom: 2px solid var(--border);
+            position: sticky;
+            top: 0;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        th:hover {
+            background: var(--bg-card);
+        }
+
+        th.sorted-asc::after {
+            content: ' ▲';
+            color: var(--primary);
+        }
+
+        th.sorted-desc::after {
+            content: ' ▼';
+            color: var(--primary);
+        }
+
+        td {
+            padding: 0.75rem;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.9rem;
+        }
+
+        tr:hover {
+            background: var(--bg-card);
+        }
+
+        .ammo-name {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .caliber-cell {
+            color: var(--accent-blue);
+            font-weight: 600;
+        }
+
+        .tier-cell {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            padding: 0.25rem 0.5rem;
+            border-radius: 3px;
+            display: inline-block;
+            min-width: 30px;
+            text-align: center;
+        }
+
+        .tier-3 { background: rgba(74, 222, 128, 0.2); color: var(--tier3); }
+        .tier-4 { background: rgba(96, 165, 250, 0.2); color: var(--tier4); }
+        .tier-5 { background: rgba(167, 139, 250, 0.2); color: var(--tier5); }
+        .tier-6 { background: rgba(244, 114, 182, 0.2); color: var(--tier6); }
+
+        .shots-cell {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+        }
+
+        .shots-1 { color: #22c55e; }
+        .shots-2 { color: #4ade80; }
+        .shots-3-5 { color: #86efac; }
+        .shots-6-10 { color: #fbbf24; }
+        .shots-11-20 { color: #fb923c; }
+        .shots-21-plus { color: #ef4444; }
+
+        .ttk-cell {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .ttk-fast { color: var(--primary); }
+        .ttk-medium { color: #fbbf24; }
+        .ttk-slow { color: var(--secondary); }
+
+        .rpm-cell {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        /* Legend */
+        .legend {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+            padding: 1rem;
+            background: var(--bg-medium);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+        }
+
+        .legend-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .legend-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .legend-items {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.8rem;
+        }
+
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+        }
+
+        .version-footer {
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 2rem;
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 1px;
+        }
+
+        .credit {
+            margin-top: 0.5rem;
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+        }
+
+        .credit a {
+            color: var(--accent-blue);
+            text-decoration: none;
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 1.75rem; }
+            .container { padding: 1rem; }
+            .filter-section { flex-direction: column; }
+            .filter-group { flex-wrap: wrap; justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>AMMO CHART</h1>
+            <div class="subtitle">ExfilZone December Wipe</div>
+            <a href="index.html" class="nav-link">← Hideout Tracker</a>
+        </header>
+
+        <div class="info-panel">
+            <h3>Key Insights from Testing</h3>
+            <ul>
+                <li><strong>Tier 5 Helmets:</strong> Major survivability boost - now takes 5-6 shots vs 3 previously with Tier 4 pen ammo</li>
+                <li><strong>Limb Penetration:</strong> Arms have protection value of 2 - high-pen ammo passes through to chest</li>
+                <li><strong>Leg Meta:</strong> Shotguns can 2-shot legs, viable against armored players</li>
+                <li><strong>Chest Through Arm:</strong> Some rounds underperform when hitting arms first - explains inconsistent kills</li>
+            </ul>
+        </div>
+
+        <div class="filter-section">
+            <input type="text" class="search-box" id="searchBox" placeholder="Search ammo...">
+
+            <div class="filter-group">
+                <span class="filter-label">Caliber:</span>
+                <button class="filter-btn active" onclick="filterCaliber('all')">All</button>
+                <button class="filter-btn" onclick="filterCaliber('9mm')">9mm</button>
+                <button class="filter-btn" onclick="filterCaliber('9x39')">9x39</button>
+                <button class="filter-btn" onclick="filterCaliber('.45')">.45</button>
+                <button class="filter-btn" onclick="filterCaliber('5.45')">5.45</button>
+                <button class="filter-btn" onclick="filterCaliber('5.56')">5.56</button>
+                <button class="filter-btn" onclick="filterCaliber('6.8')">6.8x51</button>
+                <button class="filter-btn" onclick="filterCaliber('7.62x39')">7.62x39</button>
+                <button class="filter-btn" onclick="filterCaliber('7.62x51')">7.62x51</button>
+                <button class="filter-btn" onclick="filterCaliber('.300')">.300 BLK</button>
+                <button class="filter-btn" onclick="filterCaliber('12ga')">12ga</button>
+            </div>
+
+            <div class="filter-group">
+                <span class="filter-label">Armor:</span>
+                <button class="filter-btn active" onclick="filterTier('all')">All</button>
+                <button class="filter-btn" onclick="filterTier(3)">T3</button>
+                <button class="filter-btn" onclick="filterTier(4)">T4</button>
+                <button class="filter-btn" onclick="filterTier(5)">T5</button>
+                <button class="filter-btn" onclick="filterTier(6)">T6</button>
+            </div>
+        </div>
+
+        <div class="table-container">
+            <table id="ammoTable">
+                <thead>
+                    <tr>
+                        <th onclick="sortTable('caliber')">Caliber</th>
+                        <th onclick="sortTable('ammo')">Ammo Type</th>
+                        <th onclick="sortTable('tier')">Armor</th>
+                        <th onclick="sortTable('head')">Head</th>
+                        <th onclick="sortTable('chest')">Chest</th>
+                        <th onclick="sortTable('arm')">Chest (Arm)</th>
+                        <th onclick="sortTable('leg')">Leg</th>
+                        <th onclick="sortTable('rpm')">RPM</th>
+                        <th onclick="sortTable('ttkHead')">TTK Head</th>
+                        <th onclick="sortTable('ttkChest')">TTK Chest</th>
+                    </tr>
+                </thead>
+                <tbody id="ammoTableBody"></tbody>
+            </table>
+        </div>
+
+        <div class="legend">
+            <div class="legend-group">
+                <div class="legend-title">Shots to Kill</div>
+                <div class="legend-items">
+                    <div class="legend-item"><div class="legend-color" style="background: #22c55e;"></div> 1 shot</div>
+                    <div class="legend-item"><div class="legend-color" style="background: #4ade80;"></div> 2 shots</div>
+                    <div class="legend-item"><div class="legend-color" style="background: #86efac;"></div> 3-5 shots</div>
+                    <div class="legend-item"><div class="legend-color" style="background: #fbbf24;"></div> 6-10 shots</div>
+                    <div class="legend-item"><div class="legend-color" style="background: #fb923c;"></div> 11-20 shots</div>
+                    <div class="legend-item"><div class="legend-color" style="background: #ef4444;"></div> 21+ shots</div>
+                </div>
+            </div>
+            <div class="legend-group">
+                <div class="legend-title">Armor Tiers</div>
+                <div class="legend-items">
+                    <div class="legend-item"><div class="legend-color tier-3" style="background: rgba(74, 222, 128, 0.5);"></div> Tier 3</div>
+                    <div class="legend-item"><div class="legend-color tier-4" style="background: rgba(96, 165, 250, 0.5);"></div> Tier 4</div>
+                    <div class="legend-item"><div class="legend-color tier-5" style="background: rgba(167, 139, 250, 0.5);"></div> Tier 5</div>
+                    <div class="legend-item"><div class="legend-color tier-6" style="background: rgba(244, 114, 182, 0.5);"></div> Tier 6</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="version-footer">
+            v1.0.0 | December 2024 Wipe Data
+            <div class="credit">Data by <a href="https://www.youtube.com/@LuxTyrant" target="_blank">LuxTyrant</a> | 1,200+ tests</div>
+        </div>
+    </div>
+
+    <script>
+        const ammoData = [
+            // 9mm
+            { caliber: "9mm", ammo: "PSO", tier: 3, head: 19, chest: 29, arm: 10, leg: 8, rpm: 1000 },
+            { caliber: "9mm", ammo: "PSO", tier: 4, head: 21, chest: 40, arm: 10, leg: 8, rpm: 1000 },
+            { caliber: "9mm", ammo: "PSO", tier: 5, head: 24, chest: 55, arm: 82, leg: 8, rpm: 1000 },
+            { caliber: "9mm", ammo: "PSO", tier: 6, head: 31, chest: 108, arm: 152, leg: 10, rpm: 1000 },
+            { caliber: "9mm", ammo: "FMJ", tier: 3, head: 9, chest: 12, arm: 11, leg: 8, rpm: 1000 },
+            { caliber: "9mm", ammo: "FMJ", tier: 4, head: 9, chest: 21, arm: 11, leg: 8, rpm: 1000 },
+            { caliber: "9mm", ammo: "FMJ", tier: 5, head: 13, chest: 28, arm: 44, leg: 8, rpm: 1000 },
+            { caliber: "9mm", ammo: "FMJ", tier: 6, head: 16, chest: 52, arm: 78, leg: 12, rpm: 1000 },
+            { caliber: "9mm", ammo: "GT", tier: 3, head: 6, chest: 10, arm: 11, leg: 9, rpm: 1000 },
+            { caliber: "9mm", ammo: "GT", tier: 4, head: 8, chest: 16, arm: 11, leg: 9, rpm: 1000 },
+            { caliber: "9mm", ammo: "GT", tier: 5, head: 11, chest: 23, arm: 37, leg: 9, rpm: 1000 },
+            { caliber: "9mm", ammo: "GT", tier: 6, head: 13, chest: 43, arm: 61, leg: 12, rpm: 1000 },
+            { caliber: "9mm", ammo: "PST", tier: 3, head: 5, chest: 9, arm: 12, leg: 9, rpm: 1000 },
+            { caliber: "9mm", ammo: "PST", tier: 4, head: 8, chest: 14, arm: 12, leg: 9, rpm: 1000 },
+            { caliber: "9mm", ammo: "PST", tier: 5, head: 9, chest: 20, arm: 33, leg: 9, rpm: 1000 },
+            { caliber: "9mm", ammo: "PST", tier: 6, head: 11, chest: 37, arm: 53, leg: 13, rpm: 1000 },
+            { caliber: "9mm", ammo: "AP", tier: 3, head: 1, chest: 2, arm: 11, leg: 9, rpm: 1000 },
+            { caliber: "9mm", ammo: "AP", tier: 4, head: 5, chest: 9, arm: 11, leg: 9, rpm: 1000 },
+            { caliber: "9mm", ammo: "AP", tier: 5, head: 7, chest: 15, arm: 16, leg: 9, rpm: 1000 },
+            { caliber: "9mm", ammo: "AP", tier: 6, head: 9, chest: 28, arm: 15, leg: 13, rpm: 1000 },
+            { caliber: "9mm", ammo: "RIP", tier: 3, head: 12, chest: 24, arm: 6, leg: 5, rpm: 1000 },
+            { caliber: "9mm", ammo: "RIP", tier: 4, head: 10, chest: 26, arm: 6, leg: 5, rpm: 1000 },
+            { caliber: "9mm", ammo: "RIP", tier: 5, head: 16, chest: 51, arm: 121, leg: 5, rpm: 1000 },
+            { caliber: "9mm", ammo: "RIP", tier: 6, head: 20, chest: 59, arm: 121, leg: 7, rpm: 1000 },
+            { caliber: "9mm", ammo: "PBP", tier: 3, head: 1, chest: 2, arm: 9, leg: 11, rpm: 1000 },
+            { caliber: "9mm", ammo: "PBP", tier: 4, head: 1, chest: 3, arm: 13, leg: 11, rpm: 1000 },
+            { caliber: "9mm", ammo: "PBP", tier: 5, head: 6, chest: 12, arm: 14, leg: 11, rpm: 1000 },
+            { caliber: "9mm", ammo: "PBP", tier: 6, head: 7, chest: 22, arm: 14, leg: 15, rpm: 1000 },
+            { caliber: "9mm", ammo: "Luger CCI", tier: 3, head: 15, chest: 20, arm: 9, leg: 7, rpm: 1000 },
+            { caliber: "9mm", ammo: "Luger CCI", tier: 4, head: 14, chest: 28, arm: 9, leg: 7, rpm: 1000 },
+            { caliber: "9mm", ammo: "Luger CCI", tier: 5, head: 17, chest: 38, arm: 59, leg: 7, rpm: 1000 },
+            { caliber: "9mm", ammo: "Luger CCI", tier: 6, head: 22, chest: 74, arm: 105, leg: 9, rpm: 1000 },
+            // 9x39
+            { caliber: "9x39", ammo: "FMJ", tier: 3, head: 10, chest: 16, arm: 9, leg: 7, rpm: 900 },
+            { caliber: "9x39", ammo: "FMJ", tier: 4, head: 12, chest: 25, arm: 9, leg: 7, rpm: 900 },
+            { caliber: "9x39", ammo: "FMJ", tier: 5, head: 16, chest: 35, arm: 52, leg: 7, rpm: 900 },
+            { caliber: "9x39", ammo: "FMJ", tier: 6, head: 20, chest: 68, arm: 93, leg: 10, rpm: 900 },
+            { caliber: "9x39", ammo: "SP-5", tier: 3, head: 4, chest: 6, arm: 9, leg: 7, rpm: 900 },
+            { caliber: "9x39", ammo: "SP-5", tier: 4, head: 9, chest: 15, arm: 9, leg: 7, rpm: 900 },
+            { caliber: "9x39", ammo: "SP-5", tier: 5, head: 11, chest: 23, arm: 32, leg: 7, rpm: 900 },
+            { caliber: "9x39", ammo: "SP-5", tier: 6, head: 14, chest: 47, arm: 46, leg: 10, rpm: 900 },
+            { caliber: "9x39", ammo: "SPP", tier: 3, head: 1, chest: 2, arm: 9, leg: 7, rpm: 900 },
+            { caliber: "9x39", ammo: "SPP", tier: 4, head: 5, chest: 8, arm: 9, leg: 7, rpm: 900 },
+            { caliber: "9x39", ammo: "SPP", tier: 5, head: 9, chest: 18, arm: 12, leg: 7, rpm: 900 },
+            { caliber: "9x39", ammo: "SPP", tier: 6, head: 11, chest: 35, arm: 12, leg: 10, rpm: 900 },
+            { caliber: "9x39", ammo: "PAB-9", tier: 3, head: 1, chest: 2, arm: 8, leg: 8, rpm: 900 },
+            { caliber: "9x39", ammo: "PAB-9", tier: 4, head: 1, chest: 2, arm: 6, leg: 8, rpm: 900 },
+            { caliber: "9x39", ammo: "PAB-9", tier: 5, head: 7, chest: 14, arm: 11, leg: 8, rpm: 900 },
+            { caliber: "9x39", ammo: "PAB-9", tier: 6, head: 9, chest: 30, arm: 11, leg: 11, rpm: 900 },
+            { caliber: "9x39", ammo: "SP-6", tier: 3, head: 1, chest: 2, arm: 5, leg: 8, rpm: 900 },
+            { caliber: "9x39", ammo: "SP-6", tier: 4, head: 1, chest: 2, arm: 10, leg: 8, rpm: 900 },
+            { caliber: "9x39", ammo: "SP-6", tier: 5, head: 6, chest: 10, arm: 11, leg: 8, rpm: 900 },
+            { caliber: "9x39", ammo: "SP-6", tier: 6, head: 7, chest: 24, arm: 11, leg: 12, rpm: 900 },
+            { caliber: "9x39", ammo: "BP", tier: 3, head: 1, chest: 2, arm: 3, leg: 9, rpm: 900 },
+            { caliber: "9x39", ammo: "BP", tier: 4, head: 1, chest: 2, arm: 10, leg: 9, rpm: 900 },
+            { caliber: "9x39", ammo: "BP", tier: 5, head: 1, chest: 2, arm: 11, leg: 9, rpm: 900 },
+            { caliber: "9x39", ammo: "BP", tier: 6, head: 5, chest: 14, arm: 12, leg: 12, rpm: 900 },
+            // .45
+            { caliber: ".45", ammo: "FMJ", tier: 3, head: 9, chest: 14, arm: 9, leg: 7, rpm: 1000 },
+            { caliber: ".45", ammo: "FMJ", tier: 4, head: 8, chest: 20, arm: 9, leg: 7, rpm: 1000 },
+            { caliber: ".45", ammo: "FMJ", tier: 5, head: 12, chest: 32, arm: 47, leg: 7, rpm: 1000 },
+            { caliber: ".45", ammo: "FMJ", tier: 6, head: 15, chest: 44, arm: 82, leg: 9, rpm: 1000 },
+            { caliber: ".45", ammo: "L-Match", tier: 3, head: 4, chest: 6, arm: 9, leg: 7, rpm: 1000 },
+            { caliber: ".45", ammo: "L-Match", tier: 4, head: 7, chest: 12, arm: 9, leg: 7, rpm: 1000 },
+            { caliber: ".45", ammo: "L-Match", tier: 5, head: 9, chest: 19, arm: 28, leg: 7, rpm: 1000 },
+            { caliber: ".45", ammo: "L-Match", tier: 6, head: 11, chest: 37, arm: 42, leg: 9, rpm: 1000 },
+            { caliber: ".45", ammo: "SHOCK CORE", tier: 3, head: 12, chest: 17, arm: 7, leg: 5, rpm: 1000 },
+            { caliber: ".45", ammo: "SHOCK CORE", tier: 4, head: 10, chest: 26, arm: 7, leg: 5, rpm: 1000 },
+            { caliber: ".45", ammo: "SHOCK CORE", tier: 5, head: 16, chest: 36, arm: 52, leg: 5, rpm: 1000 },
+            { caliber: ".45", ammo: "SHOCK CORE", tier: 6, head: 20, chest: 61, arm: 97, leg: 7, rpm: 1000 },
+            { caliber: ".45", ammo: "RIP", tier: 3, head: 16, chest: 23, arm: 5, leg: 4, rpm: 1000 },
+            { caliber: ".45", ammo: "RIP", tier: 4, head: 18, chest: 34, arm: 5, leg: 4, rpm: 1000 },
+            { caliber: ".45", ammo: "RIP", tier: 5, head: 21, chest: 46, arm: 67, leg: 4, rpm: 1000 },
+            { caliber: ".45", ammo: "RIP", tier: 6, head: 27, chest: 90, arm: 126, leg: 6, rpm: 1000 },
+            { caliber: ".45", ammo: "AP", tier: 3, head: 1, chest: 2, arm: 9, leg: 8, rpm: 1000 },
+            { caliber: ".45", ammo: "AP", tier: 4, head: 4, chest: 7, arm: 10, leg: 8, rpm: 1000 },
+            { caliber: ".45", ammo: "AP", tier: 5, head: 7, chest: 14, arm: 12, leg: 8, rpm: 1000 },
+            { caliber: ".45", ammo: "AP", tier: 6, head: 8, chest: 26, arm: 12, leg: 11, rpm: 1000 },
+            // 5.45
+            { caliber: "5.45", ammo: "HP", tier: 3, head: 15, chest: 22, arm: 8, leg: 6, rpm: 680 },
+            { caliber: "5.45", ammo: "HP", tier: 4, head: 17, chest: 31, arm: 8, leg: 6, rpm: 680 },
+            { caliber: "5.45", ammo: "HP", tier: 5, head: 19, chest: 42, arm: 64, leg: 6, rpm: 680 },
+            { caliber: "5.45", ammo: "HP", tier: 6, head: 24, chest: 83, arm: 119, leg: 9, rpm: 680 },
+            { caliber: "5.45", ammo: "PRS", tier: 3, head: 10, chest: 15, arm: 9, leg: 7, rpm: 680 },
+            { caliber: "5.45", ammo: "PRS", tier: 4, head: 12, chest: 22, arm: 9, leg: 7, rpm: 680 },
+            { caliber: "5.45", ammo: "PRS", tier: 5, head: 14, chest: 30, arm: 46, leg: 7, rpm: 680 },
+            { caliber: "5.45", ammo: "PRS", tier: 6, head: 17, chest: 59, arm: 81, leg: 10, rpm: 680 },
+            { caliber: "5.45", ammo: "FMJ", tier: 3, head: 5, chest: 8, arm: 10, leg: 8, rpm: 680 },
+            { caliber: "5.45", ammo: "FMJ", tier: 4, head: 9, chest: 14, arm: 10, leg: 8, rpm: 680 },
+            { caliber: "5.45", ammo: "FMJ", tier: 5, head: 11, chest: 22, arm: 32, leg: 8, rpm: 680 },
+            { caliber: "5.45", ammo: "FMJ", tier: 6, head: 13, chest: 43, arm: 49, leg: 11, rpm: 680 },
+            { caliber: "5.45", ammo: "T", tier: 3, head: 1, chest: 2, arm: 10, leg: 8, rpm: 680 },
+            { caliber: "5.45", ammo: "T", tier: 4, head: 7, chest: 12, arm: 10, leg: 8, rpm: 680 },
+            { caliber: "5.45", ammo: "T", tier: 5, head: 9, chest: 19, arm: 16, leg: 8, rpm: 680 },
+            { caliber: "5.45", ammo: "T", tier: 6, head: 11, chest: 37, arm: 15, leg: 11, rpm: 680 },
+            { caliber: "5.45", ammo: "BT", tier: 3, head: 1, chest: 2, arm: 10, leg: 9, rpm: 680 },
+            { caliber: "5.45", ammo: "BT", tier: 4, head: 3, chest: 3, arm: 10, leg: 9, rpm: 680 },
+            { caliber: "5.45", ammo: "BT", tier: 5, head: 7, chest: 14, arm: 12, leg: 9, rpm: 680 },
+            { caliber: "5.45", ammo: "BT", tier: 6, head: 8, chest: 26, arm: 12, leg: 12, rpm: 680 },
+            { caliber: "5.45", ammo: "7N40", tier: 3, head: 1, chest: 2, arm: 8, leg: 9, rpm: 680 },
+            { caliber: "5.45", ammo: "7N40", tier: 4, head: 1, chest: 2, arm: 10, leg: 9, rpm: 680 },
+            { caliber: "5.45", ammo: "7N40", tier: 5, head: 6, chest: 11, arm: 11, leg: 9, rpm: 680 },
+            { caliber: "5.45", ammo: "7N40", tier: 6, head: 7, chest: 21, arm: 11, leg: 12, rpm: 680 },
+            { caliber: "5.45", ammo: "BS", tier: 3, head: 1, chest: 2, arm: 3, leg: 10, rpm: 680 },
+            { caliber: "5.45", ammo: "BS", tier: 4, head: 1, chest: 2, arm: 8, leg: 10, rpm: 680 },
+            { caliber: "5.45", ammo: "BS", tier: 5, head: 1, chest: 3, arm: 12, leg: 10, rpm: 680 },
+            { caliber: "5.45", ammo: "BS", tier: 6, head: 4, chest: 13, arm: 13, leg: 14, rpm: 680 },
+            { caliber: "5.45", ammo: "7N39", tier: 3, head: 1, chest: 3, arm: 3, leg: 12, rpm: 680 },
+            { caliber: "5.45", ammo: "7N39", tier: 4, head: 1, chest: 3, arm: 4, leg: 12, rpm: 680 },
+            { caliber: "5.45", ammo: "7N39", tier: 5, head: 1, chest: 3, arm: 12, leg: 12, rpm: 680 },
+            { caliber: "5.45", ammo: "7N39", tier: 6, head: 2, chest: 3, arm: 15, leg: 17, rpm: 680 },
+            { caliber: "5.45", ammo: "PP", tier: 3, head: 1, chest: 2, arm: 10, leg: 9, rpm: 680 },
+            { caliber: "5.45", ammo: "PP", tier: 4, head: 5, chest: 9, arm: 10, leg: 9, rpm: 680 },
+            { caliber: "5.45", ammo: "PP", tier: 5, head: 8, chest: 17, arm: 13, leg: 9, rpm: 680 },
+            { caliber: "5.45", ammo: "PP", tier: 6, head: 10, chest: 33, arm: 13, leg: 12, rpm: 680 },
+            // 5.56
+            { caliber: "5.56", ammo: "MK255", tier: 3, head: 10, chest: 14, arm: 9, leg: 7, rpm: 850 },
+            { caliber: "5.56", ammo: "MK255", tier: 4, head: 9, chest: 21, arm: 9, leg: 7, rpm: 850 },
+            { caliber: "5.56", ammo: "MK255", tier: 5, head: 13, chest: 29, arm: 44, leg: 7, rpm: 850 },
+            { caliber: "5.56", ammo: "MK255", tier: 6, head: 17, chest: 54, arm: 84, leg: 9, rpm: 850 },
+            { caliber: "5.56", ammo: "FMJ", tier: 3, head: 5, chest: 8, arm: 10, leg: 8, rpm: 850 },
+            { caliber: "5.56", ammo: "FMJ", tier: 4, head: 8, chest: 15, arm: 10, leg: 8, rpm: 850 },
+            { caliber: "5.56", ammo: "FMJ", tier: 5, head: 10, chest: 22, arm: 32, leg: 8, rpm: 850 },
+            { caliber: "5.56", ammo: "FMJ", tier: 6, head: 13, chest: 42, arm: 52, leg: 11, rpm: 850 },
+            { caliber: "5.56", ammo: "M856", tier: 3, head: 3, chest: 4, arm: 10, leg: 8, rpm: 850 },
+            { caliber: "5.56", ammo: "M856", tier: 4, head: 6, chest: 13, arm: 10, leg: 8, rpm: 850 },
+            { caliber: "5.56", ammo: "M856", tier: 5, head: 9, chest: 19, arm: 20, leg: 8, rpm: 850 },
+            { caliber: "5.56", ammo: "M856", tier: 6, head: 11, chest: 37, arm: 21, leg: 11, rpm: 850 },
+            { caliber: "5.56", ammo: "MK318", tier: 3, head: 1, chest: 2, arm: 10, leg: 8, rpm: 850 },
+            { caliber: "5.56", ammo: "MK318", tier: 4, head: 5, chest: 10, arm: 10, leg: 8, rpm: 850 },
+            { caliber: "5.56", ammo: "MK318", tier: 5, head: 8, chest: 17, arm: 14, leg: 8, rpm: 850 },
+            { caliber: "5.56", ammo: "MK318", tier: 6, head: 10, chest: 33, arm: 14, leg: 12, rpm: 850 },
+            { caliber: "5.56", ammo: "M856A1", tier: 3, head: 1, chest: 2, arm: 10, leg: 9, rpm: 850 },
+            { caliber: "5.56", ammo: "M856A1", tier: 4, head: 3, chest: 6, arm: 10, leg: 9, rpm: 850 },
+            { caliber: "5.56", ammo: "M856A1", tier: 5, head: 8, chest: 14, arm: 12, leg: 9, rpm: 850 },
+            { caliber: "5.56", ammo: "M856A1", tier: 6, head: 8, chest: 27, arm: 12, leg: 13, rpm: 850 },
+            { caliber: "5.56", ammo: "M855A1", tier: 3, head: 1, chest: 2, arm: 8, leg: 10, rpm: 850 },
+            { caliber: "5.56", ammo: "M855A1", tier: 4, head: 1, chest: 2, arm: 11, leg: 10, rpm: 850 },
+            { caliber: "5.56", ammo: "M855A1", tier: 5, head: 6, chest: 12, arm: 12, leg: 10, rpm: 850 },
+            { caliber: "5.56", ammo: "M855A1", tier: 6, head: 7, chest: 23, arm: 12, leg: 13, rpm: 850 },
+            { caliber: "5.56", ammo: "M995", tier: 3, head: 1, chest: 2, arm: 3, leg: 10, rpm: 850 },
+            { caliber: "5.56", ammo: "M995", tier: 4, head: 1, chest: 2, arm: 10, leg: 10, rpm: 850 },
+            { caliber: "5.56", ammo: "M995", tier: 5, head: 2, chest: 3, arm: 13, leg: 10, rpm: 850 },
+            { caliber: "5.56", ammo: "M995", tier: 6, head: 5, chest: 15, arm: 13, leg: 14, rpm: 850 },
+            { caliber: "5.56", ammo: "AP", tier: 3, head: 1, chest: 3, arm: 4, leg: 12, rpm: 850 },
+            { caliber: "5.56", ammo: "AP", tier: 4, head: 1, chest: 3, arm: 6, leg: 12, rpm: 850 },
+            { caliber: "5.56", ammo: "AP", tier: 5, head: 1, chest: 3, arm: 13, leg: 12, rpm: 850 },
+            { caliber: "5.56", ammo: "AP", tier: 6, head: 3, chest: 9, arm: 15, leg: 17, rpm: 850 },
+            { caliber: "5.56", ammo: "VITALSTRIKE", tier: 3, head: 19, chest: 36, arm: 7, leg: 6, rpm: 850 },
+            { caliber: "5.56", ammo: "VITALSTRIKE", tier: 4, head: 15, chest: 40, arm: 7, leg: 6, rpm: 850 },
+            { caliber: "5.56", ammo: "VITALSTRIKE", tier: 5, head: 25, chest: 76, arm: 109, leg: 6, rpm: 850 },
+            { caliber: "5.56", ammo: "VITALSTRIKE", tier: 6, head: 30, chest: 90, arm: 186, leg: 8, rpm: 850 },
+            { caliber: "5.56", ammo: "HP", tier: 3, head: 13, chest: 20, arm: 8, leg: 6, rpm: 850 },
+            { caliber: "5.56", ammo: "HP", tier: 4, head: 11, chest: 28, arm: 8, leg: 6, rpm: 850 },
+            { caliber: "5.56", ammo: "HP", tier: 5, head: 18, chest: 42, arm: 62, leg: 6, rpm: 850 },
+            { caliber: "5.56", ammo: "HP", tier: 6, head: 21, chest: 66, arm: 114, leg: 9, rpm: 850 },
+            // 6.8x51
+            { caliber: "6.8x51", ammo: "Match", tier: 3, head: 2, chest: 3, arm: 7, leg: 6, rpm: 780 },
+            { caliber: "6.8x51", ammo: "Match", tier: 4, head: 6, chest: 11, arm: 7, leg: 6, rpm: 780 },
+            { caliber: "6.8x51", ammo: "Match", tier: 5, head: 8, chest: 17, arm: 17, leg: 6, rpm: 780 },
+            { caliber: "6.8x51", ammo: "Match", tier: 6, head: 10, chest: 33, arm: 16, leg: 8, rpm: 780 },
+            { caliber: "6.8x51", ammo: "FMJ", tier: 3, head: 1, chest: 2, arm: 7, leg: 6, rpm: 780 },
+            { caliber: "6.8x51", ammo: "FMJ", tier: 4, head: 3, chest: 6, arm: 8, leg: 6, rpm: 780 },
+            { caliber: "6.8x51", ammo: "FMJ", tier: 5, head: 7, chest: 13, arm: 10, leg: 6, rpm: 780 },
+            { caliber: "6.8x51", ammo: "FMJ", tier: 6, head: 8, chest: 26, arm: 10, leg: 9, rpm: 780 },
+            { caliber: "6.8x51", ammo: "Hybrid", tier: 3, head: 1, chest: 2, arm: 6, leg: 7, rpm: 780 },
+            { caliber: "6.8x51", ammo: "Hybrid", tier: 4, head: 1, chest: 2, arm: 9, leg: 7, rpm: 780 },
+            { caliber: "6.8x51", ammo: "Hybrid", tier: 5, head: 5, chest: 10, arm: 10, leg: 7, rpm: 780 },
+            { caliber: "6.8x51", ammo: "Hybrid", tier: 6, head: 6, chest: 20, arm: 10, leg: 10, rpm: 780 },
+            { caliber: "6.8x51", ammo: "AP", tier: 3, head: 1, chest: 2, arm: 3, leg: 8, rpm: 780 },
+            { caliber: "6.8x51", ammo: "AP", tier: 4, head: 1, chest: 2, arm: 8, leg: 8, rpm: 780 },
+            { caliber: "6.8x51", ammo: "AP", tier: 5, head: 1, chest: 2, arm: 11, leg: 8, rpm: 780 },
+            { caliber: "6.8x51", ammo: "AP", tier: 6, head: 4, chest: 12, arm: 11, leg: 11, rpm: 780 },
+            // 7.62x39
+            { caliber: "7.62x39", ammo: "HP", tier: 3, head: 15, chest: 22, arm: 7, leg: 5, rpm: 670 },
+            { caliber: "7.62x39", ammo: "HP", tier: 4, head: 16, chest: 31, arm: 7, leg: 5, rpm: 670 },
+            { caliber: "7.62x39", ammo: "HP", tier: 5, head: 18, chest: 40, arm: 59, leg: 5, rpm: 670 },
+            { caliber: "7.62x39", ammo: "HP", tier: 6, head: 23, chest: 79, arm: 112, leg: 7, rpm: 670 },
+            { caliber: "7.62x39", ammo: "FMJ", tier: 3, head: 4, chest: 7, arm: 8, leg: 6, rpm: 670 },
+            { caliber: "7.62x39", ammo: "FMJ", tier: 4, head: 9, chest: 15, arm: 8, leg: 6, rpm: 670 },
+            { caliber: "7.62x39", ammo: "FMJ", tier: 5, head: 11, chest: 22, arm: 27, leg: 6, rpm: 670 },
+            { caliber: "7.62x39", ammo: "FMJ", tier: 6, head: 13, chest: 45, arm: 41, leg: 8, rpm: 670 },
+            { caliber: "7.62x39", ammo: "T-45", tier: 3, head: 1, chest: 2, arm: 8, leg: 6, rpm: 670 },
+            { caliber: "7.62x39", ammo: "T-45", tier: 4, head: 6, chest: 11, arm: 8, leg: 6, rpm: 670 },
+            { caliber: "7.62x39", ammo: "T-45", tier: 5, head: 9, chest: 18, arm: 14, leg: 6, rpm: 670 },
+            { caliber: "7.62x39", ammo: "T-45", tier: 6, head: 11, chest: 35, arm: 14, leg: 8, rpm: 670 },
+            { caliber: "7.62x39", ammo: "PS", tier: 3, head: 1, chest: 2, arm: 8, leg: 7, rpm: 670 },
+            { caliber: "7.62x39", ammo: "PS", tier: 4, head: 4, chest: 8, arm: 9, leg: 7, rpm: 670 },
+            { caliber: "7.62x39", ammo: "PS", tier: 5, head: 8, chest: 15, arm: 11, leg: 7, rpm: 670 },
+            { caliber: "7.62x39", ammo: "PS", tier: 6, head: 9, chest: 30, arm: 11, leg: 9, rpm: 670 },
+            { caliber: "7.62x39", ammo: "BP", tier: 3, head: 1, chest: 2, arm: 5, leg: 8, rpm: 670 },
+            { caliber: "7.62x39", ammo: "BP", tier: 4, head: 1, chest: 2, arm: 9, leg: 8, rpm: 670 },
+            { caliber: "7.62x39", ammo: "BP", tier: 5, head: 6, chest: 11, arm: 11, leg: 8, rpm: 670 },
+            { caliber: "7.62x39", ammo: "BP", tier: 6, head: 7, chest: 23, arm: 11, leg: 10, rpm: 670 },
+            { caliber: "7.62x39", ammo: "MAI AP", tier: 3, head: 1, chest: 2, arm: 2, leg: 9, rpm: 670 },
+            { caliber: "7.62x39", ammo: "MAI AP", tier: 4, head: 1, chest: 2, arm: 8, leg: 9, rpm: 670 },
+            { caliber: "7.62x39", ammo: "MAI AP", tier: 5, head: 1, chest: 2, arm: 11, leg: 9, rpm: 670 },
+            { caliber: "7.62x39", ammo: "MAI AP", tier: 6, head: 5, chest: 15, arm: 12, leg: 12, rpm: 670 },
+            // 7.62x51
+            { caliber: "7.62x51", ammo: "Ultra Nosler", tier: 3, head: 4, chest: 6, arm: 6, leg: 4, rpm: 700 },
+            { caliber: "7.62x51", ammo: "Ultra Nosler", tier: 4, head: 6, chest: 11, arm: 6, leg: 4, rpm: 700 },
+            { caliber: "7.62x51", ammo: "Ultra Nosler", tier: 5, head: 8, chest: 16, arm: 12, leg: 4, rpm: 700 },
+            { caliber: "7.62x51", ammo: "Ultra Nosler", tier: 6, head: 10, chest: 32, arm: 12, leg: 6, rpm: 700 },
+            { caliber: "7.62x51", ammo: "M80", tier: 3, head: 1, chest: 2, arm: 6, leg: 5, rpm: 700 },
+            { caliber: "7.62x51", ammo: "M80", tier: 4, head: 3, chest: 6, arm: 7, leg: 5, rpm: 700 },
+            { caliber: "7.62x51", ammo: "M80", tier: 5, head: 6, chest: 12, arm: 9, leg: 5, rpm: 700 },
+            { caliber: "7.62x51", ammo: "M80", tier: 6, head: 8, chest: 24, arm: 9, leg: 7, rpm: 700 },
+            { caliber: "7.62x51", ammo: "M62", tier: 3, head: 1, chest: 2, arm: 6, leg: 5, rpm: 700 },
+            { caliber: "7.62x51", ammo: "M62", tier: 4, head: 1, chest: 2, arm: 8, leg: 5, rpm: 700 },
+            { caliber: "7.62x51", ammo: "M62", tier: 5, head: 5, chest: 9, arm: 9, leg: 5, rpm: 700 },
+            { caliber: "7.62x51", ammo: "M62", tier: 6, head: 6, chest: 20, arm: 9, leg: 8, rpm: 700 },
+            { caliber: "7.62x51", ammo: "M61", tier: 3, head: 1, chest: 2, arm: 2, leg: 6, rpm: 700 },
+            { caliber: "7.62x51", ammo: "M61", tier: 4, head: 1, chest: 2, arm: 7, leg: 6, rpm: 700 },
+            { caliber: "7.62x51", ammo: "M61", tier: 5, head: 1, chest: 2, arm: 10, leg: 6, rpm: 700 },
+            { caliber: "7.62x51", ammo: "M61", tier: 6, head: 4, chest: 11, arm: 10, leg: 8, rpm: 700 },
+            { caliber: "7.62x51", ammo: "M993", tier: 3, head: 1, chest: 2, arm: 2, leg: 7, rpm: 700 },
+            { caliber: "7.62x51", ammo: "M993", tier: 4, head: 1, chest: 2, arm: 5, leg: 7, rpm: 700 },
+            { caliber: "7.62x51", ammo: "M993", tier: 5, head: 1, chest: 2, arm: 10, leg: 7, rpm: 700 },
+            { caliber: "7.62x51", ammo: "M993", tier: 6, head: 2, chest: 3, arm: 11, leg: 10, rpm: 700 },
+            // .300 BLK
+            { caliber: ".300 BLK", ammo: "BCP FMJ", tier: 3, head: 9, chest: 14, arm: 8, leg: 6, rpm: 800 },
+            { caliber: ".300 BLK", ammo: "BCP FMJ", tier: 4, head: 10, chest: 20, arm: 8, leg: 6, rpm: 800 },
+            { caliber: ".300 BLK", ammo: "BCP FMJ", tier: 5, head: 13, chest: 28, arm: 38, leg: 6, rpm: 800 },
+            { caliber: ".300 BLK", ammo: "BCP FMJ", tier: 6, head: 16, chest: 54, arm: 67, leg: 8, rpm: 800 },
+            { caliber: ".300 BLK", ammo: "M62", tier: 3, head: 1, chest: 2, arm: 8, leg: 6, rpm: 800 },
+            { caliber: ".300 BLK", ammo: "M62", tier: 4, head: 5, chest: 9, arm: 9, leg: 6, rpm: 800 },
+            { caliber: ".300 BLK", ammo: "M62", tier: 5, head: 8, chest: 16, arm: 14, leg: 6, rpm: 800 },
+            { caliber: ".300 BLK", ammo: "M62", tier: 6, head: 10, chest: 32, arm: 14, leg: 8, rpm: 800 },
+            { caliber: ".300 BLK", ammo: "AP", tier: 3, head: 1, chest: 2, arm: 5, leg: 7, rpm: 800 },
+            { caliber: ".300 BLK", ammo: "AP", tier: 4, head: 1, chest: 2, arm: 9, leg: 7, rpm: 800 },
+            { caliber: ".300 BLK", ammo: "AP", tier: 5, head: 5, chest: 10, arm: 11, leg: 7, rpm: 800 },
+            { caliber: ".300 BLK", ammo: "AP", tier: 6, head: 7, chest: 21, arm: 11, leg: 9, rpm: 800 },
+            { caliber: ".300 BLK", ammo: "CBJ", tier: 3, head: 1, chest: 2, arm: 2, leg: 8, rpm: 800 },
+            { caliber: ".300 BLK", ammo: "CBJ", tier: 4, head: 1, chest: 2, arm: 7, leg: 8, rpm: 800 },
+            { caliber: ".300 BLK", ammo: "CBJ", tier: 5, head: 1, chest: 2, arm: 11, leg: 8, rpm: 800 },
+            { caliber: ".300 BLK", ammo: "CBJ", tier: 6, head: 4, chest: 12, arm: 12, leg: 11, rpm: 800 },
+            // 12ga
+            { caliber: "12ga", ammo: "Dual Sabot", tier: 3, head: 1, chest: 2, arm: 6, leg: 4, rpm: 300 },
+            { caliber: "12ga", ammo: "Dual Sabot", tier: 4, head: 2, chest: 4, arm: 6, leg: 4, rpm: 300 },
+            { caliber: "12ga", ammo: "Dual Sabot", tier: 5, head: 4, chest: 7, arm: 8, leg: 4, rpm: 300 },
+            { caliber: "12ga", ammo: "Dual Sabot", tier: 6, head: 5, chest: 14, arm: 8, leg: 5, rpm: 300 },
+            { caliber: "12ga", ammo: "AP-20", tier: 3, head: 1, chest: 2, arm: 3, leg: 4, rpm: 300 },
+            { caliber: "12ga", ammo: "AP-20", tier: 4, head: 1, chest: 2, arm: 6, leg: 4, rpm: 300 },
+            { caliber: "12ga", ammo: "AP-20", tier: 5, head: 2, chest: 3, arm: 9, leg: 4, rpm: 300 },
+            { caliber: "12ga", ammo: "AP-20", tier: 6, head: 3, chest: 9, arm: 9, leg: 6, rpm: 300 },
+            { caliber: "12ga", ammo: "Flechette", tier: 3, head: 6, chest: 8, arm: 2, leg: 2, rpm: 300 },
+            { caliber: "12ga", ammo: "Flechette", tier: 4, head: 8, chest: 14, arm: 2, leg: 2, rpm: 300 },
+            { caliber: "12ga", ammo: "Flechette", tier: 5, head: 10, chest: 20, arm: 3, leg: 2, rpm: 300 },
+            { caliber: "12ga", ammo: "Flechette", tier: 6, head: 12, chest: 35, arm: 3, leg: 2, rpm: 300 },
+            { caliber: "12ga", ammo: "Magnum Buck", tier: 3, head: 9, chest: 14, arm: 2, leg: 2, rpm: 300 },
+            { caliber: "12ga", ammo: "Magnum Buck", tier: 4, head: 11, chest: 22, arm: 2, leg: 2, rpm: 300 },
+            { caliber: "12ga", ammo: "Magnum Buck", tier: 5, head: 14, chest: 30, arm: 3, leg: 2, rpm: 300 },
+            { caliber: "12ga", ammo: "Magnum Buck", tier: 6, head: 17, chest: 55, arm: 3, leg: 2, rpm: 300 },
+            { caliber: "12ga", ammo: "8.5 Buck", tier: 3, head: 7, chest: 11, arm: 2, leg: 2, rpm: 300 },
+            { caliber: "12ga", ammo: "8.5 Buck", tier: 4, head: 9, chest: 17, arm: 2, leg: 2, rpm: 300 },
+            { caliber: "12ga", ammo: "8.5 Buck", tier: 5, head: 11, chest: 24, arm: 3, leg: 2, rpm: 300 },
+            { caliber: "12ga", ammo: "8.5 Buck", tier: 6, head: 14, chest: 44, arm: 3, leg: 2, rpm: 300 },
+        ];
+
+        let currentCaliber = 'all';
+        let currentTier = 'all';
+        let currentSort = { column: null, direction: 'asc' };
+
+        function calculateTTK(shots, rpm) {
+            if (shots <= 1) return 0;
+            return Math.round(((1 / (rpm / 60)) * (shots - 1)) * 1000);
+        }
+
+        function getShotsClass(shots) {
+            if (shots === 1) return 'shots-1';
+            if (shots === 2) return 'shots-2';
+            if (shots <= 5) return 'shots-3-5';
+            if (shots <= 10) return 'shots-6-10';
+            if (shots <= 20) return 'shots-11-20';
+            return 'shots-21-plus';
+        }
+
+        function getTTKClass(ttk) {
+            if (ttk <= 300) return 'ttk-fast';
+            if (ttk <= 600) return 'ttk-medium';
+            return 'ttk-slow';
+        }
+
+        function filterCaliber(caliber) {
+            currentCaliber = caliber;
+            document.querySelectorAll('.filter-group:nth-child(2) .filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            renderTable();
+        }
+
+        function filterTier(tier) {
+            currentTier = tier;
+            document.querySelectorAll('.filter-group:nth-child(3) .filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            renderTable();
+        }
+
+        function sortTable(column) {
+            if (currentSort.column === column) {
+                currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
+            } else {
+                currentSort.column = column;
+                currentSort.direction = 'asc';
+            }
+            renderTable();
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById('ammoTableBody');
+            const searchTerm = document.getElementById('searchBox').value.toLowerCase();
+
+            let filtered = ammoData.filter(row => {
+                if (currentCaliber !== 'all' && !row.caliber.toLowerCase().includes(currentCaliber.toLowerCase())) return false;
+                if (currentTier !== 'all' && row.tier !== currentTier) return false;
+                if (searchTerm && !`${row.caliber} ${row.ammo}`.toLowerCase().includes(searchTerm)) return false;
+                return true;
+            });
+
+            if (currentSort.column) {
+                filtered.sort((a, b) => {
+                    let valA, valB;
+                    switch (currentSort.column) {
+                        case 'caliber': valA = a.caliber; valB = b.caliber; break;
+                        case 'ammo': valA = a.ammo; valB = b.ammo; break;
+                        case 'tier': valA = a.tier; valB = b.tier; break;
+                        case 'head': valA = a.head; valB = b.head; break;
+                        case 'chest': valA = a.chest; valB = b.chest; break;
+                        case 'arm': valA = a.arm; valB = b.arm; break;
+                        case 'leg': valA = a.leg; valB = b.leg; break;
+                        case 'rpm': valA = a.rpm; valB = b.rpm; break;
+                        case 'ttkHead': valA = calculateTTK(a.head, a.rpm); valB = calculateTTK(b.head, b.rpm); break;
+                        case 'ttkChest': valA = calculateTTK(a.chest, a.rpm); valB = calculateTTK(b.chest, b.rpm); break;
+                    }
+                    if (typeof valA === 'string') {
+                        return currentSort.direction === 'asc' ? valA.localeCompare(valB) : valB.localeCompare(valA);
+                    }
+                    return currentSort.direction === 'asc' ? valA - valB : valB - valA;
+                });
+            }
+
+            // Update header sort indicators
+            document.querySelectorAll('th').forEach(th => {
+                th.classList.remove('sorted-asc', 'sorted-desc');
+            });
+            if (currentSort.column) {
+                const headers = ['caliber', 'ammo', 'tier', 'head', 'chest', 'arm', 'leg', 'rpm', 'ttkHead', 'ttkChest'];
+                const index = headers.indexOf(currentSort.column);
+                if (index >= 0) {
+                    document.querySelectorAll('th')[index].classList.add(currentSort.direction === 'asc' ? 'sorted-asc' : 'sorted-desc');
+                }
+            }
+
+            let html = '';
+            filtered.forEach(row => {
+                const ttkHead = calculateTTK(row.head, row.rpm);
+                const ttkChest = calculateTTK(row.chest, row.rpm);
+
+                html += `
+                    <tr>
+                        <td class="caliber-cell">${row.caliber}</td>
+                        <td class="ammo-name">${row.ammo}</td>
+                        <td><span class="tier-cell tier-${row.tier}">${row.tier}</span></td>
+                        <td class="shots-cell ${getShotsClass(row.head)}">${row.head}</td>
+                        <td class="shots-cell ${getShotsClass(row.chest)}">${row.chest}</td>
+                        <td class="shots-cell ${getShotsClass(row.arm)}">${row.arm}</td>
+                        <td class="shots-cell ${getShotsClass(row.leg)}">${row.leg}</td>
+                        <td class="rpm-cell">${row.rpm}</td>
+                        <td class="ttk-cell ${getTTKClass(ttkHead)}">${ttkHead}ms</td>
+                        <td class="ttk-cell ${getTTKClass(ttkChest)}">${ttkChest}ms</td>
+                    </tr>
+                `;
+            });
+
+            tbody.innerHTML = html;
+        }
+
+        document.getElementById('searchBox').addEventListener('input', renderTable);
+        renderTable();
+    </script>
+</body>
+</html>
