@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ExfilZone Key & Vault Guide</title>
+    <title>ExfilZone Key Vault Guide</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
@@ -285,22 +285,24 @@
 <body>
     <div class="container">
         <header>
-            <h1>KEY & VAULT GUIDE</h1>
-            <div class="subtitle">ExfilZone Vault Locations</div>
+            <h1>KEY VAULT GUIDE</h1>
+            <div class="subtitle">ExfilZone Vault Locations & Loot</div>
             <div class="nav-links">
                 <a href="index.html" class="nav-link">Hideout Tracker</a>
                 <a href="ammo.html" class="nav-link">Ammo TTK Chart</a>
+                <a href="keyspawns.html" class="nav-link">Key Spawn Guide</a>
             </div>
         </header>
 
         <div class="map-tabs">
             <button class="map-tab active" onclick="selectMap('smuggling-tunnel')">Smuggling Tunnel</button>
-            <button class="map-tab" onclick="selectMap('coming-soon')" disabled style="opacity: 0.5; cursor: not-allowed;">More Maps Coming Soon</button>
+            <button class="map-tab" onclick="selectMap('suburbs')">Suburbs</button>
+            <button class="map-tab" onclick="selectMap('resort')">Resort</button>
         </div>
 
         <div class="keys-grid" id="keysGrid"></div>
 
-        <div class="video-credit">
+        <div class="video-credit" id="videoCredit">
             Video guide by <a href="https://www.youtube.com/watch?v=5JdYsMU3iUY" target="_blank">RadFox VR University</a> - Smuggling Tunnel Key Vault Locations
         </div>
 
@@ -392,6 +394,160 @@
                     lootKeys: [],
                     note: 'Keep one North key for Maggie task!'
                 }
+            ],
+            'suburbs': [
+                {
+                    name: 'Bear Town House Key',
+                    image: 'Images/Keys/Suburbs/Key_Map1_bearTown_h1-1.webp',
+                    location: 'Bear Town - House',
+                    description: 'Use this key to unlock a house in Bear Town area.',
+                    loot: ['House Loot'],
+                    lootRare: [],
+                    lootKeys: [],
+                    note: null
+                },
+                {
+                    name: 'High Building Shop Key',
+                    image: 'Images/Keys/Suburbs/Key_Map1_HighBuilding_shop.webp',
+                    location: 'High Building - Shop',
+                    description: 'Use this key to unlock the shop in the high building.',
+                    loot: ['Shop Loot'],
+                    lootRare: [],
+                    lootKeys: [],
+                    note: null
+                },
+                {
+                    name: 'Mall Camp Shop Key',
+                    image: 'Images/Keys/Suburbs/Key_Map1_Mall_CampShop.webp',
+                    location: 'Mall - Camp Shop',
+                    description: 'Use this key to unlock the camping shop in the mall.',
+                    loot: ['Shop Loot'],
+                    lootRare: [],
+                    lootKeys: [],
+                    note: null
+                },
+                {
+                    name: 'Mall Chaneo Key',
+                    image: 'Images/Keys/Suburbs/Key_Map1_Mall_Chaneo.webp',
+                    location: 'Mall - Chaneo Store',
+                    description: 'Use this key to unlock the Chaneo store in the mall.',
+                    loot: ['Store Loot'],
+                    lootRare: [],
+                    lootKeys: [],
+                    note: null
+                },
+                {
+                    name: 'Motel Room 201 Key',
+                    image: 'Images/Keys/Suburbs/Key_Map1_motel_201.webp',
+                    location: 'Motel - Room 201',
+                    description: 'Use this key to unlock room 201 in the motel.',
+                    loot: ['Room Loot'],
+                    lootRare: [],
+                    lootKeys: [],
+                    note: null
+                },
+                {
+                    name: 'Police Station 1F Key',
+                    image: 'Images/Keys/Suburbs/Key_Map1_Police_F1.webp',
+                    location: 'Police Station - 1st Floor',
+                    description: 'Use this key to unlock the first floor vault in the police station.',
+                    loot: ['Police Loot'],
+                    lootRare: [],
+                    lootKeys: [],
+                    note: null
+                },
+                {
+                    name: 'Police Station 2F Key',
+                    image: 'Images/Keys/Suburbs/Key_Map1_PoliceOffice_F2.webp',
+                    location: 'Police Station - 2nd Floor',
+                    description: 'Use this key to unlock the second floor office in the police station.',
+                    loot: ['Office Loot'],
+                    lootRare: [],
+                    lootKeys: [],
+                    note: null
+                },
+                {
+                    name: 'West Bunker Key',
+                    image: 'Images/Keys/Suburbs/Key_Map1_WestBunker.webp',
+                    location: 'West Side - Bunker',
+                    description: 'Use this key to unlock the bunker on the west side of the map.',
+                    loot: ['Bunker Loot'],
+                    lootRare: [],
+                    lootKeys: [],
+                    note: null
+                }
+            ],
+            'resort': [
+                {
+                    name: 'Resort Hotel 208 Key',
+                    image: 'Images/Keys/Resort/Resort_Hotel_208_Key.webp',
+                    location: 'Resort Hotel - Room 208',
+                    description: 'Use this key to unlock room 208 in the resort hotel. High chance of spawning ammo, mags, guns, raid poison, climbing rope, and gunpowder.',
+                    loot: ['Ammo', 'Mags', 'Guns'],
+                    lootRare: ['Raid Poison', 'Climbing Rope', 'Gunpowder'],
+                    lootKeys: ['Key Spawn'],
+                    note: 'RARE | Avg: 161,029'
+                },
+                {
+                    name: 'Halif Voyage 1F Storage Room Key',
+                    image: 'Images/Keys/Resort/Halif_Voyage_1F_Storage_Room_Key.webp',
+                    location: 'Halif Voyage - 1st Floor Storage',
+                    description: 'Use this key to unlock the storage room on the 1st floor of Halif Voyage. Sometimes has a figurine spawn, along with armor and gun crates.',
+                    loot: ['Armor Crate', 'Gun Crate'],
+                    lootRare: ['Figurine'],
+                    lootKeys: ['Key Spawn'],
+                    note: 'RARE | Avg: 226,761'
+                },
+                {
+                    name: 'Hospital 2F Key',
+                    image: 'Images/Keys/Resort/Hospital_2F_Key.webp',
+                    location: 'Hospital - 2nd Floor',
+                    description: 'Use this key to unlock the room on the 2nd floor of the hospital. Good for finding stimulant injectors.',
+                    loot: ['Medical Loot'],
+                    lootRare: ['Stimulant Injectors'],
+                    lootKeys: ['Key Spawn'],
+                    note: 'RARE | Avg: 242,733 | Good starter key to trade for others!'
+                },
+                {
+                    name: 'Apartment 2F Key',
+                    image: 'Images/Keys/Resort/Apartment_2F_Key.webp',
+                    location: 'Apartment Building - 2nd Floor',
+                    description: 'Use this key to unlock the apartment on the 2nd floor. Generally good overall loot. If you find a vertical suitcase, it\'s highly likely to contain a Bank 2F key!',
+                    loot: ['General Loot', 'Suitcase'],
+                    lootRare: [],
+                    lootKeys: ['Bank 2F Key (vertical suitcase)'],
+                    note: 'EPIC | Avg: 620,983 | Bank 2F key spawns here!'
+                },
+                {
+                    name: 'Sunset Tunnel Key',
+                    image: 'Images/Keys/Resort/Sunset_Tunnel_Key.webp',
+                    location: 'Sunset Area - Tunnel',
+                    description: 'Use this key to unlock the tunnel in the sunset area. Best for variety - averages 17 items! Only place on the map with a PC that guarantees CPUs and GPUs.',
+                    loot: ['~17 Items Avg', 'Armor', 'Upgrade Materials'],
+                    lootRare: ['CPU', 'GPU'],
+                    lootKeys: ['Bank 2F Key'],
+                    note: 'EPIC | Avg: 677,044 | Best for upgrades & variety!'
+                },
+                {
+                    name: 'Bank 2F Key',
+                    image: 'Images/Keys/Resort/Bank_2F_Key.webp',
+                    location: 'Bank - 2nd Floor',
+                    description: 'Use this key to unlock the vault on the 2nd floor of the bank. Only ~5 items but typically very expensive. Ideal for quick money or finding high-value items.',
+                    loot: ['~5 High-Value Items'],
+                    lootRare: ['Elephants (High-Value)'],
+                    lootKeys: [],
+                    note: 'LEGENDARY | Avg: 1,312,300 | Only found in Apartment 2F & Sunset Tunnel!'
+                },
+                {
+                    name: 'Bank Sewer Key',
+                    image: 'Images/Keys/Resort/Bank_Sewer_Key.webp',
+                    location: 'Bank - Sewer Access',
+                    description: 'Use this key to unlock the sewer entrance beneath the bank.',
+                    loot: ['Sewer Loot'],
+                    lootRare: [],
+                    lootKeys: [],
+                    note: null
+                }
             ]
         };
 
@@ -406,8 +562,15 @@
             renderKeys();
         }
 
+        const videoCredits = {
+            'smuggling-tunnel': 'Video guide by <a href="https://www.youtube.com/watch?v=5JdYsMU3iUY" target="_blank">RadFox VR University</a> - Smuggling Tunnel Key Vault Locations',
+            'suburbs': 'Suburbs key data coming soon',
+            'resort': 'Video guide by <a href="https://www.youtube.com/watch?v=e-B_GviCX2Y" target="_blank">RadFox VR University</a> - Resort Key Vault Locations'
+        };
+
         function renderKeys() {
             const grid = document.getElementById('keysGrid');
+            const credit = document.getElementById('videoCredit');
             const keys = keyData[currentMap] || [];
 
             let html = '';
@@ -434,6 +597,7 @@
             });
 
             grid.innerHTML = html;
+            credit.innerHTML = videoCredits[currentMap] || '';
         }
 
         renderKeys();
