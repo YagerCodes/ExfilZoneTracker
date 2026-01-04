@@ -881,6 +881,14 @@
         let currentTier = 'all';
         let currentSort = { column: null, direction: 'asc' };
 
+        // Caliber matching - handles cases like .45 vs 5.45
+        function matchesCaliber(rowCaliber, filterCaliber) {
+            const row = rowCaliber.toLowerCase();
+            const filter = filterCaliber.toLowerCase();
+            // Exact match or starts with filter (for partial matches like 7.62x39)
+            return row === filter || row.startsWith(filter);
+        }
+
         function calculateTTK(shots, rpm) {
             if (shots <= 1) return 0;
             return Math.round(((1 / (rpm / 60)) * (shots - 1)) * 1000);
@@ -942,7 +950,7 @@
             // Build unique ammo list grouped by caliber+ammo
             const ammoMap = new Map();
             ammoData.forEach(row => {
-                if (currentCaliber !== 'all' && !row.caliber.toLowerCase().includes(currentCaliber.toLowerCase())) return;
+                if (currentCaliber !== 'all' && !matchesCaliber(row.caliber, currentCaliber)) return;
                 if (searchTerm && !`${row.caliber} ${row.ammo}`.toLowerCase().includes(searchTerm)) return;
 
                 const key = `${row.caliber}|${row.ammo}`;
@@ -1039,7 +1047,7 @@
 
         function renderSingleTierView(thead, tbody, searchTerm) {
             let filtered = ammoData.filter(row => {
-                if (currentCaliber !== 'all' && !row.caliber.toLowerCase().includes(currentCaliber.toLowerCase())) return false;
+                if (currentCaliber !== 'all' && !matchesCaliber(row.caliber, currentCaliber)) return false;
                 if (row.tier !== currentTier) return false;
                 if (searchTerm && !`${row.caliber} ${row.ammo}`.toLowerCase().includes(searchTerm)) return false;
                 return true;
