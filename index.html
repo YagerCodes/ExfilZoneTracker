@@ -820,6 +820,8 @@
             <button class="btn danger" onclick="resetProgress()">Reset Progress</button>
         </div>
 
+        <hr style="border: none; border-top: 1px solid var(--border); margin: 2rem 0;">
+
         <div class="dlc-section" id="dlcSection">
             <div class="dlc-header" onclick="toggleDlcSection()">
                 <div class="dlc-title">DLC Ownership</div>
@@ -867,7 +869,7 @@
 
         <div class="version-footer">
             v2.0.0 | Last Updated: January 2, 2025<br>
-            Many images sourced from <a href="https://www.exfil-zone-assistant.app" target="_blank" style="color: var(--accent-blue);">Exfil Zone Assistant</a>
+            Hideout data from <a href="https://abolethvr.substack.com/p/hideout-upgrade-items-in-exfilzone" target="_blank" style="color: var(--accent-blue);">AbolethVR</a> | Many images sourced from <a href="https://www.exfil-zone-assistant.app" target="_blank" style="color: var(--accent-blue);">Exfil Zone Assistant</a>
         </div>
     </div>
 
@@ -1097,6 +1099,13 @@
             const saved = localStorage.getItem(DLC_STORAGE_KEY);
             if (saved) {
                 ownedDlcs = JSON.parse(saved);
+            } else {
+                // First visit - expand the DLC section and scroll to it
+                const dlcSection = document.getElementById('dlcSection');
+                dlcSection.classList.add('expanded');
+                setTimeout(() => {
+                    dlcSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 100);
             }
             updateDlcUI();
         }
