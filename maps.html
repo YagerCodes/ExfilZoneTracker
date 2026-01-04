@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExfilZone Interactive Maps</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #00ff88;
+            --primary-dim: #00cc6a;
+            --secondary: #ff4400;
+            --bg-dark: #0a0e14;
+            --bg-medium: #151a24;
+            --bg-light: #1f2937;
+            --bg-card: #1a1f2e;
+            --text-primary: #e4e8f0;
+            --text-secondary: #8b95a8;
+            --accent-blue: #00d4ff;
+            --accent-yellow: #fbbf24;
+            --border: #2a3544;
+        }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            min-height: 100vh;
+            background-image:
+                radial-gradient(circle at 20% 80%, rgba(0, 255, 136, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 68, 0, 0.03) 0%, transparent 50%);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            padding-bottom: 2rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 900;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent-blue) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-link {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: var(--bg-medium);
+            border: 1px solid var(--border);
+            color: var(--accent-blue);
+            text-decoration: none;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        .nav-link:hover {
+            border-color: var(--accent-blue);
+            background: var(--bg-light);
+        }
+
+        .maps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .map-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .map-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(0, 255, 136, 0.15);
+        }
+
+        .map-card-image {
+            width: 100%;
+            height: 160px;
+            background: var(--bg-medium);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .map-card-content {
+            padding: 1.5rem;
+        }
+
+        .map-card-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .map-card-description {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+
+        .map-card-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .map-card-link::after {
+            content: '';
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%2300ff88' viewBox='0 0 24 24'%3E%3Cpath d='M14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3m-2 16H5V5h7V3H5c-1.11 0-2 .89-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7z'/%3E%3C/svg%3E") center/contain no-repeat;
+        }
+
+        .info-panel {
+            background: var(--bg-medium);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem 1.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .info-panel p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .info-panel a {
+            color: var(--accent-blue);
+            text-decoration: none;
+        }
+
+        .info-panel a:hover {
+            text-decoration: underline;
+        }
+
+        .version-footer {
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 2rem;
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 1px;
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 1.75rem; }
+            .container { padding: 1rem; }
+            .maps-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>INTERACTIVE MAPS</h1>
+            <div class="subtitle">ExfilZone Map Resources</div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Hideout Tracker</a>
+                <a href="ammo.html" class="nav-link">Ammo TTK Chart</a>
+                <a href="keys.html" class="nav-link">Key Vault Guide</a>
+                <a href="keyspawns.html" class="nav-link">Key Spawn Guide</a>
+            </div>
+        </header>
+
+        <div class="info-panel">
+            <p>Interactive maps provided by <a href="https://map.showdown.wiki" target="_blank">Showdown Wiki</a>. Click on a map to open it in a new tab.</p>
+        </div>
+
+        <div class="maps-grid">
+            <a href="https://map.showdown.wiki/map/suburbs" target="_blank" class="map-card">
+                <div class="map-card-image">&#127961;</div>
+                <div class="map-card-content">
+                    <div class="map-card-title">Suburbs</div>
+                    <div class="map-card-description">Explore the suburban residential area with houses, a mall, police station, and motel.</div>
+                    <span class="map-card-link">Open Interactive Map</span>
+                </div>
+            </a>
+
+            <a href="https://map.showdown.wiki/map/metro" target="_blank" class="map-card">
+                <div class="map-card-image">&#128647;</div>
+                <div class="map-card-content">
+                    <div class="map-card-title">Metro</div>
+                    <div class="map-card-description">Navigate the underground metro system with tunnels, stations, and hidden passages.</div>
+                    <span class="map-card-link">Open Interactive Map</span>
+                </div>
+            </a>
+
+            <a href="https://map.showdown.wiki/map/dam" target="_blank" class="map-card">
+                <div class="map-card-image">&#127754;</div>
+                <div class="map-card-content">
+                    <div class="map-card-title">Dam</div>
+                    <div class="map-card-description">Explore the dam facility with its industrial structures and surrounding areas.</div>
+                    <span class="map-card-link">Open Interactive Map</span>
+                </div>
+            </a>
+
+            <a href="https://map.showdown.wiki/map/resort" target="_blank" class="map-card">
+                <div class="map-card-image">&#127958;</div>
+                <div class="map-card-content">
+                    <div class="map-card-title">Resort</div>
+                    <div class="map-card-description">Discover the resort area featuring hotels, apartments, a hospital, and bank vaults.</div>
+                    <span class="map-card-link">Open Interactive Map</span>
+                </div>
+            </a>
+        </div>
+
+        <div class="version-footer">
+            v2.0.0 | December 2025 Wipe Data
+        </div>
+    </div>
+</body>
+</html>
