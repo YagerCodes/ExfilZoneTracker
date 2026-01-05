@@ -2097,6 +2097,15 @@
 
         // Check if all hideout requirements are met for an upgrade
         function areRequirementsMet(upgrade) {
+            // First check: previous level of same upgrade must be completed
+            if (upgrade.level > 1) {
+                const prevLevelId = `${upgrade.name}-${upgrade.level - 1}`;
+                if (!completedUpgrades.has(prevLevelId)) {
+                    return false;
+                }
+            }
+
+            // Second check: all explicit hideout requirements must be met
             const requirements = parseHideoutRequirements(upgrade.requirements);
             for (const req of requirements) {
                 const reqUpgradeId = `${req.name}-${req.level}`;
@@ -2109,8 +2118,18 @@
 
         // Get list of unmet requirements for display
         function getUnmetRequirements(upgrade) {
-            const requirements = parseHideoutRequirements(upgrade.requirements);
             const unmet = [];
+
+            // Check previous level requirement
+            if (upgrade.level > 1) {
+                const prevLevelId = `${upgrade.name}-${upgrade.level - 1}`;
+                if (!completedUpgrades.has(prevLevelId)) {
+                    unmet.push(`${upgrade.name} ${upgrade.level - 1}`);
+                }
+            }
+
+            // Check explicit requirements
+            const requirements = parseHideoutRequirements(upgrade.requirements);
             for (const req of requirements) {
                 const reqUpgradeId = `${req.name}-${req.level}`;
                 if (!completedUpgrades.has(reqUpgradeId)) {
