@@ -413,10 +413,11 @@
 
         .upgrade-card.locked .locked-badge {
             position: absolute;
-            top: 1rem;
-            right: 1rem;
-            width: 28px;
-            height: 28px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 48px;
+            height: 48px;
             background: var(--locked);
             color: var(--text-secondary);
             border-radius: 50%;
@@ -424,7 +425,8 @@
             align-items: center;
             justify-content: center;
             font-weight: bold;
-            font-size: 0.9rem;
+            font-size: 1.5rem;
+            z-index: 5;
         }
 
         .upgrade-card.locked:hover {
@@ -446,6 +448,8 @@
             transition: all 0.2s;
             color: var(--accent-yellow);
             flex-shrink: 0;
+            position: relative;
+            z-index: 10;
         }
 
         .favorite-btn:hover {
@@ -2014,7 +2018,7 @@
                     const imageHtml = hideoutImage ? `<div class="card-image"><img src="${hideoutImage}" alt="${upgrade.name}" onerror="this.parentElement.style.display='none'"></div>` : '';
 
                     const isLocked = !isCompleted && !areRequirementsMet(upgrade);
-                    const favoriteBtn = !isCompleted && !isLocked ? `
+                    const favoriteBtn = !isCompleted ? `
                                     <button class="favorite-btn ${isFavorite ? 'active' : ''}" onclick="toggleFavorite('${upgradeId}', event)" title="${isFavorite ? 'Remove from favorites' : 'Add to favorites'}">
                                         ${isFavorite ? '★' : '☆'}
                                     </button>` : '';
