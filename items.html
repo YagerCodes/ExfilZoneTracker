@@ -665,10 +665,31 @@
             "Old Baseball": "Old Baseball"
         };
 
+        // Items that use .png extension (most use .png now)
+        const pngItems = new Set([
+            "Adhesive bandages", "Antique book", "Aspirin", "BeardOil", "Bottled glucose",
+            "Boxed Bolts", "Boxed Nails", "Boxed Nuts", "Car Battery", "CD", "Centrifuge",
+            "Ceramic adhesive", "Cleaner", "Climbing rope", "Computer manual", "Copper wire",
+            "CPU Fan", "CPU", "Defibrillator", "Deodorant", "Digital Sensor", "Disinfectant wipes",
+            "Electric drill", "Energy-saving lamp", "Flash light", "Floppy Disk", "Game console",
+            "Gas can", "Gas pipe pliers", "Gun oil", "Gunpowder", "Hammer", "Hard Drive",
+            "Imaging module", "Insulating Tape", "Instant glue", "Ion Battery", "Iodine",
+            "Large gas can", "Large Plier", "Lighter fluid", "Lighter", "Magazine",
+            "Marine battery", "Medical scissors", "Moldboard", "NewPhone", "Notebook",
+            "Oil can", "OldPhone", "Olive oil", "Pesticide", "Pet Shampoo", "Piezometer",
+            "Portable medical kit", "Power Bank", "Radio", "RAM", "Rat Poison", "Recorder",
+            "Rust cleaner", "Salt can", "Screwdriver", "Size D battery1", "Size D battery2",
+            "Small storage battery", "Smokeless powder", "Socket", "Spark Plug", "Spray can",
+            "Super Glue", "Tape", "Tire Sealant", "Toilet Paper", "UV lamp", "Valve",
+            "Vehicle battery", "Videotape", "Voltage transformer", "WD-40", "Windproof Matches",
+            "Wire Cutter", "Wrench", "Civil radio", "Plier"
+        ]);
+
         // Get image path for an item
         function getItemImagePath(itemName) {
             const mappedName = itemImageMap[itemName] || itemName;
-            return `Images/Items/${mappedName}.webp`;
+            const ext = pngItems.has(mappedName) ? 'png' : 'webp';
+            return `Images/Items/${mappedName}.${ext}`;
         }
 
         // Full item database extracted from CSEZ Wiki
