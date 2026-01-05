@@ -1175,30 +1175,75 @@
             .stats-grid { grid-template-columns: repeat(2, 1fr); }
         }
 
-        /* DLC Section */
-        .dlc-section {
-            margin-bottom: 2rem;
+        /* DLC Button */
+        .dlc-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
             background: var(--bg-medium);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            overflow: hidden;
+            border: 1px solid var(--accent-yellow);
+            color: var(--accent-yellow);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
         }
 
-        .dlc-header {
+        .dlc-button:hover {
+            background: var(--accent-yellow);
+            color: var(--bg-dark);
+        }
+
+        .dlc-button svg {
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
+        }
+
+        /* DLC Modal */
+        .dlc-modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+        }
+
+        .dlc-modal-overlay.active {
+            display: flex;
+        }
+
+        .dlc-modal {
+            background: var(--bg-medium);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            max-width: 700px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .dlc-modal-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 1rem;
+            padding: 1rem 1.5rem;
             background: var(--bg-light);
-            cursor: pointer;
-            transition: background 0.2s;
+            border-bottom: 1px solid var(--border);
         }
 
-        .dlc-header:hover {
-            background: var(--bg-card);
-        }
-
-        .dlc-title {
+        .dlc-modal-title {
             display: flex;
             align-items: center;
             gap: 0.75rem;
@@ -1210,30 +1255,30 @@
             color: var(--accent-yellow);
         }
 
-        .dlc-title::before {
+        .dlc-modal-title::before {
             content: '';
             width: 20px;
             height: 20px;
             background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23fbbf24' viewBox='0 0 24 24'%3E%3Cpath d='M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z'/%3E%3C/svg%3E") center/contain no-repeat;
         }
 
-        .dlc-toggle {
-            font-size: 1.2rem;
+        .dlc-modal-close {
+            background: none;
+            border: none;
             color: var(--text-secondary);
-            transition: transform 0.3s;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.25rem;
+            line-height: 1;
+            transition: color 0.2s;
         }
 
-        .dlc-section.expanded .dlc-toggle {
-            transform: rotate(180deg);
+        .dlc-modal-close:hover {
+            color: var(--text-primary);
         }
 
-        .dlc-content {
-            display: none;
-            padding: 1rem;
-        }
-
-        .dlc-section.expanded .dlc-content {
-            display: block;
+        .dlc-modal-content {
+            padding: 1.5rem;
         }
 
         .dlc-grid {
@@ -1316,8 +1361,8 @@
             font-weight: 600;
         }
 
-        .dlc-info {
-            padding: 0.75rem 1rem;
+        .dlc-modal-footer {
+            padding: 0.75rem 1.5rem;
             background: var(--bg-dark);
             border-top: 1px solid var(--border);
             font-size: 0.8rem;
@@ -1327,6 +1372,54 @@
     </style>
 </head>
 <body>
+    <!-- DLC Modal -->
+    <div class="dlc-modal-overlay" id="dlcModal" onclick="closeDlcModal(event)">
+        <div class="dlc-modal" onclick="event.stopPropagation()">
+            <div class="dlc-modal-header">
+                <div class="dlc-modal-title">DLC Ownership</div>
+                <button class="dlc-modal-close" onclick="closeDlcModal()">&times;</button>
+            </div>
+            <div class="dlc-modal-content">
+                <div class="dlc-grid">
+                    <div class="dlc-card" id="dlc-ntg" onclick="toggleDlc('ntg')">
+                        <div class="dlc-card-image">
+                            <img src="Images/DLCs/NTG Standard Issue.jpg" alt="NTG Standard Issue">
+                        </div>
+                        <div class="dlc-card-body">
+                            <div class="dlc-card-header">
+                                <span class="dlc-card-name">NTG Standard Issue</span>
+                                <input type="checkbox" class="dlc-checkbox" id="dlc-ntg-checkbox" onclick="event.stopPropagation(); toggleDlc('ntg')">
+                            </div>
+                            <div class="dlc-unlocks">
+                                Unlocks: <strong>Workshop</strong>, <strong>TV Set Lv1</strong>, <strong>Water Collector Lv1</strong><br>
+                                + HQ Power Fuel Can L (1 pc.)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dlc-card" id="dlc-johnny" onclick="toggleDlc('johnny')">
+                        <div class="dlc-card-image">
+                            <img src="Images/DLCs/Johnny's secret stash.jpg" alt="Johnny's Secret Stash">
+                        </div>
+                        <div class="dlc-card-body">
+                            <div class="dlc-card-header">
+                                <span class="dlc-card-name">Johnny's Secret Stash</span>
+                                <input type="checkbox" class="dlc-checkbox" id="dlc-johnny-checkbox" onclick="event.stopPropagation(); toggleDlc('johnny')">
+                            </div>
+                            <div class="dlc-unlocks">
+                                Unlocks: <strong>Workshop</strong>, <strong>Storage Room A</strong>, <strong>Shooting Range Lv1</strong>, <strong>Intel Center Lv1</strong><br>
+                                + Merchants to Trust Level 2 (except Johnny)<br>
+                                + HQ Power Fuel Can L (2 pcs.)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="dlc-modal-footer">
+                Select the DLCs you own to automatically mark unlocked hideout upgrades as complete
+            </div>
+        </div>
+    </div>
+
     <!-- Sidebar Navigation -->
     <nav class="sidebar" id="sidebar">
         <div class="sidebar-header">
@@ -1377,6 +1470,10 @@
             <header>
                 <h1>HIDEOUT TRACKER</h1>
                 <div class="subtitle">ExfilZone 3rd Wipe</div>
+                <button class="dlc-button" onclick="openDlcModal()">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>
+                    DLC Ownership
+                </button>
             </header>
 
         <div class="stats-grid">
@@ -1445,53 +1542,6 @@
             <button class="btn primary" onclick="toggleAll(true)">Mark All Complete</button>
             <button class="btn danger" onclick="toggleAll(false)">Mark All Incomplete</button>
             <button class="btn danger" onclick="resetProgress()">Reset Progress</button>
-        </div>
-
-        <hr style="border: none; border-top: 1px solid var(--border); margin: 2rem 0;">
-
-        <div class="dlc-section" id="dlcSection">
-            <div class="dlc-header" onclick="toggleDlcSection()">
-                <div class="dlc-title">DLC Ownership</div>
-                <div class="dlc-toggle">▼</div>
-            </div>
-            <div class="dlc-content">
-                <div class="dlc-grid">
-                    <div class="dlc-card" id="dlc-ntg" onclick="toggleDlc('ntg')">
-                        <div class="dlc-card-image">
-                            <img src="Images/DLCs/NTG Standard Issue.jpg" alt="NTG Standard Issue">
-                        </div>
-                        <div class="dlc-card-body">
-                            <div class="dlc-card-header">
-                                <span class="dlc-card-name">NTG Standard Issue</span>
-                                <input type="checkbox" class="dlc-checkbox" id="dlc-ntg-checkbox" onclick="event.stopPropagation(); toggleDlc('ntg')">
-                            </div>
-                            <div class="dlc-unlocks">
-                                Unlocks: <strong>Workshop</strong>, <strong>TV Set Lv1</strong>, <strong>Water Collector Lv1</strong><br>
-                                + HQ Power Fuel Can L (1 pc.)
-                            </div>
-                        </div>
-                    </div>
-                    <div class="dlc-card" id="dlc-johnny" onclick="toggleDlc('johnny')">
-                        <div class="dlc-card-image">
-                            <img src="Images/DLCs/Johnny's secret stash.jpg" alt="Johnny's Secret Stash">
-                        </div>
-                        <div class="dlc-card-body">
-                            <div class="dlc-card-header">
-                                <span class="dlc-card-name">Johnny's Secret Stash</span>
-                                <input type="checkbox" class="dlc-checkbox" id="dlc-johnny-checkbox" onclick="event.stopPropagation(); toggleDlc('johnny')">
-                            </div>
-                            <div class="dlc-unlocks">
-                                Unlocks: <strong>Workshop</strong>, <strong>Storage Room A</strong>, <strong>Shooting Range Lv1</strong>, <strong>Intel Center Lv1</strong><br>
-                                + Merchants to Trust Level 2 (except Johnny)<br>
-                                + HQ Power Fuel Can L (2 pcs.)
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="dlc-info">
-                Select the DLCs you own to automatically mark unlocked hideout upgrades as complete
-            </div>
         </div>
 
         <div class="version-footer">
@@ -1816,9 +1866,14 @@
             document.getElementById('dlc-johnny').classList.toggle('selected', ownedDlcs.johnny);
         }
 
-        function toggleDlcSection() {
-            const section = document.getElementById('dlcSection');
-            section.classList.toggle('expanded');
+        function openDlcModal() {
+            document.getElementById('dlcModal').classList.add('active');
+        }
+
+        function closeDlcModal(event) {
+            if (!event || event.target === event.currentTarget) {
+                document.getElementById('dlcModal').classList.remove('active');
+            }
         }
 
         function toggleDlc(dlcId) {
