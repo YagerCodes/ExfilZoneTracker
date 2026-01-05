@@ -400,6 +400,36 @@
             font-size: 1rem;
         }
 
+        .upgrade-card.locked {
+            opacity: 0.5;
+            border-color: var(--locked);
+        }
+
+        .upgrade-card.locked .card-header {
+            background: linear-gradient(135deg, rgba(74, 85, 104, 0.3) 0%, var(--bg-light) 100%);
+        }
+
+        .upgrade-card.locked .locked-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            width: 28px;
+            height: 28px;
+            background: var(--locked);
+            color: var(--text-secondary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .upgrade-card.locked:hover {
+            border-color: var(--secondary);
+            cursor: not-allowed;
+        }
+
         .favorite-btn {
             width: 28px;
             height: 28px;
@@ -1685,7 +1715,7 @@
 
         // Hideout location images
         const hideoutImages = {
-            "Workshop": null,
+            "Workshop": "Images/Hideout/Gunsmith.webp",
             "Storage Room A": "Images/Hideout/Storage Room A.webp",
             "Storage Room B": "Images/Hideout/Storage Room B.webp",
             "Storage Room C": "Images/Hideout/Storage Room C.webp",
@@ -1981,14 +2011,25 @@
                     const hideoutImage = hideoutImages[upgrade.name];
                     const imageHtml = hideoutImage ? `<div class="card-image"><img src="${hideoutImage}" alt="${upgrade.name}" onerror="this.parentElement.style.display='none'"></div>` : '';
 
-                    const favoriteBtn = !isCompleted ? `
+                    const isLocked = !isCompleted && !areRequirementsMet(upgrade);
+                    const favoriteBtn = !isCompleted && !isLocked ? `
                                     <button class="favorite-btn ${isFavorite ? 'active' : ''}" onclick="toggleFavorite('${upgradeId}', event)" title="${isFavorite ? 'Remove from favorites' : 'Add to favorites'}">
                                         ${isFavorite ? '★' : '☆'}
                                     </button>` : '';
 
+                    let cardClass = '';
+                    let badge = '';
+                    if (isCompleted) {
+                        cardClass = 'completed';
+                        badge = '<div class="completed-badge">✓</div>';
+                    } else if (isLocked) {
+                        cardClass = 'locked';
+                        badge = '<div class="locked-badge">🔒</div>';
+                    }
+
                     html += `
-                        <div class="upgrade-card ${isCompleted ? 'completed' : ''}" onclick="toggleUpgrade('${upgradeId}')">
-                            ${isCompleted ? '<div class="completed-badge">✓</div>' : ''}
+                        <div class="upgrade-card ${cardClass}" onclick="toggleUpgrade('${upgradeId}')">
+                            ${badge}
                             <div class="card-header">
                                 <div class="card-title-row">
                                     <span class="card-name">${upgrade.name}</span>
@@ -2023,10 +2064,73 @@
             renderUpNext();
         }
 
+        // Parse hideout requirements from requirement string (e.g., "Workshop 1 Generator 2")
+        function parseHideoutRequirements(reqString) {
+            if (!reqString) return [];
+            const requirements = [];
+            // Match patterns like "Workshop 1", "Generator 2", "Water Collector 1", "Intel Center 2", etc.
+            // Exclude quest requirements in quotes and "Player Level" requirements
+            const cleanedReq = reqString.replace(/"[^"]+"/g, '').replace(/Player Level \d+/g, '');
+
+            // Known hideout upgrade names to match
+            const hideoutNames = [
+                'Workshop', 'Storage Room A', 'Storage Room B', 'Storage Room C',
+                'Toilet', 'Sofa', 'TV Set', 'Bookdesk',
+                'Generator', 'Intel Center', 'Bitcoin Mine', 'Shooting Range',
+                'Kitchen Area', 'Water Collector', 'Refrigerator', 'Microwave', 'Coffee Maker',
+                'Medical Area', 'Operating Bed', 'Med Desk', 'Plant Stand',
+                'Gunsmith'
+            ];
+
+            for (const name of hideoutNames) {
+                const regex = new RegExp(name + '\\s*(\\d+)', 'g');
+                let match;
+                while ((match = regex.exec(cleanedReq)) !== null) {
+                    const level = parseInt(match[1]);
+                    if (level) {
+                        requirements.push({ name, level });
+                    }
+                }
+            }
+            return requirements;
+        }
+
+        // Check if all hideout requirements are met for an upgrade
+        function areRequirementsMet(upgrade) {
+            const requirements = parseHideoutRequirements(upgrade.requirements);
+            for (const req of requirements) {
+                const reqUpgradeId = `${req.name}-${req.level}`;
+                if (!completedUpgrades.has(reqUpgradeId)) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        // Get list of unmet requirements for display
+        function getUnmetRequirements(upgrade) {
+            const requirements = parseHideoutRequirements(upgrade.requirements);
+            const unmet = [];
+            for (const req of requirements) {
+                const reqUpgradeId = `${req.name}-${req.level}`;
+                if (!completedUpgrades.has(reqUpgradeId)) {
+                    unmet.push(`${req.name} ${req.level}`);
+                }
+            }
+            return unmet;
+        }
+
         function toggleUpgrade(upgradeId) {
             if (completedUpgrades.has(upgradeId)) {
                 completedUpgrades.delete(upgradeId);
             } else {
+                // Find the upgrade to check requirements
+                const upgrade = hideoutUpgrades.find(u => `${u.name}-${u.level}` === upgradeId);
+                if (upgrade && !areRequirementsMet(upgrade)) {
+                    const unmet = getUnmetRequirements(upgrade);
+                    alert(`Cannot unlock ${upgrade.name} Lv${upgrade.level}.\n\nMissing requirements:\n• ${unmet.join('\n• ')}`);
+                    return;
+                }
                 completedUpgrades.add(upgradeId);
                 // Remove from favorites when completed
                 if (favoriteUpgrades.has(upgradeId)) {
