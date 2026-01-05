@@ -115,6 +115,36 @@
             border-left-color: var(--primary);
         }
 
+        .nav-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            padding: 0.5rem 1rem;
+            background: var(--bg-medium);
+            border: 1px solid var(--border);
+            color: var(--accent-blue);
+            text-decoration: none;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        .nav-link:hover {
+            border-color: var(--accent-blue);
+            background: var(--bg-light);
+        }
+
+        .nav-link svg {
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
+        }
+
         .sidebar-toggle {
             position: fixed;
             left: var(--sidebar-width);
