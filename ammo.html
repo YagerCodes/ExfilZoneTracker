@@ -353,6 +353,13 @@
             color: #fbbf24;
         }
 
+        .unlock-info {
+            display: block;
+            font-size: 0.65rem;
+            color: var(--accent-blue);
+            margin-top: 2px;
+        }
+
         .tier-header {
             text-align: center;
             border-left: 2px solid var(--border);
@@ -565,7 +572,7 @@
             "5.45|HP": { pen: 0.80, dmg: 78, blunt: 3.90, bleed: 35, velocity: 880, trader: "Reg", lvl: 1, cost: 795 },
             "5.45|PRS": { pen: 1.30, dmg: 70, blunt: 5.60, bleed: 30, velocity: 860, trader: "Reg", lvl: 1, cost: 1125 },
             "5.45|FMJ": { pen: 2.40, dmg: 61, blunt: 7.93, bleed: 19, velocity: 880, trader: "Reg", lvl: 2, cost: 2505 },
-            "5.45|T": { pen: 3.00, dmg: 58, blunt: 9.28, bleed: 19, velocity: 885, trader: "Reg", lvl: 2, cost: 3765 },
+            "5.45|T": { pen: 3.00, dmg: 58, blunt: 9.28, bleed: 19, velocity: 885, trader: "Reg", lvl: 2, cost: 3765, unlock: "Quest: Shotgun Shock (Regiment)" },
             "5.45|PP": { pen: 3.50, dmg: 55, blunt: 11.00, bleed: 19, velocity: 885, trader: "Reg", lvl: 3, cost: 6405 },
             "5.45|BT": { pen: 3.80, dmg: 54, blunt: 11.88, bleed: 19, velocity: 880, trader: "Reg", lvl: 3, cost: 9930 },
             "5.45|7N40": { pen: 4.30, dmg: 53, blunt: 13.25, bleed: 19, velocity: 895, trader: "Reg", lvl: 4, cost: 14940 },
@@ -575,7 +582,7 @@
             "5.56|HP": { pen: 0.70, dmg: 79, blunt: 6.32, bleed: 35, velocity: 930, trader: "Ark", lvl: 1, cost: 1080 },
             "5.56|MK255": { pen: 1.20, dmg: 73, blunt: 7.30, bleed: 30, velocity: 930, trader: "Ark", lvl: 1, cost: 1905 },
             "5.56|FMJ": { pen: 2.40, dmg: 62, blunt: 8.68, bleed: 20, velocity: 880, trader: "Ark", lvl: 2, cost: 3000 },
-            "5.56|M856": { pen: 2.90, dmg: 58, blunt: 9.28, bleed: 20, velocity: 870, trader: "Ark", lvl: 2, cost: 4890 },
+            "5.56|M856": { pen: 2.90, dmg: 58, blunt: 9.28, bleed: 20, velocity: 870, trader: "Ark", lvl: 2, cost: 4890, unlock: "Quest: Deterrence 3 (Ark)" },
             "5.56|MK318": { pen: 3.30, dmg: 56, blunt: 11.20, bleed: 20, velocity: 950, trader: "Ark", lvl: 3, cost: 8190 },
             "5.56|M856A1": { pen: 3.80, dmg: 52, blunt: 12.48, bleed: 20, velocity: 940, trader: "Ark", lvl: 3, cost: 9570 },
             "5.56|M855A1": { pen: 4.40, dmg: 49, blunt: 13.72, bleed: 20, velocity: 945, trader: "Ark", lvl: 4, cost: 13590 },
@@ -1096,7 +1103,7 @@
                         <td class="stat-cell">${stats.velocity !== null ? stats.velocity : '-'}</td>
                         <td class="stat-cell trader-cell">${stats.trader || '-'}</td>
                         <td class="stat-cell lvl-cell">${stats.lvl || '-'}</td>
-                        <td class="stat-cell cost-cell">${stats.cost !== undefined ? (typeof stats.cost === 'number' ? stats.cost.toLocaleString() : stats.cost) : '-'}</td>
+                        <td class="stat-cell cost-cell">${stats.cost !== undefined ? (typeof stats.cost === 'number' ? stats.cost.toLocaleString() : stats.cost) : '-'}${stats.unlock ? '<span class="unlock-info">' + stats.unlock + '</span>' : ''}</td>
                         <td class="rpm-cell">${row.rpm}</td>
                         <td class="tier-data shots-cell ${getShotsClass(t3.chest)}">${t3.chest || '-'}</td>
                         <td class="tier-data shots-cell ${getShotsClass(t4.chest)}">${t4.chest || '-'}</td>
@@ -1192,7 +1199,7 @@
                         <td class="stat-cell">${stats.velocity !== null ? stats.velocity : '-'}</td>
                         <td class="stat-cell trader-cell">${stats.trader || '-'}</td>
                         <td class="stat-cell lvl-cell">${stats.lvl || '-'}</td>
-                        <td class="stat-cell cost-cell">${stats.cost !== undefined ? (typeof stats.cost === 'number' ? stats.cost.toLocaleString() : stats.cost) : '-'}</td>
+                        <td class="stat-cell cost-cell">${stats.cost !== undefined ? (typeof stats.cost === 'number' ? stats.cost.toLocaleString() : stats.cost) : '-'}${stats.unlock ? '<span class="unlock-info">' + stats.unlock + '</span>' : ''}</td>
                         <td class="shots-cell ${getShotsClass(row.head)}">${row.head}</td>
                         <td class="shots-cell ${getShotsClass(row.chest)}">${row.chest}</td>
                         <td class="shots-cell ${getShotsClass(row.arm)}">${row.arm}</td>
