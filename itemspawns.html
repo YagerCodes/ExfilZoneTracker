@@ -519,129 +519,6 @@
             text-decoration: underline;
         }
 
-        /* Item Database Table */
-        .item-table {
-            width: 100%;
-            border-collapse: collapse;
-            background: var(--bg-medium);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            overflow: hidden;
-            margin-bottom: 1.5rem;
-        }
-
-        .item-table thead {
-            background: var(--bg-dark);
-        }
-
-        .item-table th {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 0.7rem;
-            font-weight: 700;
-            color: var(--accent-blue);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            padding: 0.75rem 1rem;
-            text-align: left;
-            border-bottom: 2px solid var(--primary);
-        }
-
-        .item-table td {
-            padding: 0.6rem 1rem;
-            border-bottom: 1px solid var(--border);
-            font-size: 0.9rem;
-            vertical-align: middle;
-        }
-
-        .item-table tbody tr:hover {
-            background: var(--bg-light);
-        }
-
-        .item-table tbody tr:last-child td {
-            border-bottom: none;
-        }
-
-        .item-name-cell {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-
-        .table-item-icon {
-            width: 32px;
-            height: 32px;
-            object-fit: contain;
-            border-radius: 4px;
-            background: var(--bg-dark);
-        }
-
-        .price-cell {
-            color: var(--accent-yellow);
-            font-weight: 600;
-            font-family: 'Rajdhani', sans-serif;
-        }
-
-        .notes-cell {
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-            max-width: 250px;
-        }
-
-        .hideout-cell {
-            color: var(--primary);
-            font-size: 0.85rem;
-        }
-
-        /* Rarity Badges */
-        .rarity-badge {
-            display: inline-block;
-            padding: 0.2rem 0.5rem;
-            border-radius: 3px;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 0.65rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .rarity-common {
-            background: rgba(150, 150, 150, 0.2);
-            color: #aaa;
-            border: 1px solid #666;
-        }
-
-        .rarity-unusual {
-            background: rgba(0, 255, 136, 0.15);
-            color: var(--primary);
-            border: 1px solid var(--primary-dim);
-        }
-
-        .rarity-rare {
-            background: rgba(0, 136, 255, 0.15);
-            color: #4da6ff;
-            border: 1px solid #3388cc;
-        }
-
-        .rarity-epic {
-            background: rgba(163, 53, 238, 0.2);
-            color: #bf7fff;
-            border: 1px solid #9933ff;
-        }
-
-        .rarity-legendary {
-            background: rgba(255, 170, 0, 0.2);
-            color: #ffaa00;
-            border: 1px solid #cc8800;
-        }
-
-        .rarity-ultimate {
-            background: rgba(255, 68, 68, 0.2);
-            color: #ff6666;
-            border: 1px solid #ff3333;
-        }
-
         @media (max-width: 768px) {
             .sidebar {
                 transform: translateX(calc(-1 * var(--sidebar-width)));
@@ -672,20 +549,6 @@
             .items-grid { grid-template-columns: 1fr; }
             .search-box { width: 100%; }
 
-            .item-table {
-                display: block;
-                overflow-x: auto;
-            }
-
-            .item-table th,
-            .item-table td {
-                padding: 0.5rem;
-                font-size: 0.8rem;
-            }
-
-            .notes-cell {
-                max-width: 150px;
-            }
         }
     </style>
 </head>
@@ -760,22 +623,6 @@
             Video guide by <a href="https://www.youtube.com/watch?v=7IA5rDZTJiM" target="_blank">RadFox VR University</a> - Where to Find Rare Items for Hideout Upgrades Part 1
         </div>
 
-        <div class="section-title">Item Database</div>
-
-        <div class="category-tabs">
-            <button class="category-tab active" onclick="selectCategory('building')">Building</button>
-            <button class="category-tab" onclick="selectCategory('tools')">Tools</button>
-            <button class="category-tab" onclick="selectCategory('electric')">Electric</button>
-            <button class="category-tab" onclick="selectCategory('household')">Household</button>
-            <button class="category-tab" onclick="selectCategory('combustible')">Combustible</button>
-            <button class="category-tab" onclick="selectCategory('highvalue')">High Value</button>
-        </div>
-        <div id="itemDatabaseGrid"></div>
-
-        <div class="wiki-credit">
-            Item data sourced from <a href="https://csez.miraheze.org/wiki/Junk#Junk_storage" target="_blank">CSEZ Wiki</a>
-        </div>
-
         <div class="version-footer">
             v2.0.0 | Last Updated: January 5, 2025<br>
             <span style="opacity: 0.7; font-size: 0.7rem;">All game content and assets are property of Caveman Studio</span>
@@ -783,172 +630,12 @@
     </div>
 
     <script>
-        // Image filename mapping for items with different names
-        const itemImageMap = {
-            "Copper Wire": "Wire",
-            "Large Plier": "Plier",
-            "Tape Holder": "Tape holder",
-            "Rat Poison": "Rat poison",
-            "Soap": "Soap",
-            "Toothpaste": "Toothpaste",
-            "Measuring Tape": "Measuring Tape",
-            "Small Shovel": "Small Shovel",
-            "Plier": "Plier",
-            "Mouse": "Mouse",
-            "Fossil": "Fossil",
-            "Aladdin lamp": "Aladdin lamp",
-            "Golden elephant": "Golden elephant",
-            "Stone lion": "Stone lion",
-            "Diamond ring": "Ruby ring",
-            "Pocket watch": "Pocketwatch",
-            "Camera": "Vintage Camera",
-            "Gold bars": "Gold Ingot",
-            "Big Nut": "Big Nut",
-            "Wire": "Wire",
-            "Graphic Card": "Graphic Card",
-            "CPU Fan": "CPU Fan",
-            "CPU Core": "CPU Core",
-            "RAM": "RAM",
-            "Fuse": "Fuse",
-            "Radio": "Portable Radio",
-            "Civil Radio": "Civil radio",
-            "Digital Sensor": "Digital sensor",
-            "Data Cord": "Data Cord",
-            "VR Headset": "VR Headset",
-            "Sunglasses": "Sunglasses",
-            "Toy Car": "Toy Car",
-            "Toy Duck": "Toy Duck",
-            "Wood Doll": "Wood Doll",
-            "Mug": "Mug",
-            "Remote Control": "Remote Control",
-            "Videotape": "Videotape",
-            "Horror Novel": "Horror novel",
-            "Facial Cleanser": "Facial Cleanser",
-            "Perfume": "Perfume",
-            "Radio Scanner": "Radio scanner",
-            "Linen Fabrics": "Linen Fabrics",
-            "Antique Teapot": "Antique Tea cup",
-            "Gold price": "Golden prize1",
-            "Badge": "Sheriff's Badge",
-            "Old Baseball": "Old Baseball"
-        };
-
-        // Get image path for an item
-        function getItemImagePath(itemName) {
-            const mappedName = itemImageMap[itemName] || itemName;
-            return `Images/Items/${mappedName}.webp`;
-        }
-
-        // Full item database extracted from CSEZ Wiki
-        const allItemData = {
-            building: [
-                { name: "Big Nut", price: 978, weight: 0.03, notes: null, hideout: null, rarity: "Common" },
-                { name: "Super Glue", price: 10603, weight: 0.05, notes: "Bartered for Soft Armor with Maximilian", hideout: null, rarity: "Rare" },
-                { name: "Instant Glue", price: 10710, weight: 0.01, notes: "Bartered for DouMountains armor with Maximilian", hideout: null, rarity: "Rare" },
-                { name: "Copper Wire", price: 4326, weight: 0.4, notes: null, hideout: null, rarity: "Unusual" },
-                { name: "Ceramic Adhesive", price: 4200, weight: 0.4, notes: null, hideout: null, rarity: "Unusual" },
-                { name: "Bolts", price: 1071, weight: 0.1, notes: null, hideout: null, rarity: "Common" },
-                { name: "Nuts", price: 1040, weight: 0.15, notes: "Required for Storage Lvl1 x6, Sofa Lvl1 x5, Kitchen Area x3", hideout: "Storage, Sofa, Kitchen", rarity: "Common" },
-                { name: "Insulating Tape", price: 4200, weight: 0.02, notes: "Bartered for RGO nade with Igor", hideout: null, rarity: "Unusual" },
-                { name: "Box of Nails", price: 945, weight: 0.08, notes: null, hideout: null, rarity: "Common" },
-                { name: "Piezometer", price: 45500, weight: 0.4, notes: "Required 2x for Hideout Update", hideout: "Hideout Update x2", rarity: "Epic" },
-                { name: "Valve", price: 4242, weight: 0.3, notes: "Required 3x for Hideout Update with Piezometer", hideout: "Hideout Update x3", rarity: "Unusual" },
-                { name: "Wire", price: 1040, weight: 0.1, notes: null, hideout: null, rarity: "Common" }
-            ],
-            tools: [
-                { name: "Hammer", price: 9356, weight: 0.3, notes: null, hideout: null, rarity: "Rare" },
-                { name: "Large Plier", price: 735, weight: 0.28, notes: null, hideout: null, rarity: "Common" },
-                { name: "Measuring Tape", price: 750, weight: 0.14, notes: null, hideout: null, rarity: "Common" },
-                { name: "Moldboard", price: 743, weight: 0.1, notes: null, hideout: null, rarity: "Common" },
-                { name: "Plier", price: 3090, weight: 0.16, notes: null, hideout: null, rarity: "Unusual" },
-                { name: "Screwdriver", price: 758, weight: 0.2, notes: "Bartered for RGD-5 nade with Igor", hideout: null, rarity: "Common" },
-                { name: "Small Shovel", price: 2970, weight: 0.1, notes: null, hideout: null, rarity: "Unusual" },
-                { name: "Small Wrench", price: 743, weight: 0.3, notes: null, hideout: null, rarity: "Common" },
-                { name: "Spark Plug", price: 8100, weight: 0.12, notes: null, hideout: null, rarity: "Rare" },
-                { name: "Tape Holder", price: 863, weight: 0.1, notes: null, hideout: null, rarity: "Common" },
-                { name: "Tire Sealant", price: 743, weight: 0.15, notes: null, hideout: null, rarity: "Common" },
-                { name: "Wire Cutters", price: 3090, weight: 0.08, notes: null, hideout: null, rarity: "Unusual" },
-                { name: "Wrench", price: 2940, weight: 0.24, notes: null, hideout: null, rarity: "Unusual" },
-                { name: "Electric Drill", price: 47288, weight: 2, notes: null, hideout: null, rarity: "Epic" }
-            ],
-            electric: [
-                { name: "CPU Fan", price: 87759, weight: 0.1, notes: "Needed for The Collector task", hideout: "The Collector", rarity: "Epic" },
-                { name: "CPU Core", price: 1300, weight: 0.08, notes: null, hideout: null, rarity: "Common" },
-                { name: "Flashlight", price: 1300, weight: 0.15, notes: null, hideout: null, rarity: "Common" },
-                { name: "Mouse", price: 1500, weight: 0.15, notes: "Found on desk next to key room west of Horstel", hideout: null, rarity: "Common" },
-                { name: "NewPhone", price: 10500, weight: 0.2, notes: "Can be traded for Maximilian at trust level 2 after completing 1st task. Spawns Police station briefing room 1st floor, always have new/old phone on desk", hideout: null, rarity: "Rare" },
-                { name: "OldPhone", price: 2296, weight: 0.2, notes: "Need 9 for Boulder. Suburbs Police station briefing room 1st floor will always have new/old phone on desk", hideout: "Boulder x9", rarity: "Unusual" },
-                { name: "RAM", price: 1050, weight: 0.04, notes: "Bartered for Periosteal Syringe USE MKA tool for NMRLT", hideout: null, rarity: "Common" },
-                { name: "Fuse", price: 2520, weight: 0.08, notes: "Bartered for a UZGA-12MR shotgun with Maximilian", hideout: null, rarity: "Unusual" },
-                { name: "Cartridge", price: 93770, weight: 0.05, notes: null, hideout: null, rarity: "Epic" },
-                { name: "Cool Strap", price: 6425, weight: 0.15, notes: "Bartered for a 12GA Heft-5 USMS/BZ with Tommy", hideout: null, rarity: "Rare" },
-                { name: "Radio", price: 25425, weight: 4, notes: "Bartered for 4 45x39mm M992/RC TC with Tommy", hideout: null, rarity: "Epic" }
-            ],
-            household: [
-                { name: "Beard Oil", price: 3000, weight: 0.15, notes: "Bartered for 7.62x39mm AKM rifle with Igor", hideout: null, rarity: "Unusual" },
-                { name: "Cleaner", price: 2910, weight: 0.7, notes: "Bartered for Advanced Syringe with Maggie", hideout: null, rarity: "Unusual" },
-                { name: "Deodorant", price: 8820, weight: 0.4, notes: "Bartered for 7.62x51mm FAL with Igor, also for ODLDOS BAG with Maggie", hideout: null, rarity: "Rare" },
-                { name: "Cleanser", price: 3000, weight: 0.25, notes: null, hideout: null, rarity: "Unusual" },
-                { name: "Rat Poison", price: 32175, weight: 0.2, notes: null, hideout: null, rarity: "Epic" },
-                { name: "Pesticide", price: 9000, weight: 0.22, notes: null, hideout: null, rarity: "Rare" },
-                { name: "Rust Cleaner", price: 750, weight: 0.22, notes: null, hideout: null, rarity: "Common" },
-                { name: "Shampoo", price: 8910, weight: 0.28, notes: null, hideout: null, rarity: "Rare" },
-                { name: "Soap", price: 765, weight: 0.05, notes: "Need 1 for Bathroom in hideout", hideout: "Bathroom x1", rarity: "Common" },
-                { name: "Toilet Paper", price: 918, weight: 0.03, notes: null, hideout: null, rarity: "Common" },
-                { name: "Toothpaste", price: 675, weight: 0.05, notes: null, hideout: null, rarity: "Common" }
-            ],
-            combustible: [
-                { name: "Gas Can", price: 1061, weight: 0.22, notes: null, hideout: null, rarity: "Common" },
-                { name: "Gun Oil", price: 12348, weight: 0.2, notes: "Bartered for 7.62x54R SNB with Igor", hideout: null, rarity: "Rare" },
-                { name: "Gun Powder", price: 45500, weight: 0.2, notes: "Bartered for Shooting Range at hideout", hideout: "Shooting Range", spawnLocations: "Resort construction site, in wheelbarrow or on the crate", rarity: "Epic" },
-                { name: "Large Gas Can", price: 13999, weight: 0.5, notes: null, hideout: null, rarity: "Rare" },
-                { name: "Lighter", price: 848, weight: 0.06, notes: "Bartered for M67 with Tommy", hideout: null, rarity: "Common" },
-                { name: "Lighter Fluid", price: 4200, weight: 0.2, notes: "Bartered for 5.56x45mm AR-15 Hunter with Tommy", hideout: null, rarity: "Unusual" },
-                { name: "WD-40", price: 1050, weight: 0.18, notes: null, hideout: null, rarity: "Common" },
-                { name: "Smokeless Powder", price: 45081, weight: 0.15, notes: null, hideout: null, spawnLocations: "Resort construction site, in wheelbarrow or on the crate", rarity: "Epic" },
-                { name: "Spray Can", price: 12726, weight: 0.3, notes: "Bartered for Advanced Syringe with Maggie", hideout: null, rarity: "Rare" },
-                { name: "Oil Can", price: 4733, weight: 3.5, notes: null, hideout: null, rarity: "Unusual" }
-            ],
-            highvalue: [
-                { name: "C5 Operador O", price: 117000, weight: 1, notes: "Found item to find in the game. Keep one for The Collector task", hideout: "The Collector", rarity: "Rare", type: "Watch" },
-                { name: "C5 Operador VI", price: 25200, weight: 0.1, notes: "MKA tool for NMRLT", hideout: null, rarity: "Rare", type: "Watch" },
-                { name: "Medium Operador VI", price: 25200, weight: 0.1, notes: "MKA tool for NMRLT", hideout: null, rarity: "Rare", type: "Watch" },
-                { name: "Elite Operador 01", price: 25200, weight: 0.1, notes: "MKA tool for NMRLT", hideout: null, rarity: "Rare", type: "Watch" },
-                { name: "Heavy Operador VI", price: 26354, weight: 0.1, notes: "MKA tool for NMRLT", hideout: null, rarity: "Rare", type: "Watch" },
-                { name: "Light Operador VI", price: 25200, weight: 0.1, notes: "MKA tool for NMRLT", hideout: null, rarity: "Rare", type: "Watch" },
-                { name: "Operador 00", price: 25200, weight: 0.1, notes: "MKA tool for NMRLT", hideout: null, rarity: "Rare", type: "Watch" },
-                { name: "Operador 47", price: 25200, weight: 0.1, notes: "MKA tool for NMRLT", hideout: null, rarity: "Rare", type: "Watch" },
-                { name: "Diamond ring", price: 525387, weight: 0.02, notes: "Diamond for 2 F2-DR, MFT machine + stand", hideout: "MFT Machine", rarity: "Epic", type: "Jewelry" },
-                { name: "Fossil", price: 102102, weight: 1, notes: null, hideout: null, rarity: "Legendary", type: "Collectible" },
-                { name: "Gold bars", price: 307710, weight: 3, notes: "Need 1 for Cold Cash quest", hideout: "Cold Cash Quest", rarity: "Legendary", type: "Valuables" },
-                { name: "Crypto coin (aka GPO)", price: 227090, weight: 0.01, notes: "Used in the Bitcoin Mine to generate passive income", hideout: "Bitcoin Mine", rarity: "Epic", type: "Valuables" },
-                { name: "Aladdin lamp", price: 1205250, weight: 0.5, notes: null, hideout: null, rarity: "Ultimate", type: "Collectible" },
-                { name: "Antique Teapot", price: 132294, weight: 0.2, notes: null, hideout: null, rarity: "Epic", type: "Collectible" },
-                { name: "Golden elephant", price: 1373100, weight: 2, notes: null, hideout: null, rarity: "Ultimate", type: "Collectible" },
-                { name: "Gold price", price: 348260, weight: 1.5, notes: null, hideout: null, rarity: "Legendary", type: "Valuables" },
-                { name: "Stone lion", price: 102782, weight: 5, notes: null, hideout: null, rarity: "Epic", type: "Collectible" },
-                { name: "Contractors Collector's Coin", price: 93770, weight: 0.03, notes: null, hideout: null, rarity: "Epic", type: "Collectible" },
-                { name: "BloodFern Contractors Collector's Coin", price: 85360, weight: 0.03, notes: null, hideout: null, rarity: "Epic", type: "Collectible" },
-                { name: "BloodForge Contractors Collector's Coin", price: 93770, weight: 0.03, notes: null, hideout: null, rarity: "Epic", type: "Collectible" },
-                { name: "Silver cap", price: 91000, weight: 0.05, notes: "Diamond for 4 Sol-9mm 126p + 50r with Tommy", hideout: null, rarity: "Epic", type: "Valuables" },
-                { name: "Pocket watch", price: 320734, weight: 0.05, notes: "Battered for an MRTV camera with Maximilian", hideout: null, rarity: "Legendary", type: "Collectible" },
-                { name: "Badge", price: 118925, weight: 0.05, notes: "1 Gold cross 50 CA-17 rifle with Tommy", hideout: null, rarity: "Epic", type: "Collectible" },
-                { name: "Camera", price: 41769, weight: 0.3, notes: null, hideout: null, rarity: "Rare", type: "Electronics" },
-                { name: "Moutil Dry Red Wine", price: 1000, weight: 0.3, notes: "Quest item, it has the following description: 'A bottle of fine French wine'", hideout: null, spawnLocations: "Suburbs Worth's Farm", rarity: "Rare", type: "Quest" },
-                { name: "Game stick", price: 0, weight: 0.5, notes: "Quest item, hack to Play quest for BoulderForge", hideout: "Hack to Play Quest", spawnLocations: "Suburbs", rarity: "Rare", type: "Quest" },
-                { name: "Motor oil", price: 1, weight: 1, notes: null, hideout: null, spawnLocations: "Resort fire department floor in back of unit 1A", rarity: "Epic", type: "Quest" },
-                { name: "Gas Pipe Pliers", price: null, weight: 1, notes: null, hideout: null, rarity: "Epic", type: "Tools" },
-                { name: "Voltage Transformer", price: 63700, weight: 1.8, notes: null, hideout: null, spawnLocations: "Found in power plants on suburbs or LF7 (E)", rarity: "Epic", type: "Electronics" },
-                { name: "Defibrillator", price: 527361, weight: 3.8, notes: null, hideout: null, spawnLocations: "Found in front of bank (E)", rarity: "Epic", type: "Medical" }
-            ]
-        };
-
         // Rare item spawn locations for hideout upgrades (from RadFox video)
         const itemSpawnData = [
             {
                 name: "Climbing Rope",
                 category: "Hideout Material",
-                image: "Images/Items/Climbing Rope.webp",
+                image: "Images/Items/Climbing rope.png",
                 spawns: {
                     "Suburbs": [
                         "Key room 206",
@@ -980,7 +667,7 @@
             {
                 name: "Spark Plug",
                 category: "Hideout Material",
-                image: "Images/Items/Spark Plug.webp",
+                image: "Images/Items/Spark Plug.png",
                 spawns: {
                     "Suburbs": [
                         "Forklift next to Alibi",
@@ -1002,7 +689,7 @@
             {
                 name: "Copper Wire",
                 category: "Hideout Material",
-                image: "Images/Items/Copper Wire.webp",
+                image: "Images/Items/Copper wire.png",
                 spawns: {
                     "Dam": [
                         "West inlet tower (key room)",
@@ -1024,7 +711,7 @@
             {
                 name: "Piezometer",
                 category: "Hideout Material",
-                image: "Images/Items/Piezometer.webp",
+                image: "Images/Items/Piezometer.png",
                 spawns: {
                     "Dam": [
                         "Whole building in the docks",
@@ -1060,7 +747,7 @@
             {
                 name: "Drill",
                 category: "Hideout Material",
-                image: "Images/Items/Drill.webp",
+                image: "Images/Items/Electric drill.png",
                 spawns: {
                     "Suburbs": [
                         "Extraction bunker"
@@ -1083,7 +770,7 @@
             {
                 name: "Imaging Module",
                 category: "Hideout Material",
-                image: "Images/Items/Imaging Module.webp",
+                image: "Images/Items/Imaging module.png",
                 spawns: {
                     "Smuggling Tunnel": [
                         "Medical lab (top floor)",
@@ -1109,7 +796,7 @@
             {
                 name: "Game Console",
                 category: "Rare Item",
-                image: "Images/Items/Game Console.webp",
+                image: "Images/Items/Game console.png",
                 spawns: {
                     "Smuggling Tunnel": [
                         "Under the turtle room"
@@ -1192,102 +879,13 @@
             }).join('');
         }
 
-        // Category tab switching
-        function selectCategory(category) {
-            // Update active tab
-            document.querySelectorAll('.category-tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            event.target.classList.add('active');
-
-            // Update the item database table
-            renderItemDatabase(category);
-        }
-
-        // Render item database table for selected category
-        function renderItemDatabase(category) {
-            const items = allItemData[category] || [];
-            const container = document.getElementById('itemDatabaseGrid');
-
-            if (!container) return;
-
-            if (items.length === 0) {
-                container.innerHTML = '<div class="no-results">No items in this category.</div>';
-                return;
-            }
-
-            const getRarityClass = (rarity) => {
-                const classes = {
-                    'Common': 'rarity-common',
-                    'Unusual': 'rarity-unusual',
-                    'Rare': 'rarity-rare',
-                    'Epic': 'rarity-epic',
-                    'Legendary': 'rarity-legendary',
-                    'Ultimate': 'rarity-ultimate'
-                };
-                return classes[rarity] || 'rarity-common';
-            };
-
-            container.innerHTML = `
-                <table class="item-table">
-                    <thead>
-                        <tr>
-                            <th>Item</th>
-                            <th>Sell Price</th>
-                            <th>Weight</th>
-                            <th>Notes / Barters</th>
-                            <th>Hideout Use</th>
-                            <th>Rarity</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${items.map(item => `
-                            <tr>
-                                <td class="item-name-cell">
-                                    <img src="${getItemImagePath(item.name)}" alt="${item.name}" class="table-item-icon" onerror="this.style.display='none'">
-                                    <span>${item.name}</span>
-                                </td>
-                                <td class="price-cell">${item.price ? '₽' + item.price.toLocaleString() : '-'}</td>
-                                <td>${item.weight}kg</td>
-                                <td class="notes-cell">${item.notes || '-'}</td>
-                                <td class="hideout-cell">${item.hideout || '-'}</td>
-                                <td><span class="rarity-badge ${getRarityClass(item.rarity)}">${item.rarity}</span></td>
-                            </tr>
-                        `).join('')}
-                    </tbody>
-                </table>
-            `;
-        }
-
         // Read URL parameters and pre-fill search
         function initFromUrl() {
             const urlParams = new URLSearchParams(window.location.search);
             const searchParam = urlParams.get('search');
             if (searchParam) {
                 document.getElementById('searchBox').value = searchParam;
-                // Also search in item database - find matching category
-                const searchLower = searchParam.toLowerCase();
-                for (const [category, items] of Object.entries(allItemData)) {
-                    const found = items.find(item => item.name.toLowerCase().includes(searchLower));
-                    if (found) {
-                        selectCategoryByName(category);
-                        break;
-                    }
-                }
             }
-        }
-
-        // Select category programmatically (without relying on event.target)
-        function selectCategoryByName(category) {
-            // Update active tab
-            document.querySelectorAll('.category-tab').forEach(tab => {
-                const tabCategory = tab.textContent.toLowerCase().replace(' ', '');
-                tab.classList.toggle('active', tabCategory === category ||
-                    (category === 'highvalue' && tab.textContent === 'High Value'));
-            });
-
-            // Update the item database table
-            renderItemDatabase(category);
         }
 
         // Sidebar toggle functionality
@@ -1318,7 +916,6 @@
         loadSidebarState();
         initFromUrl();
         filterItems();
-        renderItemDatabase('building');
     </script>
     </div>
 </body>
