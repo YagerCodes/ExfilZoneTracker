@@ -1,0 +1,1318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExfilZone Item Spawn Guide</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #00ff88;
+            --primary-dim: #00cc6a;
+            --secondary: #ff4400;
+            --bg-dark: #0a0e14;
+            --bg-medium: #151a24;
+            --bg-light: #1f2937;
+            --bg-card: #1a1f2e;
+            --text-primary: #e4e8f0;
+            --text-secondary: #8b95a8;
+            --accent-blue: #00d4ff;
+            --accent-yellow: #fbbf24;
+            --border: #2a3544;
+            --sidebar-width: 220px;
+        }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            min-height: 100vh;
+            background-image:
+                radial-gradient(circle at 20% 80%, rgba(0, 255, 136, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 68, 0, 0.03) 0%, transparent 50%);
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: var(--sidebar-width);
+            height: 100vh;
+            background: var(--bg-medium);
+            border-right: 1px solid var(--border);
+            padding: 1rem 0;
+            z-index: 1000;
+            transition: transform 0.3s ease;
+            overflow-y: auto;
+        }
+
+        .sidebar.collapsed {
+            transform: translateX(calc(-1 * var(--sidebar-width)));
+        }
+
+        .sidebar-header {
+            padding: 0.5rem 1rem 1rem;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 1rem;
+        }
+
+        .sidebar-logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent-blue) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .sidebar .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.2s;
+            border-left: 3px solid transparent;
+        }
+
+        .sidebar .nav-link svg {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+            flex-shrink: 0;
+        }
+
+        .sidebar .nav-link:hover {
+            background: var(--bg-light);
+            color: var(--text-primary);
+            border-left-color: var(--accent-blue);
+        }
+
+        .sidebar .nav-link.active {
+            background: rgba(0, 255, 136, 0.1);
+            color: var(--primary);
+            border-left-color: var(--primary);
+        }
+
+        .sidebar-toggle {
+            position: fixed;
+            left: var(--sidebar-width);
+            top: 50%;
+            transform: translateY(-50%);
+            width: 24px;
+            height: 48px;
+            background: var(--bg-medium);
+            border: 1px solid var(--border);
+            border-left: none;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            z-index: 1001;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: left 0.3s ease;
+        }
+
+        .sidebar-toggle:hover {
+            background: var(--bg-light);
+        }
+
+        .sidebar-toggle svg {
+            width: 16px;
+            height: 16px;
+            fill: var(--text-secondary);
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar.collapsed + .sidebar-toggle {
+            left: 0;
+        }
+
+        .sidebar.collapsed + .sidebar-toggle svg {
+            transform: rotate(180deg);
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            transition: margin-left 0.3s ease;
+            min-height: 100vh;
+        }
+
+        .sidebar.collapsed ~ .main-content {
+            margin-left: 0;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            padding-bottom: 2rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 900;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent-blue) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: var(--bg-medium);
+            border: 1px solid var(--border);
+            color: var(--accent-blue);
+            text-decoration: none;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        .nav-link svg {
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
+        }
+
+        .nav-link:hover {
+            border-color: var(--accent-blue);
+            background: var(--bg-light);
+        }
+
+        /* Filter Controls */
+        .filter-controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .search-box {
+            padding: 0.5rem 1rem;
+            background: var(--bg-medium);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            color: var(--text-primary);
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1rem;
+            width: 250px;
+            transition: all 0.2s;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: var(--accent-blue);
+        }
+
+        .search-box::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .map-filter {
+            padding: 0.5rem 1rem;
+            background: var(--bg-medium);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            color: var(--text-primary);
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .map-filter:focus {
+            outline: none;
+            border-color: var(--accent-blue);
+        }
+
+        /* Items Grid */
+        .items-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .item-card {
+            background: var(--bg-medium);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .item-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .item-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+            background: var(--bg-dark);
+        }
+
+        .item-icon {
+            width: 64px;
+            height: 64px;
+            object-fit: contain;
+            border-radius: 4px;
+            background: var(--bg-medium);
+            padding: 0.25rem;
+        }
+
+        .item-title {
+            flex: 1;
+        }
+
+        .item-name {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--accent-yellow);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .item-category {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 0.25rem;
+        }
+
+        .item-content {
+            padding: 1rem;
+        }
+
+        .map-section {
+            margin-bottom: 1rem;
+        }
+
+        .map-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .map-name {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--accent-blue);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+            padding: 0.25rem 0.5rem;
+            background: rgba(0, 212, 255, 0.1);
+            border-radius: 3px;
+            display: inline-block;
+        }
+
+        .spawn-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .spawn-list li {
+            position: relative;
+            padding-left: 1rem;
+            margin-bottom: 0.35rem;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            line-height: 1.4;
+        }
+
+        .spawn-list li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+        }
+
+        .spawn-note {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        .item-video {
+            margin-top: 0.75rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .item-video a {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--accent-blue);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+
+        .item-video a:hover {
+            color: var(--primary);
+        }
+
+        .item-video svg {
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
+        }
+
+        .video-credit {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 1rem;
+            background: var(--bg-medium);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+        }
+
+        .video-credit a {
+            color: var(--accent-blue);
+            text-decoration: none;
+        }
+
+        .video-credit a:hover {
+            text-decoration: underline;
+        }
+
+        .version-footer {
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 2rem;
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 1px;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            grid-column: 1 / -1;
+        }
+
+        /* Category Reference Section */
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-yellow);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin: 2rem 0 1rem 0;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .category-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .category-tab {
+            padding: 0.5rem 1rem;
+            background: var(--bg-medium);
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-radius: 4px;
+        }
+
+        .category-tab:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .category-tab.active {
+            background: var(--primary);
+            color: var(--bg-dark);
+            border-color: var(--primary);
+        }
+
+        .wiki-credit {
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .wiki-credit a {
+            color: var(--accent-blue);
+            text-decoration: none;
+        }
+
+        .wiki-credit a:hover {
+            text-decoration: underline;
+        }
+
+        /* Item Database Table */
+        .item-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--bg-medium);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+        }
+
+        .item-table thead {
+            background: var(--bg-dark);
+        }
+
+        .item-table th {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--accent-blue);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .item-table td {
+            padding: 0.6rem 1rem;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.9rem;
+            vertical-align: middle;
+        }
+
+        .item-table tbody tr:hover {
+            background: var(--bg-light);
+        }
+
+        .item-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .item-name-cell {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .table-item-icon {
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
+            border-radius: 4px;
+            background: var(--bg-dark);
+        }
+
+        .price-cell {
+            color: var(--accent-yellow);
+            font-weight: 600;
+            font-family: 'Rajdhani', sans-serif;
+        }
+
+        .notes-cell {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            max-width: 250px;
+        }
+
+        .hideout-cell {
+            color: var(--primary);
+            font-size: 0.85rem;
+        }
+
+        /* Rarity Badges */
+        .rarity-badge {
+            display: inline-block;
+            padding: 0.2rem 0.5rem;
+            border-radius: 3px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .rarity-common {
+            background: rgba(150, 150, 150, 0.2);
+            color: #aaa;
+            border: 1px solid #666;
+        }
+
+        .rarity-unusual {
+            background: rgba(0, 255, 136, 0.15);
+            color: var(--primary);
+            border: 1px solid var(--primary-dim);
+        }
+
+        .rarity-rare {
+            background: rgba(0, 136, 255, 0.15);
+            color: #4da6ff;
+            border: 1px solid #3388cc;
+        }
+
+        .rarity-epic {
+            background: rgba(163, 53, 238, 0.2);
+            color: #bf7fff;
+            border: 1px solid #9933ff;
+        }
+
+        .rarity-legendary {
+            background: rgba(255, 170, 0, 0.2);
+            color: #ffaa00;
+            border: 1px solid #cc8800;
+        }
+
+        .rarity-ultimate {
+            background: rgba(255, 68, 68, 0.2);
+            color: #ff6666;
+            border: 1px solid #ff3333;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(calc(-1 * var(--sidebar-width)));
+            }
+
+            .sidebar.mobile-open {
+                transform: translateX(0);
+            }
+
+            .sidebar-toggle {
+                left: 0;
+            }
+
+            .sidebar.mobile-open + .sidebar-toggle {
+                left: var(--sidebar-width);
+            }
+
+            .sidebar.mobile-open + .sidebar-toggle svg {
+                transform: rotate(180deg);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            h1 { font-size: 1.75rem; }
+            .container { padding: 1rem; }
+            .items-grid { grid-template-columns: 1fr; }
+            .search-box { width: 100%; }
+
+            .item-table {
+                display: block;
+                overflow-x: auto;
+            }
+
+            .item-table th,
+            .item-table td {
+                padding: 0.5rem;
+                font-size: 0.8rem;
+            }
+
+            .notes-cell {
+                max-width: 150px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">ExfilZone</div>
+        </div>
+        <a href="index.html" class="nav-link">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+            Hideout Tracker
+        </a>
+        <a href="items.html" class="nav-link">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-9 9H4V4h7v7zm9 0h-7V4h7v7zm-9 9H4v-7h7v7zm9 0h-7v-7h7v7z"/></svg>
+            Item Database
+        </a>
+        <a href="itemspawns.html" class="nav-link active">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+            Item Spawns
+        </a>
+        <a href="ammo.html" class="nav-link">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-4h2v-2h2v-2h-2V8h-2v4H9v2h2v2z"/></svg>
+            Ammo TTK Chart
+        </a>
+        <a href="keys.html" class="nav-link">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12.65 10A5.99 5.99 0 0 0 7 6c-3.31 0-6 2.69-6 6s2.69 6 6 6a5.99 5.99 0 0 0 5.65-4H17v4h4v-4h2v-4H12.65zM7 14c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/></svg>
+            Key Vault Guide
+        </a>
+        <a href="keyspawns.html" class="nav-link">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+            Key Spawns
+        </a>
+        <a href="maps.html" class="nav-link">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.5 3l-.16.03L15 5.1 9 3 3.36 4.9c-.21.07-.36.25-.36.48V20.5c0 .28.22.5.5.5l.16-.03L9 18.9l6 2.1 5.64-1.9c.21-.07.36-.25.36-.48V3.5c0-.28-.22-.5-.5-.5zM15 19l-6-2.11V5l6 2.11V19z"/></svg>
+            Interactive Maps
+        </a>
+        <a href="tasks.html" class="nav-link">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm2 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+            Task Guide
+        </a>
+    </nav>
+
+    <!-- Sidebar Toggle Button -->
+    <button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+    </button>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="container">
+            <header>
+                <h1>ITEM SPAWN GUIDE</h1>
+                <div class="subtitle">Rare Hideout Upgrade Items & Locations</div>
+            </header>
+
+        <div class="filter-controls">
+            <input type="text" class="search-box" id="searchBox" placeholder="Search items..." oninput="filterItems()">
+            <select class="map-filter" id="mapFilter" onchange="filterItems()">
+                <option value="all">All Maps</option>
+                <option value="Suburbs">Suburbs</option>
+                <option value="Dam">Dam</option>
+                <option value="Resort">Resort</option>
+                <option value="Smuggling Tunnel">Smuggling Tunnel</option>
+                <option value="Metro">Metro</option>
+            </select>
+        </div>
+
+        <div class="items-grid" id="itemsGrid"></div>
+
+        <div class="video-credit">
+            Video guide by <a href="https://www.youtube.com/watch?v=7IA5rDZTJiM" target="_blank">RadFox VR University</a> - Where to Find Rare Items for Hideout Upgrades Part 1
+        </div>
+
+        <div class="section-title">Item Database</div>
+
+        <div class="category-tabs">
+            <button class="category-tab active" onclick="selectCategory('building')">Building</button>
+            <button class="category-tab" onclick="selectCategory('tools')">Tools</button>
+            <button class="category-tab" onclick="selectCategory('electric')">Electric</button>
+            <button class="category-tab" onclick="selectCategory('household')">Household</button>
+            <button class="category-tab" onclick="selectCategory('combustible')">Combustible</button>
+            <button class="category-tab" onclick="selectCategory('highvalue')">High Value</button>
+        </div>
+        <div id="itemDatabaseGrid"></div>
+
+        <div class="wiki-credit">
+            Item data sourced from <a href="https://csez.miraheze.org/wiki/Junk#Junk_storage" target="_blank">CSEZ Wiki</a>
+        </div>
+
+        <div class="version-footer">
+            v2.0.0 | Last Updated: January 5, 2025<br>
+            <span style="opacity: 0.7; font-size: 0.7rem;">All game content and assets are property of Caveman Studio</span>
+        </div>
+    </div>
+
+    <script>
+        // Image filename mapping for items with different names
+        const itemImageMap = {
+            "Copper Wire": "Wire",
+            "Large Plier": "Plier",
+            "Tape Holder": "Tape holder",
+            "Rat Poison": "Rat poison",
+            "Soap": "Soap",
+            "Toothpaste": "Toothpaste",
+            "Measuring Tape": "Measuring Tape",
+            "Small Shovel": "Small Shovel",
+            "Plier": "Plier",
+            "Mouse": "Mouse",
+            "Fossil": "Fossil",
+            "Aladdin lamp": "Aladdin lamp",
+            "Golden elephant": "Golden elephant",
+            "Stone lion": "Stone lion",
+            "Diamond ring": "Ruby ring",
+            "Pocket watch": "Pocketwatch",
+            "Camera": "Vintage Camera",
+            "Gold bars": "Gold Ingot",
+            "Big Nut": "Big Nut",
+            "Wire": "Wire",
+            "Graphic Card": "Graphic Card",
+            "CPU Fan": "CPU Fan",
+            "CPU Core": "CPU Core",
+            "RAM": "RAM",
+            "Fuse": "Fuse",
+            "Radio": "Portable Radio",
+            "Civil Radio": "Civil radio",
+            "Digital Sensor": "Digital sensor",
+            "Data Cord": "Data Cord",
+            "VR Headset": "VR Headset",
+            "Sunglasses": "Sunglasses",
+            "Toy Car": "Toy Car",
+            "Toy Duck": "Toy Duck",
+            "Wood Doll": "Wood Doll",
+            "Mug": "Mug",
+            "Remote Control": "Remote Control",
+            "Videotape": "Videotape",
+            "Horror Novel": "Horror novel",
+            "Facial Cleanser": "Facial Cleanser",
+            "Perfume": "Perfume",
+            "Radio Scanner": "Radio scanner",
+            "Linen Fabrics": "Linen Fabrics",
+            "Antique Teapot": "Antique Tea cup",
+            "Gold price": "Golden prize1",
+            "Badge": "Sheriff's Badge",
+            "Old Baseball": "Old Baseball"
+        };
+
+        // Get image path for an item
+        function getItemImagePath(itemName) {
+            const mappedName = itemImageMap[itemName] || itemName;
+            return `Images/Items/${mappedName}.webp`;
+        }
+
+        // Full item database extracted from CSEZ Wiki
+        const allItemData = {
+            building: [
+                { name: "Big Nut", price: 978, weight: 0.03, notes: null, hideout: null, rarity: "Common" },
+                { name: "Super Glue", price: 10603, weight: 0.05, notes: "Bartered for Soft Armor with Maximilian", hideout: null, rarity: "Rare" },
+                { name: "Instant Glue", price: 10710, weight: 0.01, notes: "Bartered for DouMountains armor with Maximilian", hideout: null, rarity: "Rare" },
+                { name: "Copper Wire", price: 4326, weight: 0.4, notes: null, hideout: null, rarity: "Unusual" },
+                { name: "Ceramic Adhesive", price: 4200, weight: 0.4, notes: null, hideout: null, rarity: "Unusual" },
+                { name: "Bolts", price: 1071, weight: 0.1, notes: null, hideout: null, rarity: "Common" },
+                { name: "Nuts", price: 1040, weight: 0.15, notes: "Required for Storage Lvl1 x6, Sofa Lvl1 x5, Kitchen Area x3", hideout: "Storage, Sofa, Kitchen", rarity: "Common" },
+                { name: "Insulating Tape", price: 4200, weight: 0.02, notes: "Bartered for RGO nade with Igor", hideout: null, rarity: "Unusual" },
+                { name: "Box of Nails", price: 945, weight: 0.08, notes: null, hideout: null, rarity: "Common" },
+                { name: "Piezometer", price: 45500, weight: 0.4, notes: "Required 2x for Hideout Update", hideout: "Hideout Update x2", rarity: "Epic" },
+                { name: "Valve", price: 4242, weight: 0.3, notes: "Required 3x for Hideout Update with Piezometer", hideout: "Hideout Update x3", rarity: "Unusual" },
+                { name: "Wire", price: 1040, weight: 0.1, notes: null, hideout: null, rarity: "Common" }
+            ],
+            tools: [
+                { name: "Hammer", price: 9356, weight: 0.3, notes: null, hideout: null, rarity: "Rare" },
+                { name: "Large Plier", price: 735, weight: 0.28, notes: null, hideout: null, rarity: "Common" },
+                { name: "Measuring Tape", price: 750, weight: 0.14, notes: null, hideout: null, rarity: "Common" },
+                { name: "Moldboard", price: 743, weight: 0.1, notes: null, hideout: null, rarity: "Common" },
+                { name: "Plier", price: 3090, weight: 0.16, notes: null, hideout: null, rarity: "Unusual" },
+                { name: "Screwdriver", price: 758, weight: 0.2, notes: "Bartered for RGD-5 nade with Igor", hideout: null, rarity: "Common" },
+                { name: "Small Shovel", price: 2970, weight: 0.1, notes: null, hideout: null, rarity: "Unusual" },
+                { name: "Small Wrench", price: 743, weight: 0.3, notes: null, hideout: null, rarity: "Common" },
+                { name: "Spark Plug", price: 8100, weight: 0.12, notes: null, hideout: null, rarity: "Rare" },
+                { name: "Tape Holder", price: 863, weight: 0.1, notes: null, hideout: null, rarity: "Common" },
+                { name: "Tire Sealant", price: 743, weight: 0.15, notes: null, hideout: null, rarity: "Common" },
+                { name: "Wire Cutters", price: 3090, weight: 0.08, notes: null, hideout: null, rarity: "Unusual" },
+                { name: "Wrench", price: 2940, weight: 0.24, notes: null, hideout: null, rarity: "Unusual" },
+                { name: "Electric Drill", price: 47288, weight: 2, notes: null, hideout: null, rarity: "Epic" }
+            ],
+            electric: [
+                { name: "CPU Fan", price: 87759, weight: 0.1, notes: "Needed for The Collector task", hideout: "The Collector", rarity: "Epic" },
+                { name: "CPU Core", price: 1300, weight: 0.08, notes: null, hideout: null, rarity: "Common" },
+                { name: "Flashlight", price: 1300, weight: 0.15, notes: null, hideout: null, rarity: "Common" },
+                { name: "Mouse", price: 1500, weight: 0.15, notes: "Found on desk next to key room west of Horstel", hideout: null, rarity: "Common" },
+                { name: "NewPhone", price: 10500, weight: 0.2, notes: "Can be traded for Maximilian at trust level 2 after completing 1st task. Spawns Police station briefing room 1st floor, always have new/old phone on desk", hideout: null, rarity: "Rare" },
+                { name: "OldPhone", price: 2296, weight: 0.2, notes: "Need 9 for Boulder. Suburbs Police station briefing room 1st floor will always have new/old phone on desk", hideout: "Boulder x9", rarity: "Unusual" },
+                { name: "RAM", price: 1050, weight: 0.04, notes: "Bartered for Periosteal Syringe USE MKA tool for NMRLT", hideout: null, rarity: "Common" },
+                { name: "Fuse", price: 2520, weight: 0.08, notes: "Bartered for a UZGA-12MR shotgun with Maximilian", hideout: null, rarity: "Unusual" },
+                { name: "Cartridge", price: 93770, weight: 0.05, notes: null, hideout: null, rarity: "Epic" },
+                { name: "Cool Strap", price: 6425, weight: 0.15, notes: "Bartered for a 12GA Heft-5 USMS/BZ with Tommy", hideout: null, rarity: "Rare" },
+                { name: "Radio", price: 25425, weight: 4, notes: "Bartered for 4 45x39mm M992/RC TC with Tommy", hideout: null, rarity: "Epic" }
+            ],
+            household: [
+                { name: "Beard Oil", price: 3000, weight: 0.15, notes: "Bartered for 7.62x39mm AKM rifle with Igor", hideout: null, rarity: "Unusual" },
+                { name: "Cleaner", price: 2910, weight: 0.7, notes: "Bartered for Advanced Syringe with Maggie", hideout: null, rarity: "Unusual" },
+                { name: "Deodorant", price: 8820, weight: 0.4, notes: "Bartered for 7.62x51mm FAL with Igor, also for ODLDOS BAG with Maggie", hideout: null, rarity: "Rare" },
+                { name: "Cleanser", price: 3000, weight: 0.25, notes: null, hideout: null, rarity: "Unusual" },
+                { name: "Rat Poison", price: 32175, weight: 0.2, notes: null, hideout: null, rarity: "Epic" },
+                { name: "Pesticide", price: 9000, weight: 0.22, notes: null, hideout: null, rarity: "Rare" },
+                { name: "Rust Cleaner", price: 750, weight: 0.22, notes: null, hideout: null, rarity: "Common" },
+                { name: "Shampoo", price: 8910, weight: 0.28, notes: null, hideout: null, rarity: "Rare" },
+                { name: "Soap", price: 765, weight: 0.05, notes: "Need 1 for Bathroom in hideout", hideout: "Bathroom x1", rarity: "Common" },
+                { name: "Toilet Paper", price: 918, weight: 0.03, notes: null, hideout: null, rarity: "Common" },
+                { name: "Toothpaste", price: 675, weight: 0.05, notes: null, hideout: null, rarity: "Common" }
+            ],
+            combustible: [
+                { name: "Gas Can", price: 1061, weight: 0.22, notes: null, hideout: null, rarity: "Common" },
+                { name: "Gun Oil", price: 12348, weight: 0.2, notes: "Bartered for 7.62x54R SNB with Igor", hideout: null, rarity: "Rare" },
+                { name: "Gun Powder", price: 45500, weight: 0.2, notes: "Bartered for Shooting Range at hideout", hideout: "Shooting Range", spawnLocations: "Resort construction site, in wheelbarrow or on the crate", rarity: "Epic" },
+                { name: "Large Gas Can", price: 13999, weight: 0.5, notes: null, hideout: null, rarity: "Rare" },
+                { name: "Lighter", price: 848, weight: 0.06, notes: "Bartered for M67 with Tommy", hideout: null, rarity: "Common" },
+                { name: "Lighter Fluid", price: 4200, weight: 0.2, notes: "Bartered for 5.56x45mm AR-15 Hunter with Tommy", hideout: null, rarity: "Unusual" },
+                { name: "WD-40", price: 1050, weight: 0.18, notes: null, hideout: null, rarity: "Common" },
+                { name: "Smokeless Powder", price: 45081, weight: 0.15, notes: null, hideout: null, spawnLocations: "Resort construction site, in wheelbarrow or on the crate", rarity: "Epic" },
+                { name: "Spray Can", price: 12726, weight: 0.3, notes: "Bartered for Advanced Syringe with Maggie", hideout: null, rarity: "Rare" },
+                { name: "Oil Can", price: 4733, weight: 3.5, notes: null, hideout: null, rarity: "Unusual" }
+            ],
+            highvalue: [
+                { name: "C5 Operador O", price: 117000, weight: 1, notes: "Found item to find in the game. Keep one for The Collector task", hideout: "The Collector", rarity: "Rare", type: "Watch" },
+                { name: "C5 Operador VI", price: 25200, weight: 0.1, notes: "MKA tool for NMRLT", hideout: null, rarity: "Rare", type: "Watch" },
+                { name: "Medium Operador VI", price: 25200, weight: 0.1, notes: "MKA tool for NMRLT", hideout: null, rarity: "Rare", type: "Watch" },
+                { name: "Elite Operador 01", price: 25200, weight: 0.1, notes: "MKA tool for NMRLT", hideout: null, rarity: "Rare", type: "Watch" },
+                { name: "Heavy Operador VI", price: 26354, weight: 0.1, notes: "MKA tool for NMRLT", hideout: null, rarity: "Rare", type: "Watch" },
+                { name: "Light Operador VI", price: 25200, weight: 0.1, notes: "MKA tool for NMRLT", hideout: null, rarity: "Rare", type: "Watch" },
+                { name: "Operador 00", price: 25200, weight: 0.1, notes: "MKA tool for NMRLT", hideout: null, rarity: "Rare", type: "Watch" },
+                { name: "Operador 47", price: 25200, weight: 0.1, notes: "MKA tool for NMRLT", hideout: null, rarity: "Rare", type: "Watch" },
+                { name: "Diamond ring", price: 525387, weight: 0.02, notes: "Diamond for 2 F2-DR, MFT machine + stand", hideout: "MFT Machine", rarity: "Epic", type: "Jewelry" },
+                { name: "Fossil", price: 102102, weight: 1, notes: null, hideout: null, rarity: "Legendary", type: "Collectible" },
+                { name: "Gold bars", price: 307710, weight: 3, notes: "Need 1 for Cold Cash quest", hideout: "Cold Cash Quest", rarity: "Legendary", type: "Valuables" },
+                { name: "Crypto coin (aka GPO)", price: 227090, weight: 0.01, notes: "Used in the Bitcoin Mine to generate passive income", hideout: "Bitcoin Mine", rarity: "Epic", type: "Valuables" },
+                { name: "Aladdin lamp", price: 1205250, weight: 0.5, notes: null, hideout: null, rarity: "Ultimate", type: "Collectible" },
+                { name: "Antique Teapot", price: 132294, weight: 0.2, notes: null, hideout: null, rarity: "Epic", type: "Collectible" },
+                { name: "Golden elephant", price: 1373100, weight: 2, notes: null, hideout: null, rarity: "Ultimate", type: "Collectible" },
+                { name: "Gold price", price: 348260, weight: 1.5, notes: null, hideout: null, rarity: "Legendary", type: "Valuables" },
+                { name: "Stone lion", price: 102782, weight: 5, notes: null, hideout: null, rarity: "Epic", type: "Collectible" },
+                { name: "Contractors Collector's Coin", price: 93770, weight: 0.03, notes: null, hideout: null, rarity: "Epic", type: "Collectible" },
+                { name: "BloodFern Contractors Collector's Coin", price: 85360, weight: 0.03, notes: null, hideout: null, rarity: "Epic", type: "Collectible" },
+                { name: "BloodForge Contractors Collector's Coin", price: 93770, weight: 0.03, notes: null, hideout: null, rarity: "Epic", type: "Collectible" },
+                { name: "Silver cap", price: 91000, weight: 0.05, notes: "Diamond for 4 Sol-9mm 126p + 50r with Tommy", hideout: null, rarity: "Epic", type: "Valuables" },
+                { name: "Pocket watch", price: 320734, weight: 0.05, notes: "Battered for an MRTV camera with Maximilian", hideout: null, rarity: "Legendary", type: "Collectible" },
+                { name: "Badge", price: 118925, weight: 0.05, notes: "1 Gold cross 50 CA-17 rifle with Tommy", hideout: null, rarity: "Epic", type: "Collectible" },
+                { name: "Camera", price: 41769, weight: 0.3, notes: null, hideout: null, rarity: "Rare", type: "Electronics" },
+                { name: "Moutil Dry Red Wine", price: 1000, weight: 0.3, notes: "Quest item, it has the following description: 'A bottle of fine French wine'", hideout: null, spawnLocations: "Suburbs Worth's Farm", rarity: "Rare", type: "Quest" },
+                { name: "Game stick", price: 0, weight: 0.5, notes: "Quest item, hack to Play quest for BoulderForge", hideout: "Hack to Play Quest", spawnLocations: "Suburbs", rarity: "Rare", type: "Quest" },
+                { name: "Motor oil", price: 1, weight: 1, notes: null, hideout: null, spawnLocations: "Resort fire department floor in back of unit 1A", rarity: "Epic", type: "Quest" },
+                { name: "Gas Pipe Pliers", price: null, weight: 1, notes: null, hideout: null, rarity: "Epic", type: "Tools" },
+                { name: "Voltage Transformer", price: 63700, weight: 1.8, notes: null, hideout: null, spawnLocations: "Found in power plants on suburbs or LF7 (E)", rarity: "Epic", type: "Electronics" },
+                { name: "Defibrillator", price: 527361, weight: 3.8, notes: null, hideout: null, spawnLocations: "Found in front of bank (E)", rarity: "Epic", type: "Medical" }
+            ]
+        };
+
+        // Rare item spawn locations for hideout upgrades (from RadFox video)
+        const itemSpawnData = [
+            {
+                name: "Climbing Rope",
+                category: "Hideout Material",
+                image: "Images/Items/Climbing Rope.webp",
+                spawns: {
+                    "Suburbs": [
+                        "Key room 206",
+                        "Camp Shop on the third floor of the mall",
+                        "Other storage rooms in the mall",
+                        "Extraction key exfil",
+                        "Possibly the \"bury\" locked room"
+                    ],
+                    "Dam": [
+                        "Extraction bunker",
+                        "Sometimes in the old factory area"
+                    ],
+                    "Resort": [
+                        "Fire department",
+                        "Potentially the bank room"
+                    ],
+                    "Smuggling Tunnel": [
+                        "RH02 dorm room",
+                        "Fan room near the cargo area"
+                    ],
+                    "Metro": [
+                        "Near the central Xfield",
+                        "Key room in the sewers",
+                        "Possibly armory"
+                    ]
+                },
+                video: { timestamp: "0:00", url: "https://www.youtube.com/watch?v=7IA5rDZTJiM&t=0s" }
+            },
+            {
+                name: "Spark Plug",
+                category: "Hideout Material",
+                image: "Images/Items/Spark Plug.webp",
+                spawns: {
+                    "Suburbs": [
+                        "Forklift next to Alibi",
+                        "Storage room of the shop",
+                        "Extraction bunker"
+                    ],
+                    "Resort": [
+                        "Storage room of the modern apartment"
+                    ],
+                    "Smuggling Tunnel": [
+                        "Control tower",
+                        "Shelves under the conveyor belt in the fan room",
+                        "Shelves past the conveyor belt",
+                        "Frequently found in orange-lid toolboxes"
+                    ]
+                },
+                video: { timestamp: "2:15", url: "https://www.youtube.com/watch?v=7IA5rDZTJiM&t=135s" }
+            },
+            {
+                name: "Copper Wire",
+                category: "Hideout Material",
+                image: "Images/Items/Copper Wire.webp",
+                spawns: {
+                    "Dam": [
+                        "West inlet tower (key room)",
+                        "Different floors of construction",
+                        "Extraction bunker",
+                        "Factory zone A (key room in the old factory)"
+                    ],
+                    "Suburbs": [
+                        "Storage rooms of the mall (e.g., room with red and green lights on 2nd floor)",
+                        "Second floor of the police station"
+                    ],
+                    "Metro": [
+                        "Middle of the medical area (bottom level)",
+                        "Tank room (top floor, accessed from control room lever)"
+                    ]
+                },
+                video: { timestamp: "3:36", url: "https://www.youtube.com/watch?v=7IA5rDZTJiM&t=216s" }
+            },
+            {
+                name: "Piezometer",
+                category: "Hideout Material",
+                image: "Images/Items/Piezometer.webp",
+                spawns: {
+                    "Dam": [
+                        "Whole building in the docks",
+                        "Forklift near the docks",
+                        "Nearby construction",
+                        "Ellis shop in Clifton",
+                        "East Inlet tower",
+                        "Extraction key exfil"
+                    ],
+                    "Suburbs": [
+                        "Storage room on the first floor of the mall",
+                        "Camp Shop on the third floor",
+                        "Vault 2 (key purchasable from Maggie)",
+                        "Hotel 206 (key purchasable from Maggie)",
+                        "Extraction bunker"
+                    ],
+                    "Resort": [
+                        "Fire department",
+                        "Storage room on the first floor of the modern apartment"
+                    ],
+                    "Smuggling Tunnel": [
+                        "Medical area (top floor)",
+                        "Shelves in the fan room near cargo"
+                    ],
+                    "Metro": [
+                        "Sirius key room",
+                        "Lockers in armory",
+                        "Table between Sirius and armory"
+                    ]
+                },
+                video: { timestamp: "4:53", url: "https://www.youtube.com/watch?v=7IA5rDZTJiM&t=293s" }
+            },
+            {
+                name: "Drill",
+                category: "Hideout Material",
+                image: "Images/Items/Drill.webp",
+                spawns: {
+                    "Suburbs": [
+                        "Extraction bunker"
+                    ],
+                    "Dam": [
+                        "Construction",
+                        "Ellis shop in Clifton"
+                    ],
+                    "Smuggling Tunnel": [
+                        "Fan room near cargo (on the fan or shelves behind)",
+                        "Forklift next to one of the spawns in the cargo area"
+                    ],
+                    "Metro": [
+                        "Table between armory and Sirius",
+                        "In the Sirius key room"
+                    ]
+                },
+                video: { timestamp: "7:33", url: "https://www.youtube.com/watch?v=7IA5rDZTJiM&t=453s" }
+            },
+            {
+                name: "Imaging Module",
+                category: "Hideout Material",
+                image: "Images/Items/Imaging Module.webp",
+                spawns: {
+                    "Smuggling Tunnel": [
+                        "Medical lab (top floor)",
+                        "Dark area near the control tower",
+                        "Central area locked room",
+                        "Core area elevator/turtle room"
+                    ],
+                    "Suburbs": [
+                        "Locked room \"police 2\""
+                    ],
+                    "Resort": [
+                        "Room in the house in the flea market area",
+                        "Locked room on the second floor of the bank"
+                    ],
+                    "Metro": [
+                        "Table in the medical area (bottom floor)",
+                        "Medical lab (if you have the key)",
+                        "Room next to the showers"
+                    ]
+                },
+                video: { timestamp: "8:34", url: "https://www.youtube.com/watch?v=7IA5rDZTJiM&t=514s" }
+            },
+            {
+                name: "Game Console",
+                category: "Rare Item",
+                image: "Images/Items/Game Console.webp",
+                spawns: {
+                    "Smuggling Tunnel": [
+                        "Under the turtle room"
+                    ],
+                    "Resort": [
+                        "Bench near the bank (less certain)",
+                        "Tables near the bridge in the modern apartment (less certain)"
+                    ]
+                },
+                video: { timestamp: "11:04", url: "https://www.youtube.com/watch?v=7IA5rDZTJiM&t=664s" }
+            }
+        ];
+
+        // Legacy compatibility
+        const itemData = itemSpawnData;
+
+        function filterItems() {
+            const searchTerm = document.getElementById('searchBox').value.toLowerCase();
+            const mapFilter = document.getElementById('mapFilter').value;
+
+            const filtered = itemData.filter(item => {
+                const matchesSearch = item.name.toLowerCase().includes(searchTerm) ||
+                                     item.category.toLowerCase().includes(searchTerm);
+
+                if (mapFilter === 'all') {
+                    return matchesSearch;
+                }
+
+                return matchesSearch && item.spawns[mapFilter];
+            });
+
+            renderItems(filtered, mapFilter);
+        }
+
+        function renderItems(items, mapFilter) {
+            const grid = document.getElementById('itemsGrid');
+
+            if (items.length === 0) {
+                grid.innerHTML = '<div class="no-results">No items found matching your criteria.</div>';
+                return;
+            }
+
+            grid.innerHTML = items.map(item => {
+                const maps = mapFilter === 'all' ? Object.keys(item.spawns) : [mapFilter];
+
+                const mapSections = maps.map(map => {
+                    if (!item.spawns[map]) return '';
+                    return `
+                        <div class="map-section">
+                            <div class="map-name">${map}</div>
+                            <ul class="spawn-list">
+                                ${item.spawns[map].map(spawn => `<li>${spawn}</li>`).join('')}
+                            </ul>
+                        </div>
+                    `;
+                }).join('');
+
+                return `
+                    <div class="item-card">
+                        <div class="item-header">
+                            <img src="${item.image}" alt="${item.name}" class="item-icon" onerror="this.style.display='none'">
+                            <div class="item-title">
+                                <div class="item-name">${item.name}</div>
+                                <div class="item-category">${item.category}</div>
+                            </div>
+                        </div>
+                        <div class="item-content">
+                            ${mapSections}
+                            ${item.video ? `
+                                <div class="item-video">
+                                    <a href="${item.video.url}" target="_blank">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 16.5l6-4.5-6-4.5v9zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>
+                                        Watch Video Guide (${item.video.timestamp})
+                                    </a>
+                                </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Category tab switching
+        function selectCategory(category) {
+            // Update active tab
+            document.querySelectorAll('.category-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Update the item database table
+            renderItemDatabase(category);
+        }
+
+        // Render item database table for selected category
+        function renderItemDatabase(category) {
+            const items = allItemData[category] || [];
+            const container = document.getElementById('itemDatabaseGrid');
+
+            if (!container) return;
+
+            if (items.length === 0) {
+                container.innerHTML = '<div class="no-results">No items in this category.</div>';
+                return;
+            }
+
+            const getRarityClass = (rarity) => {
+                const classes = {
+                    'Common': 'rarity-common',
+                    'Unusual': 'rarity-unusual',
+                    'Rare': 'rarity-rare',
+                    'Epic': 'rarity-epic',
+                    'Legendary': 'rarity-legendary',
+                    'Ultimate': 'rarity-ultimate'
+                };
+                return classes[rarity] || 'rarity-common';
+            };
+
+            container.innerHTML = `
+                <table class="item-table">
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Sell Price</th>
+                            <th>Weight</th>
+                            <th>Notes / Barters</th>
+                            <th>Hideout Use</th>
+                            <th>Rarity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${items.map(item => `
+                            <tr>
+                                <td class="item-name-cell">
+                                    <img src="${getItemImagePath(item.name)}" alt="${item.name}" class="table-item-icon" onerror="this.style.display='none'">
+                                    <span>${item.name}</span>
+                                </td>
+                                <td class="price-cell">${item.price ? '₽' + item.price.toLocaleString() : '-'}</td>
+                                <td>${item.weight}kg</td>
+                                <td class="notes-cell">${item.notes || '-'}</td>
+                                <td class="hideout-cell">${item.hideout || '-'}</td>
+                                <td><span class="rarity-badge ${getRarityClass(item.rarity)}">${item.rarity}</span></td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
+        }
+
+        // Read URL parameters and pre-fill search
+        function initFromUrl() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const searchParam = urlParams.get('search');
+            if (searchParam) {
+                document.getElementById('searchBox').value = searchParam;
+                // Also search in item database - find matching category
+                const searchLower = searchParam.toLowerCase();
+                for (const [category, items] of Object.entries(allItemData)) {
+                    const found = items.find(item => item.name.toLowerCase().includes(searchLower));
+                    if (found) {
+                        selectCategoryByName(category);
+                        break;
+                    }
+                }
+            }
+        }
+
+        // Select category programmatically (without relying on event.target)
+        function selectCategoryByName(category) {
+            // Update active tab
+            document.querySelectorAll('.category-tab').forEach(tab => {
+                const tabCategory = tab.textContent.toLowerCase().replace(' ', '');
+                tab.classList.toggle('active', tabCategory === category ||
+                    (category === 'highvalue' && tab.textContent === 'High Value'));
+            });
+
+            // Update the item database table
+            renderItemDatabase(category);
+        }
+
+        // Sidebar toggle functionality
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const isMobile = window.innerWidth <= 768;
+
+            if (isMobile) {
+                sidebar.classList.toggle('mobile-open');
+            } else {
+                sidebar.classList.toggle('collapsed');
+            }
+
+            // Save preference
+            localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('collapsed'));
+        }
+
+        // Load sidebar state
+        function loadSidebarState() {
+            const collapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+            const sidebar = document.getElementById('sidebar');
+            if (collapsed && window.innerWidth > 768) {
+                sidebar.classList.add('collapsed');
+            }
+        }
+
+        // Initial render
+        loadSidebarState();
+        initFromUrl();
+        filterItems();
+        renderItemDatabase('building');
+    </script>
+    </div>
+</body>
+</html>

@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExfilZone Task Guide</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #00ff88;
+            --primary-dim: #00cc6a;
+            --secondary: #ff4400;
+            --bg-dark: #0a0e14;
+            --bg-medium: #151a24;
+            --bg-light: #1f2937;
+            --bg-card: #1a1f2e;
+            --text-primary: #e4e8f0;
+            --text-secondary: #8b95a8;
+            --accent-blue: #00d4ff;
+            --accent-yellow: #fbbf24;
+            --border: #2a3544;
+            --sidebar-width: 220px;
+        }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            min-height: 100vh;
+            background-image:
+                radial-gradient(circle at 20% 80%, rgba(0, 255, 136, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 68, 0, 0.03) 0%, transparent 50%);
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: var(--sidebar-width);
+            height: 100vh;
+            background: var(--bg-medium);
+            border-right: 1px solid var(--border);
+            padding: 1rem 0;
+            z-index: 1000;
+            transition: transform 0.3s ease;
+            overflow-y: auto;
+        }
+
+        .sidebar.collapsed {
+            transform: translateX(calc(-1 * var(--sidebar-width)));
+        }
+
+        .sidebar-header {
+            padding: 0.5rem 1rem 1rem;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 1rem;
+        }
+
+        .sidebar-logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent-blue) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .sidebar .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            margin: 0;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.2s;
+            border-left: 3px solid transparent;
+            border-radius: 0;
+            background: transparent;
+            border-top: none;
+            border-right: none;
+            border-bottom: none;
+        }
+
+        .sidebar .nav-link svg {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+            flex-shrink: 0;
+        }
+
+        .sidebar .nav-link:hover {
+            background: var(--bg-light);
+            color: var(--text-primary);
+            border-left-color: var(--accent-blue);
+        }
+
+        .sidebar .nav-link.active {
+            background: rgba(0, 255, 136, 0.1);
+            color: var(--primary);
+            border-left-color: var(--primary);
+        }
+
+        .sidebar-toggle {
+            position: fixed;
+            left: var(--sidebar-width);
+            top: 50%;
+            transform: translateY(-50%);
+            width: 24px;
+            height: 48px;
+            background: var(--bg-medium);
+            border: 1px solid var(--border);
+            border-left: none;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            z-index: 1001;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: left 0.3s ease;
+        }
+
+        .sidebar-toggle:hover {
+            background: var(--bg-light);
+        }
+
+        .sidebar-toggle svg {
+            width: 16px;
+            height: 16px;
+            fill: var(--text-secondary);
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar.collapsed + .sidebar-toggle {
+            left: 0;
+        }
+
+        .sidebar.collapsed + .sidebar-toggle svg {
+            transform: rotate(180deg);
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            transition: margin-left 0.3s ease;
+            min-height: 100vh;
+        }
+
+        .sidebar.collapsed ~ .main-content {
+            margin-left: 0;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            padding-bottom: 2rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 900;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent-blue) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: var(--bg-medium);
+            border: 1px solid var(--border);
+            color: var(--accent-blue);
+            text-decoration: none;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        .nav-link svg {
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
+        }
+
+        .nav-link:hover {
+            border-color: var(--accent-blue);
+            background: var(--bg-light);
+        }
+
+        /* Trader Tabs */
+        .trader-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .trader-tab {
+            padding: 0.75rem 1.5rem;
+            background: var(--bg-medium);
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-radius: 4px;
+        }
+
+        .trader-tab:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .trader-tab.active {
+            background: var(--primary);
+            color: var(--bg-dark);
+            border-color: var(--primary);
+        }
+
+        /* Filter Controls */
+        .filter-controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .search-box {
+            padding: 0.5rem 1rem;
+            background: var(--bg-medium);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            color: var(--text-primary);
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1rem;
+            width: 250px;
+            transition: all 0.2s;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: var(--accent-blue);
+        }
+
+        .search-box::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .map-filter {
+            padding: 0.5rem 1rem;
+            background: var(--bg-medium);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            color: var(--text-primary);
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .map-filter:focus {
+            outline: none;
+            border-color: var(--accent-blue);
+        }
+
+        /* Tasks Grid */
+        .tasks-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .task-card {
+            background: var(--bg-medium);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .task-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .task-header {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+
+        .task-name {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--accent-yellow);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .task-number {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            background: var(--bg-dark);
+            padding: 0.25rem 0.5rem;
+            border-radius: 3px;
+            white-space: nowrap;
+        }
+
+        .task-content {
+            padding: 1rem;
+        }
+
+        .task-map {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            color: var(--accent-blue);
+            margin-bottom: 0.75rem;
+            padding: 0.25rem 0.5rem;
+            background: rgba(0, 212, 255, 0.1);
+            border-radius: 3px;
+        }
+
+        .task-map::before {
+            content: 'MAP:';
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.65rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+        }
+
+        .task-objective {
+            font-size: 0.95rem;
+            color: var(--text-primary);
+            line-height: 1.6;
+            margin-bottom: 0.75rem;
+        }
+
+        .task-tips {
+            margin-top: 0.75rem;
+            padding: 0.75rem;
+            background: rgba(0, 255, 136, 0.05);
+            border-left: 3px solid var(--primary);
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .task-tips-label {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.65rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.25rem;
+        }
+
+        .task-video {
+            margin-top: 0.75rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .task-video a {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--accent-blue);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+
+        .task-video a:hover {
+            color: var(--primary);
+        }
+
+        .task-video svg {
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
+        }
+
+        .video-credit {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 1rem;
+            background: var(--bg-medium);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+        }
+
+        .video-credit a {
+            color: var(--accent-blue);
+            text-decoration: none;
+        }
+
+        .video-credit a:hover {
+            text-decoration: underline;
+        }
+
+        .version-footer {
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 2rem;
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 1px;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            grid-column: 1 / -1;
+        }
+
+        .trader-display {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: var(--bg-medium);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+        }
+
+        .trader-image {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 2px solid var(--primary);
+        }
+
+        .trader-info {
+            text-align: left;
+        }
+
+        .trader-name {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-yellow);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 0.25rem;
+        }
+
+        .trader-faction {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .trader-task-count {
+            font-size: 0.85rem;
+            color: var(--accent-blue);
+            margin-top: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(calc(-1 * var(--sidebar-width)));
+            }
+
+            .sidebar.mobile-open {
+                transform: translateX(0);
+            }
+
+            .sidebar-toggle {
+                left: 0;
+            }
+
+            .sidebar.mobile-open + .sidebar-toggle {
+                left: var(--sidebar-width);
+            }
+
+            .sidebar.mobile-open + .sidebar-toggle svg {
+                transform: rotate(180deg);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            h1 { font-size: 1.75rem; }
+            .container { padding: 1rem; }
+            .tasks-grid { grid-template-columns: 1fr; }
+            .search-box { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">ExfilZone</div>
+        </div>
+        <a href="index.html" class="nav-link">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+            Hideout Tracker
+        </a>
+        <a href="items.html" class="nav-link">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-9 9H4V4h7v7zm9 0h-7V4h7v7zm-9 9H4v-7h7v7zm9 0h-7v-7h7v7z"/></svg>
+            Item Database
+        </a>
+        <a href="itemspawns.html" class="nav-link">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+            Item Spawns
+        </a>
+        <a href="ammo.html" class="nav-link">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-4h2v-2h2v-2h-2V8h-2v4H9v2h2v2z"/></svg>
+            Ammo TTK Chart
+        </a>
+        <a href="keys.html" class="nav-link">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12.65 10A5.99 5.99 0 0 0 7 6c-3.31 0-6 2.69-6 6s2.69 6 6 6a5.99 5.99 0 0 0 5.65-4H17v4h4v-4h2v-4H12.65zM7 14c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/></svg>
+            Key Vault Guide
+        </a>
+        <a href="keyspawns.html" class="nav-link">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+            Key Spawns
+        </a>
+        <a href="maps.html" class="nav-link">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.5 3l-.16.03L15 5.1 9 3 3.36 4.9c-.21.07-.36.25-.36.48V20.5c0 .28.22.5.5.5l.16-.03L9 18.9l6 2.1 5.64-1.9c.21-.07.36-.25.36-.48V3.5c0-.28-.22-.5-.5-.5zM15 19l-6-2.11V5l6 2.11V19z"/></svg>
+            Interactive Maps
+        </a>
+        <a href="tasks.html" class="nav-link active">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm2 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+            Task Guide
+        </a>
+    </nav>
+
+    <!-- Sidebar Toggle Button -->
+    <button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+    </button>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="container">
+            <header>
+                <h1>TASK GUIDE</h1>
+                <div class="subtitle">ExfilZone Mission Objectives & Strategies</div>
+            </header>
+
+        <div class="trader-tabs">
+            <button class="trader-tab active" onclick="selectTrader('maximilian')">Maximilian</button>
+            <button class="trader-tab" onclick="selectTrader('tommy')">Tommy (ARK)</button>
+        </div>
+
+        <div class="trader-display" id="traderDisplay">
+            <img src="Images/Traders/BoulderForge_Maximilian_Trader.webp" alt="Maximilian" class="trader-image" id="traderImage">
+            <div class="trader-info">
+                <div class="trader-name" id="traderName">Maximilian</div>
+                <div class="trader-faction" id="traderFaction">BoulderForge</div>
+                <div class="trader-task-count" id="traderTaskCount">18 Tasks</div>
+            </div>
+        </div>
+
+        <div class="filter-controls">
+            <input type="text" class="search-box" id="searchBox" placeholder="Search missions..." oninput="filterTasks()">
+            <select class="map-filter" id="mapFilter" onchange="filterTasks()">
+                <option value="all">All Maps</option>
+                <option value="Suburbs">Suburbs</option>
+                <option value="Dam">Dam</option>
+                <option value="Any">Any Map</option>
+            </select>
+        </div>
+
+        <div class="tasks-grid" id="tasksGrid"></div>
+
+        <div class="video-credit">
+            Video guide by <a href="https://www.youtube.com/watch?v=h8AFe8ypIec" target="_blank">RadFox VR University</a> - Maximilian Missions Complete Task Guide Part 1
+        </div>
+
+        <div class="version-footer">
+            v2.0.0 | Last Updated: January 5, 2025<br>
+            <span style="opacity: 0.7; font-size: 0.7rem;">All game content and assets are property of Caveman Studio</span>
+        </div>
+    </div>
+
+    <script>
+        const taskData = {
+            'maximilian': [
+                {
+                    name: "Customer First",
+                    map: "Suburbs",
+                    objective: "Reach the outdoor driving cinema, find the Maximilian golden goblet, extract, and turn it in.",
+                    tips: null,
+                    video: { timestamp: "0:12", url: "https://www.youtube.com/watch?v=h8AFe8ypIec&t=12s" }
+                },
+                {
+                    name: "Better Safe than Sorry 1",
+                    map: "Suburbs",
+                    objective: "Visit three close-by places marked on the mini-map (truck and loading station, yellowish huts) in the Apollo Hill area and then extract.",
+                    tips: null,
+                    video: { timestamp: "0:43", url: "https://www.youtube.com/watch?v=h8AFe8ypIec&t=43s" }
+                },
+                {
+                    name: "Covert Evacuation",
+                    map: "Suburbs",
+                    objective: "You are given a bunker exfil key. Touch the bunker door and extract from anywhere on the map.",
+                    tips: "Open the bunker for rare loot and put the key in your safe container for future use.",
+                    video: { timestamp: "1:55", url: "https://www.youtube.com/watch?v=h8AFe8ypIec&t=115s" }
+                },
+                {
+                    name: "Into the Rat Hole",
+                    map: "Dam",
+                    objective: "Visit a new area in Dam, grab a golden globe from the middle of a highlighted cave, and turn it in.",
+                    tips: null,
+                    video: { timestamp: "2:48", url: "https://www.youtube.com/watch?v=h8AFe8ypIec&t=168s" }
+                },
+                {
+                    name: "All Pieces Together 1",
+                    map: "Any",
+                    objective: "Submit six notebooks.",
+                    tips: "Notebooks can be found on any map by checking doors, boxes, and shelves.",
+                    video: { timestamp: "3:38", url: "https://www.youtube.com/watch?v=h8AFe8ypIec&t=218s" }
+                },
+                {
+                    name: "All Pieces Together 2",
+                    map: "Any",
+                    objective: "Submit eight tapes.",
+                    tips: "Tapes can be found anywhere on any map.",
+                    video: { timestamp: "3:55", url: "https://www.youtube.com/watch?v=h8AFe8ypIec&t=235s" }
+                },
+                {
+                    name: "Seeing is Believing 1",
+                    map: "Dam",
+                    objective: "Grab trackers from a kiosk and mark three special \"Conway\" tracks in Dam (marked on the mini-map).",
+                    tips: null,
+                    video: { timestamp: "4:05", url: "https://www.youtube.com/watch?v=h8AFe8ypIec&t=245s" }
+                },
+                {
+                    name: "Seeing is Believing 2",
+                    map: "Dam",
+                    objective: "Grab a phone from your kiosk and take two pictures of aircraft engines in the Crash Site area. One engine is on the ground, and the other is attached to a plane wing.",
+                    tips: null,
+                    video: { timestamp: "4:38", url: "https://www.youtube.com/watch?v=h8AFe8ypIec&t=278s" }
+                },
+                {
+                    name: "Purge in the Ranks",
+                    map: "Suburbs",
+                    objective: "Go to the basement of the mall, find the Maximilian golden ingots on a table behind the main elevator, and extract.",
+                    tips: "This is the first mission involving Maximilian golden ingots.",
+                    video: { timestamp: "5:10", url: "https://www.youtube.com/watch?v=h8AFe8ypIec&t=310s" }
+                },
+                {
+                    name: "Better Safe than Sorry 2",
+                    map: "Suburbs",
+                    objective: "Reach three places near the mall: a house near the bridge, a green tent on the mall parking lot, and a water tower. Then successfully extract.",
+                    tips: null,
+                    video: { timestamp: "5:50", url: "https://www.youtube.com/watch?v=h8AFe8ypIec&t=350s" }
+                },
+                {
+                    name: "Don't Play with Fire",
+                    map: "Suburbs",
+                    objective: "Submit five combustible items found on a raid, then grab trackers to mark three silos in the farm area.",
+                    tips: "Use Mika to scan items if unsure whether they're combustible.",
+                    video: { timestamp: "6:51", url: "https://www.youtube.com/watch?v=h8AFe8ypIec&t=411s" }
+                },
+                {
+                    name: "Cold Hard Cash 1",
+                    map: "Any",
+                    objective: "Turn in one golden ingot.",
+                    tips: "If you have the DLC, you'll have two ingots. Otherwise, find them in key rooms and high-value item spawns.",
+                    video: { timestamp: "7:35", url: "https://www.youtube.com/watch?v=h8AFe8ypIec&t=455s" }
+                },
+                {
+                    name: "Cold Hard Cash 2",
+                    map: "Dam",
+                    objective: "Mark five forklifts in Dam. Three forklifts are in the docks (two top, one bottom), and two are in the old factory.",
+                    tips: "You're given four markers, so use a spare one from a previous mission or buy more from Ark.",
+                    video: { timestamp: "8:00", url: "https://www.youtube.com/watch?v=h8AFe8ypIec&t=480s" }
+                },
+                {
+                    name: "All Pieces Together 3",
+                    map: "Any",
+                    objective: "Turn in six old phones.",
+                    tips: "Old phones are common finds on any map.",
+                    video: { timestamp: "9:14", url: "https://www.youtube.com/watch?v=h8AFe8ypIec&t=554s" }
+                },
+                {
+                    name: "All Pieces Together 4",
+                    map: "Any",
+                    objective: "Turn in four cameras.",
+                    tips: "Cameras are high-value items found in locked rooms, high-value item spawns, or sometimes in boxes.",
+                    video: { timestamp: "9:28", url: "https://www.youtube.com/watch?v=h8AFe8ypIec&t=568s" }
+                },
+                {
+                    name: "Cold Hard Cash 3",
+                    map: "Dam",
+                    objective: "Collect three ingots in Dam. Go to the construction area, kill bosses, climb the ladder to the top, and collect the ingots.",
+                    tips: "Use the ladder trick to descend safely.",
+                    video: { timestamp: "9:47", url: "https://www.youtube.com/watch?v=h8AFe8ypIec&t=587s" }
+                },
+                {
+                    name: "Console in Hand",
+                    map: "Any",
+                    objective: "Submit a game console and all four different game cartridges.",
+                    tips: "These are found in locked rooms, high-value item spawns, and sometimes in boxes and drawers. The game console is rare.",
+                    video: { timestamp: "10:53", url: "https://www.youtube.com/watch?v=h8AFe8ypIec&t=653s" }
+                },
+                {
+                    name: "Hack to Play",
+                    map: "Dam",
+                    objective: "Find two discs. One is in the Dam power station area, and the other is under the factory \"bizone\" lock room.",
+                    tips: null,
+                    video: { timestamp: "11:13", url: "https://www.youtube.com/watch?v=h8AFe8ypIec&t=673s" }
+                }
+            ],
+            'tommy': [
+                {
+                    name: "Extraction from Suburbs",
+                    map: "Suburbs",
+                    objective: "Extract from any location in the suburbs.",
+                    tips: null,
+                    video: { timestamp: "0:18", url: "https://www.youtube.com/watch?v=HLNHp2vxesQ&t=18s" }
+                },
+                {
+                    name: "Kill Scavengers",
+                    map: "Suburbs",
+                    objective: "Eliminate four scavengers in the suburbs.",
+                    tips: "Contractor players do not count - only AI scavengers.",
+                    video: { timestamp: "0:22", url: "https://www.youtube.com/watch?v=HLNHp2vxesQ&t=22s" }
+                },
+                {
+                    name: "Turn in Intel Items",
+                    map: "Any",
+                    objective: "Submit three \"Intel\" items found in raids.",
+                    tips: "Intel items include notebooks, tapes, hard drives, or books.",
+                    video: { timestamp: "0:40", url: "https://www.youtube.com/watch?v=HLNHp2vxesQ&t=40s" }
+                },
+                {
+                    name: "Find and Turn in Ark Soldier's Phone",
+                    map: "Suburbs",
+                    objective: "Locate a phone on the second floor of the office building near the motel in the suburbs.",
+                    tips: null,
+                    video: { timestamp: "0:57", url: "https://www.youtube.com/watch?v=HLNHp2vxesQ&t=57s" }
+                },
+                {
+                    name: "Eliminate Targets with MP5",
+                    map: "Any",
+                    objective: "Kill eight targets on any map using an MP5.",
+                    tips: "Good locations for bots include Hide Town and the Mall.",
+                    video: { timestamp: "1:25", url: "https://www.youtube.com/watch?v=HLNHp2vxesQ&t=85s" }
+                },
+                {
+                    name: "Find Trackers in Alibi",
+                    map: "Suburbs",
+                    objective: "Go to Alibi in the suburbs, check the restroom for one tracker, and find another on the roof by climbing a ladder.",
+                    tips: null,
+                    video: { timestamp: "1:52", url: "https://www.youtube.com/watch?v=HLNHp2vxesQ&t=112s" }
+                },
+                {
+                    name: "Mark Ark Trucks",
+                    map: "Any",
+                    objective: "Mark three Ark trucks.",
+                    tips: "Trackers can be bought from a kiosk if lost. Many trucks are found around the map, including near Hydro Town.",
+                    video: { timestamp: "2:45", url: "https://www.youtube.com/watch?v=HLNHp2vxesQ&t=165s" }
+                },
+                {
+                    name: "Get Kills with an AR15 Series Gun",
+                    map: "Any",
+                    objective: "Achieve 10 kills (bots or players) with an AR15 series gun.",
+                    tips: "Some in-game AR15s might not count. Buy an AR15 Hunter if you experience issues.",
+                    video: { timestamp: "3:18", url: "https://www.youtube.com/watch?v=HLNHp2vxesQ&t=198s" }
+                },
+                {
+                    name: "Place Tommy's Cameras",
+                    map: "Suburbs",
+                    objective: "Find two cameras on a shelf in a dark warehouse between the motel and office building. Place one camera outside nearby and the second on a food truck near Alibi.",
+                    tips: null,
+                    video: { timestamp: "3:47", url: "https://www.youtube.com/watch?v=HLNHp2vxesQ&t=227s" }
+                },
+                {
+                    name: "Kill Police Boss Iron Wolf",
+                    map: "Suburbs",
+                    objective: "Eliminate \"Iron Wolf,\" the police boss, at the police station in the suburbs.",
+                    tips: "He wears a red cap and a vest saying \"police.\"",
+                    video: { timestamp: "4:56", url: "https://www.youtube.com/watch?v=HLNHp2vxesQ&t=296s" }
+                },
+                {
+                    name: "Capture on Site Suburbs (Photo Signs)",
+                    map: "Suburbs",
+                    objective: "Take three photos of shop signs in the mall: burger shop (first floor), repair shop (second floor), and outdoor gear store (third floor).",
+                    tips: "Remember to take a phone from the kiosk first.",
+                    video: { timestamp: "5:35", url: "https://www.youtube.com/watch?v=HLNHp2vxesQ&t=335s" }
+                },
+                {
+                    name: "Informant 1 (Find Floppy Discs)",
+                    map: "Suburbs",
+                    objective: "Find three Ark floppy discs at specific highlighted locations: one in a storage room in Bury, one on the second floor of the yellow house, and one on a barrel in a fenced area.",
+                    tips: null,
+                    video: { timestamp: "6:13", url: "https://www.youtube.com/watch?v=HLNHp2vxesQ&t=373s" }
+                },
+                {
+                    name: "Informant 2 (Place Optical Discs)",
+                    map: "Suburbs",
+                    objective: "Place three optical discs (CDs) in three different locations within the mall. Two boxes are on the first floor, and one is on the third floor.",
+                    tips: null,
+                    video: { timestamp: "7:40", url: "https://www.youtube.com/watch?v=HLNHp2vxesQ&t=460s" }
+                },
+                {
+                    name: "Find Baseballs at the Dock Office",
+                    map: "Dam",
+                    objective: "Locate two baseballs at the dock office: one on the second floor of the main building and the other in a small shop outside.",
+                    tips: null,
+                    video: { timestamp: "9:30", url: "https://www.youtube.com/watch?v=HLNHp2vxesQ&t=570s" }
+                },
+                {
+                    name: "Place Magazines and Mark Bridge Peers",
+                    map: "Dam",
+                    objective: "Obtain trackers from the kiosk and three 30-round MP5 magazines. Place the magazines in a box inside a truck near the bridge and mark both peers of the bridge.",
+                    tips: null,
+                    video: { timestamp: "11:22", url: "https://www.youtube.com/watch?v=HLNHp2vxesQ&t=682s" }
+                },
+                {
+                    name: "Visit Locations and Extract from Dam",
+                    map: "Dam",
+                    objective: "Visit three highlighted locations in Dam (grocery in Clifton, Barber Shop in Clifton, and a tall station) and successfully extract twice.",
+                    tips: null,
+                    video: { timestamp: "12:26", url: "https://www.youtube.com/watch?v=HLNHp2vxesQ&t=746s" }
+                },
+                {
+                    name: "Mark Green Storage Tanks",
+                    map: "Dam",
+                    objective: "Mark three green storage tanks in the old factory of the dam.",
+                    tips: "You need to buy trackers from Ark for this task.",
+                    video: { timestamp: "13:21", url: "https://www.youtube.com/watch?v=HLNHp2vxesQ&t=801s" }
+                },
+                {
+                    name: "Kill Mall Boss",
+                    map: "Suburbs",
+                    objective: "Kill the mall boss in the suburbs. The boss is found on the roof or any floor of the mall.",
+                    tips: "The boss's LMG and level six armor are valuable loot.",
+                    video: { timestamp: "14:35", url: "https://www.youtube.com/watch?v=HLNHp2vxesQ&t=875s" }
+                }
+            ]
+        };
+
+        let currentTrader = 'maximilian';
+
+        const traderInfo = {
+            'maximilian': {
+                name: 'Maximilian',
+                faction: 'BoulderForge',
+                image: 'Images/Traders/BoulderForge_Maximilian_Trader.webp'
+            },
+            'tommy': {
+                name: 'Tommy',
+                faction: 'ARK',
+                image: 'Images/Traders/ARK_Tommy_Trader.webp'
+            }
+        };
+
+        function selectTrader(trader) {
+            currentTrader = trader;
+            document.querySelectorAll('.trader-tab').forEach(tab => {
+                tab.classList.toggle('active', tab.textContent.toLowerCase().includes(trader));
+            });
+            updateTraderDisplay();
+            filterTasks();
+        }
+
+        function updateTraderDisplay() {
+            const info = traderInfo[currentTrader];
+            const tasks = taskData[currentTrader] || [];
+
+            document.getElementById('traderImage').src = info.image;
+            document.getElementById('traderImage').alt = info.name;
+            document.getElementById('traderName').textContent = info.name;
+            document.getElementById('traderFaction').textContent = info.faction;
+            document.getElementById('traderTaskCount').textContent = tasks.length + ' Tasks';
+        }
+
+        function filterTasks() {
+            const searchTerm = document.getElementById('searchBox').value.toLowerCase();
+            const mapFilter = document.getElementById('mapFilter').value;
+
+            const tasks = taskData[currentTrader] || [];
+            const filtered = tasks.filter((task, index) => {
+                const matchesSearch = task.name.toLowerCase().includes(searchTerm) ||
+                                     task.objective.toLowerCase().includes(searchTerm);
+                const matchesMap = mapFilter === 'all' || task.map === mapFilter;
+                return matchesSearch && matchesMap;
+            });
+
+            renderTasks(filtered);
+        }
+
+        function renderTasks(tasks) {
+            const grid = document.getElementById('tasksGrid');
+            const allTasks = taskData[currentTrader] || [];
+
+            if (tasks.length === 0) {
+                grid.innerHTML = '<div class="no-results">No missions found matching your criteria.</div>';
+                return;
+            }
+
+            grid.innerHTML = tasks.map(task => {
+                const taskIndex = allTasks.indexOf(task) + 1;
+                return `
+                    <div class="task-card">
+                        <div class="task-header">
+                            <span class="task-name">${task.name}</span>
+                            <span class="task-number">#${taskIndex}</span>
+                        </div>
+                        <div class="task-content">
+                            <div class="task-map">${task.map}</div>
+                            <div class="task-objective">${task.objective}</div>
+                            ${task.tips ? `
+                                <div class="task-tips">
+                                    <div class="task-tips-label">Tip</div>
+                                    ${task.tips}
+                                </div>
+                            ` : ''}
+                            ${task.video ? `
+                                <div class="task-video">
+                                    <a href="${task.video.url}" target="_blank">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 16.5l6-4.5-6-4.5v9zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>
+                                        Watch Video Guide (${task.video.timestamp})
+                                    </a>
+                                </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Sidebar toggle functionality
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const isMobile = window.innerWidth <= 768;
+
+            if (isMobile) {
+                sidebar.classList.toggle('mobile-open');
+            } else {
+                sidebar.classList.toggle('collapsed');
+            }
+
+            // Save preference
+            localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('collapsed'));
+        }
+
+        // Load sidebar state
+        function loadSidebarState() {
+            const collapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+            const sidebar = document.getElementById('sidebar');
+            if (collapsed && window.innerWidth > 768) {
+                sidebar.classList.add('collapsed');
+            }
+        }
+
+        // Initial render
+        loadSidebarState();
+        filterTasks();
+    </script>
+    </div>
+</body>
+</html>
