@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/webp" href="Data/Items/Contractors_Showdown_ExfilZone_Household.webp">
+    <title>ExfilZone Ammo Trade-in Guide - December Wipe</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #00ff88;
+            --primary-dim: #00cc6a;
+            --secondary: #ff4400;
+            --bg-dark: #0a0e14;
+            --bg-medium: #151a24;
+            --bg-light: #1f2937;
+            --bg-card: #1a1f2e;
+            --text-primary: #e4e8f0;
+            --text-secondary: #8b95a8;
+            --accent-blue: #00d4ff;
+            --border: #2a3544;
+            --sidebar-width: 220px;
+        }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            min-height: 100vh;
+            background-image:
+                radial-gradient(circle at 20% 80%, rgba(0, 255, 136, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 68, 0, 0.03) 0%, transparent 50%);
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: var(--sidebar-width);
+            height: 100vh;
+            background: var(--bg-medium);
+            border-right: 1px solid var(--border);
+            padding: 1rem 0;
+            z-index: 1000;
+            transition: transform 0.3s ease;
+            overflow-y: auto;
+        }
+
+        .sidebar.collapsed {
+            transform: translateX(calc(-1 * var(--sidebar-width)));
+        }
+
+        .sidebar-header {
+            padding: 0.5rem 1rem 1rem;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 1rem;
+        }
+
+        .sidebar-logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent-blue) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .sidebar .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            margin: 0;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.2s;
+            border-left: 3px solid transparent;
+            border-radius: 0;
+            background: transparent;
+            border-top: none;
+            border-right: none;
+            border-bottom: none;
+        }
+
+        .sidebar .nav-link svg {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+            flex-shrink: 0;
+        }
+
+        .sidebar .nav-link:hover {
+            background: var(--bg-light);
+            color: var(--text-primary);
+            border-left-color: var(--accent-blue);
+        }
+
+        .sidebar .nav-link.active {
+            background: rgba(0, 255, 136, 0.1);
+            color: var(--primary);
+            border-left-color: var(--primary);
+        }
+
+        .sidebar-toggle {
+            position: fixed;
+            left: var(--sidebar-width);
+            top: 50%;
+            transform: translateY(-50%);
+            width: 24px;
+            height: 48px;
+            background: var(--bg-medium);
+            border: 1px solid var(--border);
+            border-left: none;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            z-index: 1001;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: left 0.3s ease;
+        }
+
+        .sidebar-toggle:hover {
+            background: var(--bg-light);
+        }
+
+        .sidebar-toggle svg {
+            width: 16px;
+            height: 16px;
+            fill: var(--text-secondary);
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar.collapsed + .sidebar-toggle {
+            left: 0;
+        }
+
+        .sidebar.collapsed + .sidebar-toggle svg {
+            transform: rotate(180deg);
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            transition: margin-left 0.3s ease;
+            min-height: 100vh;
+        }
+
+        .sidebar.collapsed ~ .main-content {
+            margin-left: 0;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            padding-bottom: 2rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 900;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent-blue) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        .info-panel {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .info-panel h3 {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .info-panel ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .info-panel li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+            color: var(--text-secondary);
+        }
+
+        .info-panel li::before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+        }
+
+        .info-panel li strong {
+            color: var(--text-primary);
+        }
+
+        /* Filter Section */
+        .filter-section {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            align-items: center;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 200px;
+            padding: 0.75rem 1rem;
+            background: var(--bg-medium);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text-primary);
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1rem;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .filter-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .filter-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-right: 0.5rem;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            background: var(--bg-medium);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+
+        .filter-btn:hover {
+            border-color: var(--accent-blue);
+            color: var(--text-primary);
+        }
+
+        .filter-btn.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: var(--bg-dark);
+        }
+
+        /* Trade-in Cards */
+        .tradein-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .tradein-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .tradein-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .tradein-header {
+            padding: 1rem;
+            background: var(--bg-medium);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .ammo-icon {
+            width: 48px;
+            height: 48px;
+            object-fit: contain;
+            border-radius: 4px;
+            background: var(--bg-dark);
+            padding: 4px;
+        }
+
+        .tradein-ammo-info {
+            flex: 1;
+        }
+
+        .tradein-ammo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .tradein-caliber {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .tradein-body {
+            padding: 1rem;
+        }
+
+        .tradein-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stat-label {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-value {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .stat-value.highlight {
+            color: var(--primary);
+        }
+
+        .tradein-requirements {
+            margin-top: 0.5rem;
+        }
+
+        .tradein-requirements-title {
+            font-size: 0.8rem;
+            color: var(--accent-blue);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .requirement-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.4rem 0;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .requirement-item img {
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
+            border-radius: 4px;
+            background: var(--bg-dark);
+            padding: 2px;
+        }
+
+        .requirement-item .item-name {
+            flex: 1;
+        }
+
+        .requirement-item .item-qty {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .version-footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            border-top: 1px solid var(--border);
+            margin-top: 2rem;
+        }
+
+        .credit {
+            margin-top: 0.5rem;
+            opacity: 0.8;
+        }
+
+        .credit a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .credit a:hover {
+            text-decoration: underline;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            grid-column: 1 / -1;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(calc(-1 * var(--sidebar-width)));
+            }
+
+            .sidebar.collapsed {
+                transform: translateX(0);
+            }
+
+            .sidebar-toggle {
+                left: 0;
+            }
+
+            .sidebar.collapsed + .sidebar-toggle {
+                left: var(--sidebar-width);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .sidebar.collapsed ~ .main-content {
+                margin-left: var(--sidebar-width);
+            }
+
+            .tradein-grid {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">ExfilZone</div>
+        </div>
+        <a href="index.html" class="nav-link">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+            Hideout Tracker
+        </a>
+        <a href="tasks.html" class="nav-link">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm2 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+            Task Guide
+        </a>
+        <a href="items.html" class="nav-link">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-9 9H4V4h7v7zm9 0h-7V4h7v7zm-9 9H4v-7h7v7zm9 0h-7v-7h7v7z"/></svg>
+            Item Database
+        </a>
+        <a href="itemspawns.html" class="nav-link">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+            Item Spawns
+        </a>
+        <a href="ammo.html" class="nav-link">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-4h2v-2h2v-2h-2V8h-2v4H9v2h2v2z"/></svg>
+            Ammo TTK Chart
+        </a>
+        <a href="ammotradein.html" class="nav-link active">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6.99 11L3 15l3.99 4v-3H14v-2H6.99v-3zM21 9l-3.99-4v3H10v2h7.01v3L21 9z"/></svg>
+            Ammo Trade-in
+        </a>
+        <a href="keys.html" class="nav-link">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12.65 10A5.99 5.99 0 0 0 7 6c-3.31 0-6 2.69-6 6s2.69 6 6 6a5.99 5.99 0 0 0 5.65-4H17v4h4v-4h2v-4H12.65zM7 14c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/></svg>
+            Key Vault Guide
+        </a>
+        <a href="keyspawns.html" class="nav-link">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+            Key Spawns
+        </a>
+        <a href="maps.html" class="nav-link">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.5 3l-.16.03L15 5.1 9 3 3.36 4.9c-.21.07-.36.25-.36.48V20.5c0 .28.22.5.5.5l.16-.03L9 18.9l6 2.1 5.64-1.9c.21-.07.36-.25.36-.48V3.5c0-.28-.22-.5-.5-.5zM15 19l-6-2.11V5l6 2.11V19z"/></svg>
+            Interactive Maps
+        </a>
+    </nav>
+
+    <!-- Sidebar Toggle Button -->
+    <button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+    </button>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="container">
+            <header>
+                <h1>AMMO TRADE-IN GUIDE</h1>
+                <div class="subtitle">Top-Tier Ammo Exchanges - X-mas Wipe</div>
+            </header>
+
+            <div class="info-panel">
+                <h3>Important Information</h3>
+                <ul>
+                    <li><strong>Top-tier ammo is only available through exchanges this wipe</strong> - cannot be purchased directly from traders</li>
+                </ul>
+            </div>
+
+            <div class="filter-section">
+                <input type="text" class="search-box" id="searchBox" placeholder="Search ammo...">
+                <div class="filter-group">
+                    <span class="filter-label">Caliber:</span>
+                    <button class="filter-btn active" onclick="filterCaliber('all')">All</button>
+                    <button class="filter-btn" onclick="filterCaliber('7.62x54R')">7.62x54R</button>
+                    <button class="filter-btn" onclick="filterCaliber('7.62x51mm')">7.62x51</button>
+                    <button class="filter-btn" onclick="filterCaliber('7.62x39mm')">7.62x39</button>
+                    <button class="filter-btn" onclick="filterCaliber('6.8x51mm')">6.8x51</button>
+                    <button class="filter-btn" onclick="filterCaliber('5.56x45mm')">5.56x45</button>
+                    <button class="filter-btn" onclick="filterCaliber('5.45x39mm')">5.45x39</button>
+                    <button class="filter-btn" onclick="filterCaliber('9x39mm')">9x39</button>
+                    <button class="filter-btn" onclick="filterCaliber('9x19mm')">9x19</button>
+                    <button class="filter-btn" onclick="filterCaliber('12GA')">12GA</button>
+                </div>
+            </div>
+
+            <div class="tradein-grid" id="tradeinGrid"></div>
+
+            <div class="version-footer">
+                v2.0.0 | Last Updated: January 5, 2025
+                <div class="credit">Data by <a href="https://www.youtube.com/watch?v=ClICoz4imGY" target="_blank">RadFox University</a> & <a href="https://www.youtube.com/watch?v=cNxaKKw4Muo" target="_blank">aGooseVR</a></div>
+                <div style="opacity: 0.7; font-size: 0.7rem; margin-top: 0.5rem;">All game content and assets are property of Caveman Studio</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Data from aGooseVR spreadsheet - only tradeable ammo
+        const ammoData = [
+            // 5.56x45mm
+            {
+                name: "M995",
+                caliber: "5.56x45mm",
+                pen: 5.3,
+                bluntDmg: 14.72,
+                armorDmgPen: 64.4,
+                baseDmg: 46,
+                velocity: "1010m/s",
+                bleedChance: "20%",
+                armorDmgBlunt: 50.6,
+                traderLevel: 4,
+                exchange: ["Beard Oil x5", "Gas Pipe Pliers x2"]
+            },
+            {
+                name: "AP",
+                caliber: "5.56x45mm",
+                pen: 5.8,
+                bluntDmg: 15.6,
+                armorDmgPen: 70.2,
+                baseDmg: 39,
+                velocity: "1010m/s",
+                bleedChance: "20%",
+                armorDmgBlunt: 58.5,
+                traderLevel: 4,
+                exchange: ["Vehicle Battery x1", "Copper Wire x3", "Radio Scanner x1"]
+            },
+            // 7.62x51mm
+            {
+                name: "M61",
+                caliber: "7.62x51mm",
+                pen: 6.0,
+                bluntDmg: 16.56,
+                armorDmgPen: 82.8,
+                baseDmg: 69,
+                velocity: "820m/s",
+                bleedChance: "25%",
+                armorDmgBlunt: 57.27,
+                traderLevel: 4,
+                exchange: ["Vehicle Battery x1", "Imaging Module x2"]
+            },
+            {
+                name: "M993",
+                caliber: "7.62x51mm",
+                pen: 6.5,
+                bluntDmg: 17.64,
+                armorDmgPen: 100.8,
+                baseDmg: 63,
+                velocity: "910m/s",
+                bleedChance: "25%",
+                armorDmgBlunt: 62.37,
+                traderLevel: 4,
+                exchange: ["Marine Battery x1", "Voltage Transformer x1", "Centrifuge x1"]
+            },
+            {
+                name: "M80A1",
+                caliber: "7.62x51mm",
+                pen: 5.3,
+                bluntDmg: 14.6,
+                armorDmgPen: 74.46,
+                baseDmg: 73,
+                velocity: "820m/s",
+                bleedChance: "25%",
+                armorDmgBlunt: 56.21,
+                traderLevel: 4,
+                exchange: ["Voltage Transformer x2"]
+            },
+            // 5.45x39mm
+            {
+                name: "BS",
+                caliber: "5.45x39mm",
+                pen: 5.5,
+                bluntDmg: 15.18,
+                armorDmgPen: 64.4,
+                baseDmg: 46,
+                velocity: "830m/s",
+                bleedChance: "19%",
+                armorDmgBlunt: 50.6,
+                traderLevel: 4,
+                exchange: ["Gas Can x1", "Windproof Matches x1", "Camera x1"]
+            },
+            {
+                name: "7N39",
+                caliber: "5.45x39mm",
+                pen: 6.2,
+                bluntDmg: 12.54,
+                armorDmgPen: 68.4,
+                baseDmg: 38,
+                velocity: "910m/s",
+                bleedChance: "19%",
+                armorDmgBlunt: 57.0,
+                traderLevel: 4,
+                exchange: ["Piezometer x1", "Gas Pipe Pliers x1", "Spark Plug x5"]
+            },
+            // 7.62x39mm
+            {
+                name: "AP",
+                caliber: "7.62x39mm",
+                pen: 5.8,
+                bluntDmg: 17.16,
+                armorDmgPen: 72.8,
+                baseDmg: 52,
+                velocity: "875m/s",
+                bleedChance: "25%",
+                armorDmgBlunt: 51.48,
+                traderLevel: 4,
+                exchange: ["Antique Tea Cup x1"]
+            },
+            {
+                name: "BP",
+                caliber: "7.62x39mm",
+                pen: 4.7,
+                bluntDmg: 14.82,
+                armorDmgPen: 74.1,
+                baseDmg: 57,
+                velocity: "730m/s",
+                bleedChance: "25%",
+                armorDmgBlunt: 47.31,
+                traderLevel: 4,
+                exchange: ["Screwdriver x1"]
+            },
+            // 7.62x54R
+            {
+                name: "BT",
+                caliber: "7.62x54R",
+                pen: 5.5,
+                bluntDmg: 16.94,
+                armorDmgPen: 84.7,
+                baseDmg: 77,
+                velocity: "880m/s",
+                bleedChance: "25%",
+                armorDmgBlunt: 61.6,
+                traderLevel: 4,
+                tracer: true,
+                exchange: ["Marine Battery x1", "Windproof Matches x2", "Rat Poison x1"]
+            },
+            {
+                name: "SNB",
+                caliber: "7.62x54R",
+                pen: 6.1,
+                bluntDmg: 22.5,
+                armorDmgPen: 112.5,
+                baseDmg: 75,
+                velocity: "890m/s",
+                bleedChance: "25%",
+                armorDmgBlunt: 62.25,
+                traderLevel: 4,
+                exchange: ["Marine Battery x1", "CPU x1", "Hard Drive x2"]
+            },
+            {
+                name: "PS",
+                caliber: "7.62x54R",
+                pen: 4.6,
+                bluntDmg: 15.6,
+                armorDmgPen: 79.56,
+                baseDmg: 78,
+                velocity: "880m/s",
+                bleedChance: "25%",
+                armorDmgBlunt: 60.06,
+                traderLevel: 4,
+                exchange: ["Vehicle Battery x1"]
+            },
+            {
+                name: "BS",
+                caliber: "7.62x54R",
+                pen: 7.0,
+                bluntDmg: 23.76,
+                armorDmgPen: 129.6,
+                baseDmg: 72,
+                velocity: "780m/s",
+                bleedChance: "25%",
+                armorDmgBlunt: 64.8,
+                traderLevel: 4,
+                exchange: ["Defibrillator x1"]
+            },
+            // 6.8x51mm
+            {
+                name: "Elite",
+                caliber: "6.8x51mm",
+                pen: 5.4,
+                bluntDmg: 18.48,
+                armorDmgPen: 85.8,
+                baseDmg: 66,
+                velocity: "1050m/s",
+                bleedChance: "23%",
+                armorDmgBlunt: 59.4,
+                traderLevel: 4,
+                exchange: ["Game Console x2"]
+            },
+            // 9x39mm
+            {
+                name: "BP",
+                caliber: "9x39mm",
+                pen: 5.5,
+                bluntDmg: 14.0,
+                armorDmgPen: 72.8,
+                baseDmg: 56,
+                velocity: "290m/s",
+                bleedChance: "20%",
+                armorDmgBlunt: 40.32,
+                traderLevel: 4,
+                exchange: ["Oil Can x2", "Imaging Module x2"]
+            },
+            {
+                name: "SP6",
+                caliber: "9x39mm",
+                pen: 4.8,
+                bluntDmg: 10.62,
+                armorDmgPen: 59,
+                baseDmg: 59,
+                velocity: "305m/s",
+                bleedChance: "20%",
+                armorDmgBlunt: 36.58,
+                traderLevel: 4,
+                exchange: ["Rat Poison x2"]
+            },
+            // 12GA
+            {
+                name: "AP-20",
+                caliber: "12GA",
+                pen: 3.8,
+                bluntDmg: 10.15,
+                armorDmgPen: 87,
+                baseDmg: 145,
+                velocity: "525m/s",
+                bleedChance: "40%",
+                armorDmgBlunt: 58,
+                traderLevel: 4,
+                exchange: ["Spray Can x1"]
+            },
+            // 9x19mm
+            {
+                name: "AP",
+                caliber: "9x19mm",
+                pen: 3.4,
+                bluntDmg: 10.6,
+                armorDmgPen: 39.75,
+                baseDmg: 53,
+                velocity: "410m/s",
+                bleedChance: "15%",
+                armorDmgBlunt: 35.51,
+                traderLevel: 4,
+                exchange: ["Radio Scanner x1"]
+            }
+        ];
+
+        // Item name to image mapping
+        const itemImages = {
+            "Beard Oil": "Images/Items/BeardOil.png",
+            "Gas Pipe Pliers": "Images/Items/Gas pipe pliers.png",
+            "Vehicle Battery": "Images/Items/Car Battery.png",
+            "Copper Wire": "Images/Items/Copper wire.png",
+            "Radio Scanner": "Images/Items/Radio scanner.webp",
+            "Imaging Module": "Images/Items/Imaging module.png",
+            "Marine Battery": "Images/Items/Marine Battery.png",
+            "Voltage Transformer": "Images/Items/Voltage transformer.png",
+            "Centrifuge": "Images/Items/Centrifuge.png",
+            "Gas Can": "Images/Items/Gas can.png",
+            "Windproof Matches": "Images/Items/Windproof Matches.png",
+            "Camera": "Images/Items/Vintage Camera.webp",
+            "Piezometer": "Images/Items/Piezometer.png",
+            "Spark Plug": "Images/Items/Spark Plug.png",
+            "Antique Tea Cup": "Images/Items/Antique Tea cup.webp",
+            "Screwdriver": "Images/Items/Screwdriver.png",
+            "Rat Poison": "Images/Items/Rat poison.webp",
+            "CPU": "Images/Items/CPU.png",
+            "Hard Drive": "Images/Items/Hard drive.png",
+            "Defibrillator": "Images/Items/Defibrillator.png",
+            "Game Console": "Images/Items/Game console.png",
+            "Oil Can": "Images/Items/Oil can.png",
+            "Spray Can": "Images/Items/Spray Can.png"
+        };
+
+        // Ammo images mapping
+        const ammoImages = {
+            // 5.56x45mm
+            "5.56x45mm|M995": "Images/Ammos/556X45_M995.png",
+            "5.56x45mm|AP": "Images/Ammos/556X45_AP.png",
+            // 7.62x51mm
+            "7.62x51mm|M61": "Images/Ammos/762x51mm_M61.png",
+            "7.62x51mm|M993": "Images/Ammos/762x51mm_M993.png",
+            "7.62x51mm|M80A1": "Images/Ammos/762x51mm_M80.png",
+            // 5.45x39mm
+            "5.45x39mm|BS": "Images/Ammos/545x39mm_BS.png",
+            "5.45x39mm|7N39": "Images/Ammos/545x39mm_7N40.png",
+            // 7.62x39mm
+            "7.62x39mm|AP": "Images/Ammos/105px-762x39mm_AP.webp",
+            "7.62x39mm|BP": "Images/Ammos/762x39mm_BP.png",
+            // 7.62x54R
+            "7.62x54R|BT": "Images/Ammos/762x54r_lps.png",
+            "7.62x54R|SNB": "Images/Ammos/762x54r_SNB.png",
+            "7.62x54R|PS": "Images/Ammos/762x54r_Ps.png",
+            "7.62x54R|BS": "Images/Ammos/762x54r_SNB.png",
+            // 6.8x51mm
+            "6.8x51mm|Elite": "Images/Ammos/68x51mm_APV1.png",
+            // 9x39mm - using closest available
+            "9x39mm|BP": "Images/Ammos/545x39mm_BS.png",
+            "9x39mm|SP6": "Images/Ammos/545x39mm_PP.png",
+            // 12GA
+            "12GA|AP-20": "Images/Ammos/12ga_SLUG_AP.png",
+            // 9x19mm
+            "9x19mm|AP": "Images/Ammos/9x19mm_APV1.png"
+        };
+
+        function getAmmoImage(caliber, name) {
+            const key = `${caliber}|${name}`;
+            return ammoImages[key] || null;
+        }
+
+        function getItemImage(itemText) {
+            // Parse "Item Name x2" format
+            const match = itemText.match(/^(.+?)\s*x(\d+)$/);
+            if (match) {
+                const itemName = match[1].trim();
+                const qty = match[2];
+                const imagePath = itemImages[itemName] || null;
+                return { name: itemName, qty: qty, image: imagePath };
+            }
+            return { name: itemText, qty: 1, image: null };
+        }
+
+        let currentCaliber = 'all';
+
+        function filterCaliber(caliber) {
+            currentCaliber = caliber;
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.textContent.toLowerCase().includes(caliber.toLowerCase()) || (caliber === 'all' && btn.textContent === 'All'));
+            });
+            renderGrid();
+        }
+
+        function renderGrid() {
+            const searchTerm = document.getElementById('searchBox').value.toLowerCase();
+            const grid = document.getElementById('tradeinGrid');
+
+            let filtered = ammoData.filter(ammo => {
+                const matchesSearch = ammo.name.toLowerCase().includes(searchTerm) ||
+                                     ammo.caliber.toLowerCase().includes(searchTerm) ||
+                                     ammo.exchange.some(e => e.toLowerCase().includes(searchTerm));
+                const matchesCaliber = currentCaliber === 'all' || ammo.caliber.includes(currentCaliber.replace('mm', ''));
+                return matchesSearch && matchesCaliber;
+            });
+
+            if (filtered.length === 0) {
+                grid.innerHTML = '<div class="no-results">No ammo found matching your criteria.</div>';
+                return;
+            }
+
+            grid.innerHTML = filtered.map(ammo => {
+                const ammoImg = getAmmoImage(ammo.caliber, ammo.name);
+                const imgTag = ammoImg ? `<img src="${ammoImg}" class="ammo-icon" alt="${ammo.name}" onerror="this.style.display='none'">` : '';
+                return `
+                <div class="tradein-card">
+                    <div class="tradein-header">
+                        ${imgTag}
+                        <div class="tradein-ammo-info">
+                            <div class="tradein-ammo">${ammo.name}</div>
+                            <div class="tradein-caliber">${ammo.caliber}</div>
+                        </div>
+                    </div>
+                    <div class="tradein-body">
+                        <div class="tradein-stats">
+                            <div class="stat-item">
+                                <span class="stat-label">Penetration</span>
+                                <span class="stat-value highlight">${ammo.pen}</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Base Damage</span>
+                                <span class="stat-value">${ammo.baseDmg}</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Blunt Damage</span>
+                                <span class="stat-value">${ammo.bluntDmg}</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Armor Dmg (Pen)</span>
+                                <span class="stat-value">${ammo.armorDmgPen}</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Velocity</span>
+                                <span class="stat-value">${ammo.velocity}</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Bleed Chance</span>
+                                <span class="stat-value">${ammo.bleedChance}</span>
+                            </div>
+                        </div>
+                        <div class="tradein-requirements">
+                            <div class="tradein-requirements-title">Exchange Requirements</div>
+                            ${ammo.exchange.map(item => {
+                                const parsed = getItemImage(item);
+                                const imgTag = parsed.image ? `<img src="${parsed.image}" alt="${parsed.name}">` : '';
+                                return `<div class="requirement-item">${imgTag}<span class="item-name">${parsed.name}</span><span class="item-qty">x${parsed.qty}</span></div>`;
+                            }).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+            }).join('');
+        }
+
+        // Search functionality
+        document.getElementById('searchBox').addEventListener('input', renderGrid);
+
+        // Sidebar toggle
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('collapsed');
+            localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('collapsed'));
+        }
+
+        // Restore sidebar state
+        if (localStorage.getItem('sidebarCollapsed') === 'true') {
+            document.getElementById('sidebar').classList.add('collapsed');
+        }
+
+        // Initial render
+        renderGrid();
+    </script>
+</body>
+</html>
