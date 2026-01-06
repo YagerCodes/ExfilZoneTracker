@@ -330,11 +330,40 @@
             border-radius: 8px;
             overflow: hidden;
             transition: all 0.3s;
+            cursor: pointer;
+            position: relative;
         }
 
         .task-card:hover {
             border-color: var(--primary);
             transform: translateY(-2px);
+        }
+
+        .task-card.completed {
+            opacity: 0.6;
+            border-color: var(--primary);
+        }
+
+        .task-card.completed .task-header {
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.2) 0%, var(--bg-light) 100%);
+        }
+
+        .task-card.completed .completed-badge {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 48px;
+            height: 48px;
+            background: var(--primary);
+            color: var(--bg-dark);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.5rem;
+            z-index: 5;
         }
 
         .task-header {
@@ -477,6 +506,51 @@
             color: var(--text-secondary);
             font-size: 1.1rem;
             grid-column: 1 / -1;
+        }
+
+        .progress-stats {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: var(--bg-medium);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+        }
+
+        .progress-stat {
+            text-align: center;
+        }
+
+        .progress-stat-value {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .progress-stat-label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 8px;
+            background: var(--bg-dark);
+            border-radius: 4px;
+            margin-top: 0.5rem;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary) 0%, var(--accent-blue) 100%);
+            border-radius: 4px;
+            transition: width 0.3s ease;
         }
 
         .trader-display {
@@ -633,6 +707,24 @@
                 <option value="Dam">Dam</option>
                 <option value="Any">Any Map</option>
             </select>
+        </div>
+
+        <div class="progress-stats" id="progressStats">
+            <div class="progress-stat">
+                <div class="progress-stat-value" id="completedCount">0</div>
+                <div class="progress-stat-label">Completed</div>
+            </div>
+            <div class="progress-stat">
+                <div class="progress-stat-value" id="totalCount">0</div>
+                <div class="progress-stat-label">Total Tasks</div>
+            </div>
+            <div class="progress-stat" style="flex: 1; max-width: 200px;">
+                <div class="progress-stat-value" id="progressPercent">0%</div>
+                <div class="progress-stat-label">Progress</div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar" id="progressBar" style="width: 0%"></div>
+                </div>
+            </div>
         </div>
 
         <div class="tasks-grid" id="tasksGrid"></div>
@@ -908,6 +1000,60 @@
         };
 
         let currentTrader = 'maximilian';
+        const STORAGE_KEY = 'exfilzone-completed-tasks';
+        let completedTasks = new Set();
+
+        // Load completed tasks from localStorage
+        function loadCompletedTasks() {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            if (saved) {
+                completedTasks = new Set(JSON.parse(saved));
+            }
+        }
+
+        // Save completed tasks to localStorage
+        function saveCompletedTasks() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify([...completedTasks]));
+        }
+
+        // Toggle task completion
+        function toggleTask(taskId, event) {
+            // Don't toggle if clicking on a link
+            if (event.target.tagName === 'A') {
+                return;
+            }
+            event.stopPropagation();
+
+            if (completedTasks.has(taskId)) {
+                completedTasks.delete(taskId);
+            } else {
+                completedTasks.add(taskId);
+            }
+            saveCompletedTasks();
+            filterTasks();
+            updateProgressStats();
+        }
+
+        // Update progress stats display
+        function updateProgressStats() {
+            const tasks = taskData[currentTrader] || [];
+            const total = tasks.length;
+            let completed = 0;
+
+            tasks.forEach((task, index) => {
+                const taskId = `${currentTrader}-${index}`;
+                if (completedTasks.has(taskId)) {
+                    completed++;
+                }
+            });
+
+            const percent = total > 0 ? Math.round((completed / total) * 100) : 0;
+
+            document.getElementById('completedCount').textContent = completed;
+            document.getElementById('totalCount').textContent = total;
+            document.getElementById('progressPercent').textContent = percent + '%';
+            document.getElementById('progressBar').style.width = percent + '%';
+        }
 
         const traderInfo = {
             'maximilian': {
@@ -929,6 +1075,7 @@
             });
             updateTraderDisplay();
             filterTasks();
+            updateProgressStats();
         }
 
         function updateTraderDisplay() {
@@ -967,12 +1114,18 @@
             }
 
             grid.innerHTML = tasks.map(task => {
-                const taskIndex = allTasks.indexOf(task) + 1;
+                const taskIndex = allTasks.indexOf(task);
+                const taskId = `${currentTrader}-${taskIndex}`;
+                const isCompleted = completedTasks.has(taskId);
+                const completedClass = isCompleted ? 'completed' : '';
+                const badge = isCompleted ? '<div class="completed-badge">✓</div>' : '';
+
                 return `
-                    <div class="task-card">
+                    <div class="task-card ${completedClass}" onclick="toggleTask('${taskId}', event)">
+                        ${badge}
                         <div class="task-header">
                             <span class="task-name">${task.name}</span>
-                            <span class="task-number">#${taskIndex}</span>
+                            <span class="task-number">#${taskIndex + 1}</span>
                         </div>
                         <div class="task-content">
                             <div class="task-map">${task.map}</div>
@@ -1023,7 +1176,9 @@
 
         // Initial render
         loadSidebarState();
+        loadCompletedTasks();
         filterTasks();
+        updateProgressStats();
     </script>
     </div>
 </body>
