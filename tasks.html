@@ -1959,7 +1959,7 @@
             ]
         };
 
-        let currentTrader = 'maximilian';
+        let currentTrader = localStorage.getItem('exfilzone-current-trader') || 'maximilian';
         const STORAGE_KEY = 'exfilzone-completed-tasks';
         let completedTasks = new Set();
 
@@ -2108,6 +2108,7 @@
 
         function selectTrader(trader) {
             currentTrader = trader;
+            localStorage.setItem('exfilzone-current-trader', trader);
             document.querySelectorAll('.trader-tab').forEach(tab => {
                 tab.classList.toggle('active', tab.textContent.toLowerCase().includes(trader));
             });
@@ -2216,6 +2217,11 @@
         // Initial render
         loadSidebarState();
         loadCompletedTasks();
+        // Restore last selected trader
+        document.querySelectorAll('.trader-tab').forEach(tab => {
+            tab.classList.toggle('active', tab.textContent.toLowerCase().includes(currentTrader));
+        });
+        updateTraderDisplay();
         filterTasks();
         updateProgressStats();
         renderItemsSummary();
