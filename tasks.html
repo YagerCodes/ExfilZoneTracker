@@ -692,6 +692,10 @@
         <div class="trader-tabs">
             <button class="trader-tab active" onclick="selectTrader('maximilian')">Maximilian</button>
             <button class="trader-tab" onclick="selectTrader('tommy')">Tommy (ARK)</button>
+            <button class="trader-tab" onclick="selectTrader('johnny')">Johnny</button>
+            <button class="trader-tab" onclick="selectTrader('igor')">Igor</button>
+            <button class="trader-tab" onclick="selectTrader('anna')">Anna</button>
+            <button class="trader-tab" onclick="selectTrader('maggie')">Maggie</button>
         </div>
 
         <div class="trader-display" id="traderDisplay">
@@ -709,6 +713,9 @@
                 <option value="all">All Maps</option>
                 <option value="Suburbs">Suburbs</option>
                 <option value="Dam">Dam</option>
+                <option value="Hydratown">Hydratown</option>
+                <option value="Resort">Resort</option>
+                <option value="Metro">Metro</option>
                 <option value="Any">Any Map</option>
             </select>
         </div>
@@ -1000,6 +1007,687 @@
                     tips: "The boss's LMG and level six armor are valuable loot.",
                     video: { timestamp: "14:35", url: "https://www.youtube.com/watch?v=HLNHp2vxesQ&t=875s" }
                 }
+            ],
+            'johnny': [
+                {
+                    name: "Secure Support",
+                    map: "Suburbs",
+                    objective: "Go to the power plant between the motel and office building to get your first 4-slot safe box.",
+                    tips: "Completing Johnny's tasks grants safe boxes of increasing size and unlocks hideout upgrades.",
+                    video: { timestamp: "0:30", url: "https://www.youtube.com/watch?v=DIjbTZN_Wxc&t=30s" }
+                },
+                {
+                    name: "Lights On",
+                    map: "Any",
+                    objective: "Submit three compostable items to unlock more hideout upgrades.",
+                    tips: null,
+                    video: { timestamp: "0:58", url: "https://www.youtube.com/watch?v=DIjbTZN_Wxc&t=58s" }
+                },
+                {
+                    name: "The Source of Life",
+                    map: "Suburbs",
+                    objective: "Kill three scavengers in Suburbs to unlock the water collector and medical area upgrades.",
+                    tips: null,
+                    video: { timestamp: "1:42", url: "https://www.youtube.com/watch?v=DIjbTZN_Wxc&t=102s" }
+                },
+                {
+                    name: "Target Practice",
+                    map: "Hydratown",
+                    objective: "Go to the police station in Hydratown, find the shooting range key on the first floor table, and turn it in to unlock the shooting range upgrade.",
+                    tips: null,
+                    video: { timestamp: "2:06", url: "https://www.youtube.com/watch?v=DIjbTZN_Wxc&t=126s" }
+                },
+                {
+                    name: "Capacity Upgrade 1",
+                    map: "Suburbs",
+                    objective: "Go to the car repair shop in Suburbs, find Johnny's safe box on the roof, and turn it in to get a 6-slot safe box.",
+                    tips: null,
+                    video: { timestamp: "2:31", url: "https://www.youtube.com/watch?v=DIjbTZN_Wxc&t=151s" }
+                },
+                {
+                    name: "Handy Tool",
+                    map: "Hydratown",
+                    objective: "Visit the bearery in Hydratown, find the 'joining steel' on one of the tables, and turn it in for more hideout upgrades.",
+                    tips: null,
+                    video: { timestamp: "3:04", url: "https://www.youtube.com/watch?v=DIjbTZN_Wxc&t=184s" }
+                },
+                {
+                    name: "Homecoming",
+                    map: "Hydratown",
+                    objective: "Go to the second floor of the wooden house in Hydratown, find Johnny's video tape on the chest of drawers, and turn it in to unlock bookshelf and sofa upgrades. You also receive a big junk box.",
+                    tips: null,
+                    video: { timestamp: "3:26", url: "https://www.youtube.com/watch?v=DIjbTZN_Wxc&t=206s" }
+                },
+                {
+                    name: "Speaking of Finance",
+                    map: "Any",
+                    objective: "Turn in five electric items found in a raid to unlock Bitcoin mine upgrades.",
+                    tips: null,
+                    video: { timestamp: "3:47", url: "https://www.youtube.com/watch?v=DIjbTZN_Wxc&t=227s" }
+                },
+                {
+                    name: "Canal Run",
+                    map: "Suburbs",
+                    objective: "Walk from the bunker to the office building, crossing three bridges in Suburbs.",
+                    tips: "This task unlocks after completing task 16 by Ark Mark 3.",
+                    video: { timestamp: "4:01", url: "https://www.youtube.com/watch?v=DIjbTZN_Wxc&t=241s" }
+                },
+                {
+                    name: "Capacity Upgrade 2",
+                    map: "Suburbs",
+                    objective: "Go to the resort, specifically the worker's dorm area, find Johnny's safe box in the laundry building, and turn it in to get an 8-slot safe box.",
+                    tips: null,
+                    video: { timestamp: "4:52", url: "https://www.youtube.com/watch?v=DIjbTZN_Wxc&t=292s" }
+                },
+                {
+                    name: "Salvage Mission 1",
+                    map: "Suburbs",
+                    objective: "Grab a camera phone from the kiosk, then go to Suburbs and take photos of five TV sets located in nearby houses.",
+                    tips: null,
+                    video: { timestamp: "5:17", url: "https://www.youtube.com/watch?v=DIjbTZN_Wxc&t=317s" }
+                },
+                {
+                    name: "One Last Mile",
+                    map: "Suburbs",
+                    objective: "Find three walkie-talkies at the garbage station near the hospital, then place them in a box in the middle of the skate park.",
+                    tips: null,
+                    video: { timestamp: "6:00", url: "https://www.youtube.com/watch?v=DIjbTZN_Wxc&t=360s" }
+                },
+                {
+                    name: "Salvage Mission 2",
+                    map: "Dam",
+                    objective: "Grab three trackers from the kiosk, then go to three military camps and mark three tanks (two near inlet towers, one near the broken bridge). Grants a 10-slot safe box.",
+                    tips: "This is the only Johnny task in Dam.",
+                    video: { timestamp: "6:27", url: "https://www.youtube.com/watch?v=DIjbTZN_Wxc&t=387s" }
+                },
+                {
+                    name: "Like Finds Like 1",
+                    map: "Any",
+                    objective: "Submit 40 household items (eight types, five of each): cleanser, cleaner, deodorant, pesticide, toilet paper, soap, beard oil, toothpaste.",
+                    tips: "Unlocks at level 50. These last four tasks give access to the biggest 12-slot safe box.",
+                    video: { timestamp: "7:14", url: "https://www.youtube.com/watch?v=DIjbTZN_Wxc&t=434s" }
+                },
+                {
+                    name: "Like Finds Like 2",
+                    map: "Any",
+                    objective: "Submit 40 specific tools (five of each): screwdriver, wrench, hammer, measuring tape, wire cutter, small wrench, spark plug, electric drill.",
+                    tips: "Unlocks at level 50.",
+                    video: { timestamp: "7:30", url: "https://www.youtube.com/watch?v=DIjbTZN_Wxc&t=450s" }
+                },
+                {
+                    name: "Like Finds Like 3",
+                    map: "Any",
+                    objective: "Submit 40 storage media items (five of each): CD, horror novel, magazine, recorder, computer manual, antiquarian book, tape, and floppy disk.",
+                    tips: "Unlocks at level 50.",
+                    video: { timestamp: "7:45", url: "https://www.youtube.com/watch?v=DIjbTZN_Wxc&t=465s" }
+                },
+                {
+                    name: "Like Finds Like 4",
+                    map: "Any",
+                    objective: "Submit 40 energy-based items (five of each): oil can, gunpowder, gas can, gun oil, large gas can, WD40, smokeless powder, olive oil.",
+                    tips: "Unlocks at level 50. Completing all tasks grants the 12-slot 'lifesaver' safe box.",
+                    video: { timestamp: "8:00", url: "https://www.youtube.com/watch?v=DIjbTZN_Wxc&t=480s" }
+                }
+            ],
+            'igor': [
+                // Level 1 Tasks
+                {
+                    name: "A Different Style",
+                    map: "Any",
+                    objective: "Get 8 kills with a rifle on any map.",
+                    tips: "Level 1 task. You need to complete tasks from other traders to unlock more Igor tasks.",
+                    video: { timestamp: "0:23", url: "https://www.youtube.com/watch?v=YEPtvxMzsBY&t=23s" }
+                },
+                {
+                    name: "Taste of Life 1",
+                    map: "Suburbs",
+                    objective: "Submit 2 bottles of beer, found at the graveyard in suburbs.",
+                    tips: null,
+                    video: { timestamp: "0:38", url: "https://www.youtube.com/watch?v=YEPtvxMzsBY&t=38s" }
+                },
+                {
+                    name: "Explosive Romance",
+                    map: "Suburbs",
+                    objective: "Find 2 tusk and powders in suburbs, one on the roof of Alibi and another near the power station.",
+                    tips: null,
+                    video: { timestamp: "0:54", url: "https://www.youtube.com/watch?v=YEPtvxMzsBY&t=54s" }
+                },
+                {
+                    name: "Shades of Boom",
+                    map: "Resort",
+                    objective: "Go to the fire station in resort and find Igor's sunglasses.",
+                    tips: null,
+                    video: { timestamp: "1:36", url: "https://www.youtube.com/watch?v=YEPtvxMzsBY&t=96s" }
+                },
+                {
+                    name: "Firepower Roundup 1",
+                    map: "Any",
+                    objective: "Turn in M92 and M1928, found in raid or bought from the second floor.",
+                    tips: null,
+                    video: { timestamp: "2:00", url: "https://www.youtube.com/watch?v=YEPtvxMzsBY&t=120s" }
+                },
+                {
+                    name: "Firepower Roundup 2",
+                    map: "Any",
+                    objective: "Submit AKS74U and AR-15 Hunter, found in raid or bought from the second floor.",
+                    tips: null,
+                    video: { timestamp: "2:20", url: "https://www.youtube.com/watch?v=YEPtvxMzsBY&t=140s" }
+                },
+                {
+                    name: "Firepower Roundup 3",
+                    map: "Any",
+                    objective: "Submit M67, F1, and RGD5 hand grenades.",
+                    tips: "These grenades cannot be bought yet, must be found in raid.",
+                    video: { timestamp: "2:39", url: "https://www.youtube.com/watch?v=YEPtvxMzsBY&t=159s" }
+                },
+                {
+                    name: "Submachine Guns",
+                    map: "Any",
+                    objective: "Kill 8 scavengers with an SMG on any map.",
+                    tips: null,
+                    video: { timestamp: "3:06", url: "https://www.youtube.com/watch?v=YEPtvxMzsBY&t=186s" }
+                },
+                // Level 2 Tasks
+                {
+                    name: "Shotgun Shock",
+                    map: "Suburbs",
+                    objective: "Get 6 kills with a pump shotgun in suburbs by killing scavengers.",
+                    tips: "Level 2 task.",
+                    video: { timestamp: "4:07", url: "https://www.youtube.com/watch?v=YEPtvxMzsBY&t=247s" }
+                },
+                {
+                    name: "Treasure in Sewage",
+                    map: "Resort",
+                    objective: "Visit the wastewater treatment plant in resort, find Igor's blue notebook, and turn it in.",
+                    tips: null,
+                    video: { timestamp: "4:34", url: "https://www.youtube.com/watch?v=YEPtvxMzsBY&t=274s" }
+                },
+                {
+                    name: "Long Live Friendship 1",
+                    map: "Resort",
+                    objective: "Get 10 scavenger kills in resort with any gun.",
+                    tips: null,
+                    video: { timestamp: "4:53", url: "https://www.youtube.com/watch?v=YEPtvxMzsBY&t=293s" }
+                },
+                {
+                    name: "Long Live Friendship 2",
+                    map: "Resort",
+                    objective: "Grab a phone from the kiosk, go to resort, and take 3 photos of clues on the wall.",
+                    tips: null,
+                    video: { timestamp: "5:42", url: "https://www.youtube.com/watch?v=YEPtvxMzsBY&t=342s" }
+                },
+                {
+                    name: "My Favourite: FAL",
+                    map: "Any",
+                    objective: "Get a FAL and get 8 scavenger kills with it on any map.",
+                    tips: null,
+                    video: { timestamp: "6:09", url: "https://www.youtube.com/watch?v=YEPtvxMzsBY&t=369s" }
+                },
+                {
+                    name: "One Last Drink, My Friend",
+                    map: "Resort",
+                    objective: "Grab the memorial beer from the kiosk, go to resort, and place it on Old Jay's grave behind the lighthouse.",
+                    tips: null,
+                    video: { timestamp: "7:00", url: "https://www.youtube.com/watch?v=YEPtvxMzsBY&t=420s" }
+                },
+                {
+                    name: "Reading Habits",
+                    map: "Any",
+                    objective: "Submit 1 flashlight and 3 size D batteries, found on any map.",
+                    tips: null,
+                    video: { timestamp: "7:20", url: "https://www.youtube.com/watch?v=YEPtvxMzsBY&t=440s" }
+                },
+                {
+                    name: "The Best Can",
+                    map: "Any",
+                    objective: "Submit 5 cans of peace, which can be found on any map.",
+                    tips: "Cans don't need to be full.",
+                    video: { timestamp: "7:32", url: "https://www.youtube.com/watch?v=YEPtvxMzsBY&t=452s" }
+                },
+                {
+                    name: "Pistol Glory",
+                    map: "Any",
+                    objective: "Get 8 kills with any pistol on any map, killing bots or players.",
+                    tips: null,
+                    video: { timestamp: "7:45", url: "https://www.youtube.com/watch?v=YEPtvxMzsBY&t=465s" }
+                },
+                {
+                    name: "Movie Night 1",
+                    map: "Resort",
+                    objective: "Grab 2 movie discs (Shark and Aurora Alazol) in resort and turn them in.",
+                    tips: null,
+                    video: { timestamp: "8:23", url: "https://www.youtube.com/watch?v=YEPtvxMzsBY&t=503s" }
+                },
+                {
+                    name: "Hunter",
+                    map: "Any",
+                    objective: "Grab any bolt action rifle and get 5 scavenger kills with it on any map.",
+                    tips: null,
+                    video: { timestamp: "8:51", url: "https://www.youtube.com/watch?v=YEPtvxMzsBY&t=531s" }
+                },
+                {
+                    name: "Magazine Recovery",
+                    map: "Any",
+                    objective: "Submit 2 AKM magazines (common) and 2 330-round magazines.",
+                    tips: "330-round magazines are only buyable at level 3 or found in raid/from players.",
+                    video: { timestamp: "10:10", url: "https://www.youtube.com/watch?v=YEPtvxMzsBY&t=610s" }
+                },
+                {
+                    name: "My Favourite: G18",
+                    map: "Any",
+                    objective: "Get 6 kills with a Glock 18 on any map, killing anyone.",
+                    tips: null,
+                    video: { timestamp: "10:53", url: "https://www.youtube.com/watch?v=YEPtvxMzsBY&t=653s" }
+                },
+                // Level 3 Tasks
+                {
+                    name: "Hair Comes First",
+                    map: "Any",
+                    objective: "Get 8 kills without wearing a helmet on any map, killing bots or players.",
+                    tips: "Level 3 task.",
+                    video: { timestamp: "11:45", url: "https://www.youtube.com/watch?v=YEPtvxMzsBY&t=705s" }
+                },
+                {
+                    name: "Taste of Life 2",
+                    map: "Suburbs",
+                    objective: "Visit the wire farm in suburbs, go to the basement to mark a wine barrel, grab a bottle of wine from the kitchen sink, and successfully extract from the farm road and northwest windmill.",
+                    tips: null,
+                    video: { timestamp: "12:29", url: "https://www.youtube.com/watch?v=YEPtvxMzsBY&t=749s" }
+                },
+                {
+                    name: "Emergency Rations",
+                    map: "Dam",
+                    objective: "Grab 3 cans of beans from the kiosk and place them in 3 specific locations on the dump map.",
+                    tips: null,
+                    video: { timestamp: "13:06", url: "https://www.youtube.com/watch?v=YEPtvxMzsBY&t=786s" }
+                },
+                {
+                    name: "G3 Assembly",
+                    map: "Any",
+                    objective: "Get 12 kills with a G3 assembled with specific parts from the kiosk (G3, AK4 rail, BT3 10-round mag, AC or G scope), on any map, killing anyone.",
+                    tips: null,
+                    video: { timestamp: "13:39", url: "https://www.youtube.com/watch?v=YEPtvxMzsBY&t=819s" }
+                },
+                {
+                    name: "My Favourite: Mosin",
+                    map: "Any",
+                    objective: "Grab any Mosin and get 8 kills with it on any map, killing bots or players.",
+                    tips: null,
+                    video: { timestamp: "14:54", url: "https://www.youtube.com/watch?v=YEPtvxMzsBY&t=894s" }
+                },
+                {
+                    name: "Movie Night 2",
+                    map: "Dam",
+                    objective: "Find 2 movie discs in the military base area (food room) and turn them in.",
+                    tips: null,
+                    video: { timestamp: "16:32", url: "https://www.youtube.com/watch?v=YEPtvxMzsBY&t=992s" }
+                },
+                {
+                    name: "Dress the Part",
+                    map: "Any",
+                    objective: "Get 16 kills wearing the black head and police body armor on any map, killing anyone.",
+                    tips: null,
+                    video: { timestamp: "16:54", url: "https://www.youtube.com/watch?v=YEPtvxMzsBY&t=1014s" }
+                },
+                {
+                    name: "Forever in Flash",
+                    map: "Any",
+                    objective: "Take a camera phone from the kiosk and take photos of statues in Clifton and Dam, resort, metro, and suburbs.",
+                    tips: "Multiple map locations required.",
+                    video: { timestamp: "18:14", url: "https://www.youtube.com/watch?v=YEPtvxMzsBY&t=1094s" }
+                },
+                {
+                    name: "My Favourite: Sjogren",
+                    map: "Metro",
+                    objective: "Grab the Sjogren shotgun and kill 12 scavengers in metro.",
+                    tips: null,
+                    video: { timestamp: "18:45", url: "https://www.youtube.com/watch?v=YEPtvxMzsBY&t=1125s" }
+                },
+                {
+                    name: "One Time Delivery",
+                    map: "Any",
+                    objective: "Find 3 heavy supply cases (17kg each) and leave them at specific locations.",
+                    tips: "Cases are very heavy at 17kg each.",
+                    video: { timestamp: "19:28", url: "https://www.youtube.com/watch?v=YEPtvxMzsBY&t=1168s" }
+                },
+                {
+                    name: "Into The Lion's Den",
+                    map: "Metro",
+                    objective: "In metro, find the officer back room and turn in a Maluk 762 (can be bought or found on the bed with the officer room key).",
+                    tips: null,
+                    video: { timestamp: "20:41", url: "https://www.youtube.com/watch?v=YEPtvxMzsBY&t=1241s" }
+                },
+                {
+                    name: "War Within Self",
+                    map: "Any",
+                    objective: "Get 33 kills anywhere, with anything, killing anyone.",
+                    tips: null,
+                    video: { timestamp: "21:12", url: "https://www.youtube.com/watch?v=YEPtvxMzsBY&t=1272s" }
+                },
+                {
+                    name: "Intermission",
+                    map: "Any",
+                    objective: "Submit 1 lighter and 1 lighter fluid to unlock the max level.",
+                    tips: "Final task to unlock max Igor level.",
+                    video: { timestamp: "21:42", url: "https://www.youtube.com/watch?v=YEPtvxMzsBY&t=1302s" }
+                }
+            ],
+            'anna': [
+                // Gunsmith Tasks
+                {
+                    name: "Gunsmith: Rebuild",
+                    map: "Any",
+                    objective: "Assemble an AR-15 from parts found in your mailbox. This is the first task after completing Veron.",
+                    tips: "Pay attention to part names and the specific order of assembly. Start with the lower receiver.",
+                    video: { timestamp: "0:00", url: "https://www.youtube.com/watch?v=XuhOEKMeakI&t=0s" }
+                },
+                {
+                    name: "Gunsmith: Assemble",
+                    map: "Any",
+                    objective: "Assemble a pistol using parts from the mailbox.",
+                    tips: "Start with the lower receiver and then add available parts from storage.",
+                    video: { timestamp: "5:08", url: "https://www.youtube.com/watch?v=XuhOEKMeakI&t=308s" }
+                },
+                {
+                    name: "Gunsmith: Attach",
+                    map: "Any",
+                    objective: "Attach specific parts to a weapon in a particular order.",
+                    tips: "Do attachments in a particular order as one attachment can unlock others.",
+                    video: { timestamp: "6:23", url: "https://www.youtube.com/watch?v=XuhOEKMeakI&t=383s" }
+                },
+                // Modification Trials
+                {
+                    name: "M16 Modification Trial",
+                    map: "Any",
+                    objective: "Modify an M16 to meet specific statistical requirements.",
+                    tips: "Parts needed: M4 upper receiver, AR-15 Delta 8 handguard, AR-15 254mm barrel. Add a stock before certain attachments like a 45° mount.",
+                    video: { timestamp: "8:39", url: "https://www.youtube.com/watch?v=XuhOEKMeakI&t=519s" }
+                },
+                {
+                    name: "G3 Modification Trial",
+                    map: "Any",
+                    objective: "Modify a G3 to meet specific requirements.",
+                    tips: "Buy a G3 from Arc. Parts needed: Jaffrey lower receiver, BK pistol grip, Jaffrey Sufur stock, G3 AK4 upper receiver, G3 AS handguard, G3 muzzle, mount M lock long with PVGBK foregrip.",
+                    video: { timestamp: "11:34", url: "https://www.youtube.com/watch?v=XuhOEKMeakI&t=694s" }
+                },
+                {
+                    name: "M870 Modification Trial",
+                    map: "Any",
+                    objective: "Modify the M870 shotgun to meet ergonomic and recoil requirements.",
+                    tips: "Requirements: Ergonomics more than 55, vertical recoil less than 260.",
+                    video: { timestamp: "12:20", url: "https://www.youtube.com/watch?v=XuhOEKMeakI&t=740s" }
+                },
+                {
+                    name: "SKS Modification Trial",
+                    map: "Any",
+                    objective: "Modify the SKS to meet specific requirements.",
+                    tips: "Buy the SKS Tapco from Anna, remove its stock, and place the OpSKS on the workbench.",
+                    video: { timestamp: "14:13", url: "https://www.youtube.com/watch?v=XuhOEKMeakI&t=853s" }
+                },
+                {
+                    name: "AK74N Modification Trial",
+                    map: "Any",
+                    objective: "Modify the AK74N to meet specific requirements.",
+                    tips: null,
+                    video: { timestamp: "15:19", url: "https://www.youtube.com/watch?v=XuhOEKMeakI&t=919s" }
+                },
+                {
+                    name: "M1A Modification Trial",
+                    map: "Any",
+                    objective: "Modify the M1A to meet specific requirements. Requires finding the M1A508 barrel.",
+                    tips: "M1A508 barrel can be found in gun crates or traded for. Parts: M1A lower receiver, M1A Archangel stock, M1A 558mm barrel, AR-15 and 10 TBast BK cover muzzle, HRMA sight, Tango Down foregrip.",
+                    video: { timestamp: "16:03", url: "https://www.youtube.com/watch?v=XuhOEKMeakI&t=963s" }
+                },
+                {
+                    name: "AKS74UN Modification Trial",
+                    map: "Any",
+                    objective: "Modify the AKS74UN to meet specific requirements.",
+                    tips: "Parts: MOE pistol grip, FAB stock, 6P upper receiver, 5.56 adapter muzzle, AR-15 QDS-ND4 second muzzle, AKs74U B18 magazine mount, Tukan 2 sight.",
+                    video: { timestamp: "17:13", url: "https://www.youtube.com/watch?v=XuhOEKMeakI&t=1033s" }
+                },
+                {
+                    name: "M4A1 Modification Trial",
+                    map: "Any",
+                    objective: "Modify the M4A1 to meet specific requirements.",
+                    tips: "Final modification trial for Anna.",
+                    video: { timestamp: "18:25", url: "https://www.youtube.com/watch?v=XuhOEKMeakI&t=1105s" }
+                }
+            ],
+            'maggie': [
+                // Level 1
+                {
+                    name: "Supply Shortage 1",
+                    map: "Any",
+                    objective: "Deliver 2 bottles of water and 2 cans of food to Maggie.",
+                    tips: "Basic delivery task to unlock Maggie.",
+                    video: { timestamp: "0:00", url: "https://www.youtube.com/watch?v=ZOuSedSDlUE&t=0s" }
+                },
+                {
+                    name: "Playback Time",
+                    map: "Any",
+                    objective: "Find and deliver an MP3 player to Maggie.",
+                    tips: "MP3 players can be found in jackets and bags.",
+                    video: { timestamp: "0:31", url: "https://www.youtube.com/watch?v=ZOuSedSDlUE&t=31s" }
+                },
+                {
+                    name: "Health Basics",
+                    map: "Any",
+                    objective: "Deliver 3 bandages and 1 first aid kit to Maggie.",
+                    tips: "Medical supplies can be found in med bags and medical locations.",
+                    video: { timestamp: "0:55", url: "https://www.youtube.com/watch?v=ZOuSedSDlUE&t=55s" }
+                },
+                {
+                    name: "A Friendly Visit",
+                    map: "Suburbs",
+                    objective: "Go to the Suburbs and locate the NTG stash location.",
+                    tips: "The location is marked on your map.",
+                    video: { timestamp: "1:14", url: "https://www.youtube.com/watch?v=ZOuSedSDlUE&t=74s" }
+                },
+                {
+                    name: "Reconnect",
+                    map: "Suburbs",
+                    objective: "Locate the NTG radio equipment in Suburbs.",
+                    tips: "Search the marked location for the radio equipment.",
+                    video: { timestamp: "1:41", url: "https://www.youtube.com/watch?v=ZOuSedSDlUE&t=101s" }
+                },
+                {
+                    name: "Supply Shortage 2",
+                    map: "Any",
+                    objective: "Deliver 4 bottles of water and 4 cans of food to Maggie.",
+                    tips: "Increased quantities from Supply Shortage 1.",
+                    video: { timestamp: "2:14", url: "https://www.youtube.com/watch?v=ZOuSedSDlUE&t=134s" }
+                },
+                // Level 2
+                {
+                    name: "Info for Aid",
+                    map: "Any",
+                    objective: "Deliver 2 flash drives to Maggie.",
+                    tips: "Flash drives can be found in filing cabinets and PC blocks.",
+                    video: { timestamp: "2:38", url: "https://www.youtube.com/watch?v=ZOuSedSDlUE&t=158s" }
+                },
+                {
+                    name: "Remedy from the East",
+                    map: "Any",
+                    objective: "Deliver 3 bottles of ibuprofen to Maggie.",
+                    tips: "Ibuprofen can be found in medical locations and pharmacies.",
+                    video: { timestamp: "3:04", url: "https://www.youtube.com/watch?v=ZOuSedSDlUE&t=184s" }
+                },
+                {
+                    name: "Exotic Remedy",
+                    map: "Any",
+                    objective: "Find and deliver 1 propital injector to Maggie.",
+                    tips: "Propital is a rare medical item found in medical crates.",
+                    video: { timestamp: "3:28", url: "https://www.youtube.com/watch?v=ZOuSedSDlUE&t=208s" }
+                },
+                {
+                    name: "Clear the Way",
+                    map: "Suburbs",
+                    objective: "Eliminate 10 enemies in Suburbs.",
+                    tips: "Any enemy type counts toward this objective.",
+                    video: { timestamp: "3:53", url: "https://www.youtube.com/watch?v=ZOuSedSDlUE&t=233s" }
+                },
+                {
+                    name: "Signal Boost",
+                    map: "Suburbs",
+                    objective: "Place a signal booster at the marked location in Suburbs.",
+                    tips: "The booster location is marked on your map.",
+                    video: { timestamp: "4:16", url: "https://www.youtube.com/watch?v=ZOuSedSDlUE&t=256s" }
+                },
+                {
+                    name: "Where Did the Ambulances Go?",
+                    map: "Dam",
+                    objective: "Search the ambulance at Dam for medical supplies.",
+                    tips: "The ambulance location is near the medical tent area.",
+                    video: { timestamp: "4:44", url: "https://www.youtube.com/watch?v=ZOuSedSDlUE&t=284s" }
+                },
+                {
+                    name: "When It Rains It Pours",
+                    map: "Suburbs",
+                    objective: "Find and retrieve the NTG supply crate in Suburbs during rain.",
+                    tips: "This task requires rainy weather conditions.",
+                    video: { timestamp: "5:36", url: "https://www.youtube.com/watch?v=ZOuSedSDlUE&t=336s" }
+                },
+                {
+                    name: "Coffee Break",
+                    map: "Any",
+                    objective: "Deliver 3 thermoses to Maggie.",
+                    tips: "Thermoses can be found in break rooms and kitchens.",
+                    video: { timestamp: "6:25", url: "https://www.youtube.com/watch?v=ZOuSedSDlUE&t=385s" }
+                },
+                {
+                    name: "N.T.G. Investigation 1",
+                    map: "Suburbs",
+                    objective: "Investigate the first NTG clue location in Suburbs.",
+                    tips: "Follow the marked location to find clues.",
+                    video: { timestamp: "6:48", url: "https://www.youtube.com/watch?v=ZOuSedSDlUE&t=408s" }
+                },
+                {
+                    name: "Final Message",
+                    map: "Suburbs",
+                    objective: "Retrieve the final message from the NTG operative in Suburbs.",
+                    tips: "The message location is marked on your map.",
+                    video: { timestamp: "7:23", url: "https://www.youtube.com/watch?v=ZOuSedSDlUE&t=443s" }
+                },
+                // Level 3
+                {
+                    name: "Rest in Deep",
+                    map: "Dam",
+                    objective: "Locate and search the submerged vehicle at Dam.",
+                    tips: "The vehicle is underwater near the dam structure.",
+                    video: { timestamp: "8:02", url: "https://www.youtube.com/watch?v=ZOuSedSDlUE&t=482s" }
+                },
+                {
+                    name: "Private Clinic",
+                    map: "Suburbs",
+                    objective: "Find and loot the hidden medical stash in Suburbs.",
+                    tips: "The clinic is in a residential building.",
+                    video: { timestamp: "8:42", url: "https://www.youtube.com/watch?v=ZOuSedSDlUE&t=522s" }
+                },
+                {
+                    name: "N.T.G. Investigation 2",
+                    map: "Dam",
+                    objective: "Continue the NTG investigation at Dam.",
+                    tips: "Search the marked areas for additional clues.",
+                    video: { timestamp: "9:35", url: "https://www.youtube.com/watch?v=ZOuSedSDlUE&t=575s" }
+                },
+                {
+                    name: "Gear Upgrade",
+                    map: "Any",
+                    objective: "Deliver a tactical rig to Maggie.",
+                    tips: "Any tactical rig will complete this objective.",
+                    video: { timestamp: "10:23", url: "https://www.youtube.com/watch?v=ZOuSedSDlUE&t=623s" }
+                },
+                {
+                    name: "Medical Delivery",
+                    map: "Any",
+                    objective: "Deliver medical supplies including a surgical kit to Maggie.",
+                    tips: "Surgical kits are rare and found in medical areas.",
+                    video: { timestamp: "10:48", url: "https://www.youtube.com/watch?v=ZOuSedSDlUE&t=648s" }
+                },
+                {
+                    name: "Keys to Safety 1",
+                    map: "Suburbs",
+                    objective: "Find the first key in Suburbs for Maggie's safehouse.",
+                    tips: "Check jackets and key spawns in residential areas.",
+                    video: { timestamp: "11:15", url: "https://www.youtube.com/watch?v=ZOuSedSDlUE&t=675s" }
+                },
+                {
+                    name: "Keys to Safety 2",
+                    map: "Suburbs",
+                    objective: "Find the second key in Suburbs.",
+                    tips: "The key is in a different location from the first.",
+                    video: { timestamp: "11:54", url: "https://www.youtube.com/watch?v=ZOuSedSDlUE&t=714s" }
+                },
+                {
+                    name: "Keys to Safety 3",
+                    map: "Dam",
+                    objective: "Find the third and final key at Dam.",
+                    tips: "Search the marked area at Dam.",
+                    video: { timestamp: "12:31", url: "https://www.youtube.com/watch?v=ZOuSedSDlUE&t=751s" }
+                },
+                {
+                    name: "N.T.G. Investigation 3",
+                    map: "Dam",
+                    objective: "Complete the final part of the NTG investigation at Dam.",
+                    tips: "This concludes the investigation chain.",
+                    video: { timestamp: "13:12", url: "https://www.youtube.com/watch?v=ZOuSedSDlUE&t=792s" }
+                },
+                {
+                    name: "Shadows of the Truth 1",
+                    map: "Suburbs",
+                    objective: "Uncover the first part of the truth in Suburbs.",
+                    tips: "Follow the investigation markers.",
+                    video: { timestamp: "14:05", url: "https://www.youtube.com/watch?v=ZOuSedSDlUE&t=845s" }
+                },
+                {
+                    name: "Shadows of the Truth 2",
+                    map: "Dam",
+                    objective: "Continue uncovering the truth at Dam.",
+                    tips: "This follows from Shadows of the Truth 1.",
+                    video: { timestamp: "14:52", url: "https://www.youtube.com/watch?v=ZOuSedSDlUE&t=892s" }
+                },
+                {
+                    name: "Bearing Burdens",
+                    map: "Dam",
+                    objective: "Retrieve the heavy supply crate from Dam.",
+                    tips: "The crate reduces your movement speed while carrying it.",
+                    video: { timestamp: "15:38", url: "https://www.youtube.com/watch?v=ZOuSedSDlUE&t=938s" }
+                },
+                {
+                    name: "Path to Escape 1",
+                    map: "Suburbs",
+                    objective: "Scout the first escape route location in Suburbs.",
+                    tips: "Mark the location for future extraction planning.",
+                    video: { timestamp: "16:14", url: "https://www.youtube.com/watch?v=ZOuSedSDlUE&t=974s" }
+                },
+                {
+                    name: "Path to Escape 2",
+                    map: "Dam",
+                    objective: "Scout the second escape route at Dam.",
+                    tips: "This follows Path to Escape 1.",
+                    video: { timestamp: "17:02", url: "https://www.youtube.com/watch?v=ZOuSedSDlUE&t=1022s" }
+                },
+                {
+                    name: "Shrouded in Shadows",
+                    map: "Suburbs",
+                    objective: "Eliminate enemies in Suburbs at night without being detected.",
+                    tips: "Use suppressed weapons and night vision if available.",
+                    video: { timestamp: "17:48", url: "https://www.youtube.com/watch?v=ZOuSedSDlUE&t=1068s" }
+                },
+                {
+                    name: "Return to the Dark",
+                    map: "Dam",
+                    objective: "Complete a nighttime operation at Dam.",
+                    tips: "Bring night vision and suppressed weapons.",
+                    video: { timestamp: "18:32", url: "https://www.youtube.com/watch?v=ZOuSedSDlUE&t=1112s" }
+                },
+                {
+                    name: "Death by Deception",
+                    map: "Any",
+                    objective: "Eliminate enemies using deceptive tactics.",
+                    tips: "Final task for Maggie - use traps or lure enemies.",
+                    video: { timestamp: "19:15", url: "https://www.youtube.com/watch?v=ZOuSedSDlUE&t=1155s" }
+                }
             ]
         };
 
@@ -1069,6 +1757,26 @@
                 name: 'Tommy',
                 faction: 'ARK',
                 image: 'Images/Traders/ARK_Tommy_Trader.webp'
+            },
+            'johnny': {
+                name: 'Johnny',
+                faction: 'TRUPIKS',
+                image: 'Images/Traders/TRUPIKS_Johnny_Trader.webp'
+            },
+            'igor': {
+                name: 'Igor',
+                faction: 'REGIMENT',
+                image: 'Images/Traders/Regiment_Igor_Trader.webp'
+            },
+            'anna': {
+                name: 'Anna',
+                faction: 'NEUMANN',
+                image: 'Images/Traders/NEUMANN_ANNA_TRADER.jpg'
+            },
+            'maggie': {
+                name: 'Maggie',
+                faction: 'N.T.G.',
+                image: 'Images/Traders/NTG_Maggie_Trader.webp'
             }
         };
 
