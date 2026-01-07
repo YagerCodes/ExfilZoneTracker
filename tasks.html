@@ -244,12 +244,15 @@
         }
 
         .trader-tab {
-            padding: 0.75rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
             background: var(--bg-medium);
             border: 1px solid var(--border);
             color: var(--text-secondary);
             font-family: 'Orbitron', sans-serif;
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 1px;
@@ -258,15 +261,32 @@
             border-radius: 4px;
         }
 
+        .trader-tab img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--border);
+            transition: border-color 0.2s;
+        }
+
         .trader-tab:hover {
             border-color: var(--primary);
             color: var(--primary);
+        }
+
+        .trader-tab:hover img {
+            border-color: var(--primary);
         }
 
         .trader-tab.active {
             background: var(--primary);
             color: var(--bg-dark);
             border-color: var(--primary);
+        }
+
+        .trader-tab.active img {
+            border-color: var(--bg-dark);
         }
 
         /* Filter Controls */
@@ -831,12 +851,12 @@
             </header>
 
         <div class="trader-tabs">
-            <button class="trader-tab active" onclick="selectTrader('maximilian')">Maximilian</button>
-            <button class="trader-tab" onclick="selectTrader('tommy')">Tommy (ARK)</button>
-            <button class="trader-tab" onclick="selectTrader('johnny')">Johnny</button>
-            <button class="trader-tab" onclick="selectTrader('igor')">Igor</button>
-            <button class="trader-tab" onclick="selectTrader('anna')">Anna</button>
-            <button class="trader-tab" onclick="selectTrader('maggie')">Maggie</button>
+            <button class="trader-tab active" onclick="selectTrader('maximilian')"><img src="Images/Traders/BoulderForge_Maximilian_Trader.webp" alt="Maximilian">Maximilian (BOULDERFORGE)</button>
+            <button class="trader-tab" onclick="selectTrader('tommy')"><img src="Images/Traders/ARK_Tommy_Trader.webp" alt="Tommy">Tommy (ARK)</button>
+            <button class="trader-tab" onclick="selectTrader('johnny')"><img src="Images/Traders/TRUPIKS_Johnny_Trader.webp" alt="Johnny">Johnny (TRUPIKS)</button>
+            <button class="trader-tab" onclick="selectTrader('igor')"><img src="Images/Traders/Regiment_Igor_Trader.webp" alt="Igor">Igor (REGIMENT)</button>
+            <button class="trader-tab" onclick="selectTrader('anna')"><img src="Images/Traders/NEUMANN_ANNA_TRADER.jpg" alt="Anna">Anna (NEUMANN)</button>
+            <button class="trader-tab" onclick="selectTrader('maggie')"><img src="Images/Traders/NTG_Maggie_Trader.webp" alt="Maggie">Maggie (N.T.G.)</button>
         </div>
 
         <div class="trader-display" id="traderDisplay">
@@ -1685,6 +1705,15 @@
                     items: [["Household Item", 3]]
                 },
                 {
+                    name: "Supply Shortage 3",
+                    map: "Any",
+                    type: "Side-Task",
+                    objective: "Turn in 4 Household Items found in raid.",
+                    tips: "Household items can be found commonly inside residential buildings.",
+                    video: { timestamp: "0:00", url: "https://www.youtube.com/watch?v=ZOuSedSDlUE&t=0s" },
+                    items: [["Household Item", 4]]
+                },
+                {
                     name: "Borrowed and Returned",
                     map: "Dam",
                     type: "Contract",
@@ -1730,14 +1759,6 @@
                     objective: "Locate the NTG radio equipment in Suburbs.",
                     tips: "Search the marked location for the radio equipment.",
                     video: { timestamp: "1:41", url: "https://www.youtube.com/watch?v=ZOuSedSDlUE&t=101s" }
-                },
-                {
-                    name: "Supply Shortage 2",
-                    map: "Any",
-                    objective: "Deliver 4 bottles of water and 4 cans of food to Maggie.",
-                    tips: "Increased quantities from Supply Shortage 1.",
-                    video: { timestamp: "2:14", url: "https://www.youtube.com/watch?v=ZOuSedSDlUE&t=134s" },
-                    items: [["Bottle of Water", 4], ["Can of Food", 4]]
                 },
                 // Level 2
                 {
