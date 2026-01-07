@@ -630,6 +630,126 @@
             .tasks-grid { grid-template-columns: 1fr; }
             .search-box { width: 100%; }
         }
+
+        /* Items Summary Section */
+        .items-summary-section {
+            margin-bottom: 2rem;
+            background: var(--bg-medium);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .items-summary-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem;
+            cursor: pointer;
+            background: var(--bg-card);
+            transition: background 0.2s;
+        }
+
+        .items-summary-header:hover {
+            background: var(--bg-light);
+        }
+
+        .items-summary-title {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--accent-blue);
+        }
+
+        .items-summary-title::before {
+            content: '';
+            width: 20px;
+            height: 20px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%2300d4ff' viewBox='0 0 24 24'%3E%3Cpath d='M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14h-2v-4H6v-2h4V7h2v4h4v2h-4v4z'/%3E%3C/svg%3E") center/contain no-repeat;
+        }
+
+        .items-summary-toggle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            transition: transform 0.3s;
+        }
+
+        .items-summary-section.expanded .items-summary-toggle {
+            transform: rotate(180deg);
+        }
+
+        .items-summary-content {
+            display: none;
+            padding: 1rem;
+        }
+
+        .items-summary-section.expanded .items-summary-content {
+            display: block;
+        }
+
+        .items-summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 0.5rem;
+        }
+
+        .summary-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            background: var(--bg-dark);
+            border-radius: 4px;
+            border: 1px solid var(--border);
+        }
+
+        .summary-item-icon {
+            width: 28px;
+            height: 28px;
+            object-fit: contain;
+            border-radius: 4px;
+        }
+
+        .summary-item-name {
+            flex: 1;
+            font-size: 0.85rem;
+            color: var(--text-primary);
+        }
+
+        .summary-item-qty {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .items-summary-empty {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        .items-summary-stats {
+            display: flex;
+            gap: 1.5rem;
+            padding: 0.75rem 1rem;
+            background: var(--bg-dark);
+            border-top: 1px solid var(--border);
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .items-summary-stats span {
+            color: var(--primary);
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+        }
     </style>
 </head>
 <body>
@@ -738,6 +858,17 @@
             </div>
         </div>
 
+        <div class="items-summary-section" id="itemsSummarySection">
+            <div class="items-summary-header" onclick="toggleItemsSummary()">
+                <div class="items-summary-title">Items Needed</div>
+                <div class="items-summary-toggle">▼</div>
+            </div>
+            <div class="items-summary-content">
+                <div class="items-summary-grid" id="itemsSummaryGrid"></div>
+            </div>
+            <div class="items-summary-stats" id="itemsSummaryStats"></div>
+        </div>
+
         <div class="tasks-grid" id="tasksGrid"></div>
 
         <div class="video-credit">
@@ -786,14 +917,16 @@
                     map: "Any",
                     objective: "Submit six notebooks.",
                     tips: "Notebooks can be found on any map by checking doors, boxes, and shelves.",
-                    video: { timestamp: "3:38", url: "https://www.youtube.com/watch?v=h8AFe8ypIec&t=218s" }
+                    video: { timestamp: "3:38", url: "https://www.youtube.com/watch?v=h8AFe8ypIec&t=218s" },
+                    items: [["Notebook", 6]]
                 },
                 {
                     name: "All Pieces Together 2",
                     map: "Any",
                     objective: "Submit eight tapes.",
                     tips: "Tapes can be found anywhere on any map.",
-                    video: { timestamp: "3:55", url: "https://www.youtube.com/watch?v=h8AFe8ypIec&t=235s" }
+                    video: { timestamp: "3:55", url: "https://www.youtube.com/watch?v=h8AFe8ypIec&t=235s" },
+                    items: [["Tape", 8]]
                 },
                 {
                     name: "Seeing is Believing 1",
@@ -835,7 +968,8 @@
                     map: "Any",
                     objective: "Turn in one golden ingot.",
                     tips: "If you have the DLC, you'll have two ingots. Otherwise, find them in key rooms and high-value item spawns.",
-                    video: { timestamp: "7:35", url: "https://www.youtube.com/watch?v=h8AFe8ypIec&t=455s" }
+                    video: { timestamp: "7:35", url: "https://www.youtube.com/watch?v=h8AFe8ypIec&t=455s" },
+                    items: [["Golden Ingot", 1]]
                 },
                 {
                     name: "Cold Hard Cash 2",
@@ -849,14 +983,16 @@
                     map: "Any",
                     objective: "Turn in six old phones.",
                     tips: "Old phones are common finds on any map.",
-                    video: { timestamp: "9:14", url: "https://www.youtube.com/watch?v=h8AFe8ypIec&t=554s" }
+                    video: { timestamp: "9:14", url: "https://www.youtube.com/watch?v=h8AFe8ypIec&t=554s" },
+                    items: [["Old Phone", 6]]
                 },
                 {
                     name: "All Pieces Together 4",
                     map: "Any",
                     objective: "Turn in four cameras.",
                     tips: "Cameras are high-value items found in locked rooms, high-value item spawns, or sometimes in boxes.",
-                    video: { timestamp: "9:28", url: "https://www.youtube.com/watch?v=h8AFe8ypIec&t=568s" }
+                    video: { timestamp: "9:28", url: "https://www.youtube.com/watch?v=h8AFe8ypIec&t=568s" },
+                    items: [["Camera", 4]]
                 },
                 {
                     name: "Cold Hard Cash 3",
@@ -870,7 +1006,8 @@
                     map: "Any",
                     objective: "Submit a game console and all four different game cartridges.",
                     tips: "These are found in locked rooms, high-value item spawns, and sometimes in boxes and drawers. The game console is rare.",
-                    video: { timestamp: "10:53", url: "https://www.youtube.com/watch?v=h8AFe8ypIec&t=653s" }
+                    video: { timestamp: "10:53", url: "https://www.youtube.com/watch?v=h8AFe8ypIec&t=653s" },
+                    items: [["Game Console", 1], ["Game Cartridge", 4]]
                 },
                 {
                     name: "Hack to Play",
@@ -900,7 +1037,8 @@
                     map: "Any",
                     objective: "Submit three \"Intel\" items found in raids.",
                     tips: "Intel items include notebooks, tapes, hard drives, or books.",
-                    video: { timestamp: "0:40", url: "https://www.youtube.com/watch?v=HLNHp2vxesQ&t=40s" }
+                    video: { timestamp: "0:40", url: "https://www.youtube.com/watch?v=HLNHp2vxesQ&t=40s" },
+                    items: [["Intel Item", 3]]
                 },
                 {
                     name: "Find and Turn in Ark Soldier's Phone",
@@ -1143,42 +1281,61 @@
                     map: "Suburbs",
                     objective: "Submit 2 bottles of beer, found at the graveyard in suburbs.",
                     tips: null,
-                    video: { timestamp: "0:38", url: "https://www.youtube.com/watch?v=YEPtvxMzsBY&t=38s" }
+                    video: { timestamp: "0:38", url: "https://www.youtube.com/watch?v=YEPtvxMzsBY&t=38s" },
+                    items: [["Bottle of Beer", 2]]
                 },
                 {
                     name: "Explosive Romance",
-                    map: "Suburbs",
-                    objective: "Find 2 tusk and powders in suburbs, one on the roof of Alibi and another near the power station.",
+                    map: "Dam",
+                    objective: "Find 2 gunpowders in Dam.",
                     tips: null,
-                    video: { timestamp: "0:54", url: "https://www.youtube.com/watch?v=YEPtvxMzsBY&t=54s" }
+                    video: { timestamp: "0:54", url: "https://www.youtube.com/watch?v=YEPtvxMzsBY&t=54s" },
+                    items: [["Gunpowder", 2]]
+                },
+                {
+                    name: "Shotgun Shock",
+                    map: "Suburbs",
+                    objective: "Get 6 kills with a pump shotgun in suburbs by killing scavengers.",
+                    tips: null,
+                    video: { timestamp: "4:07", url: "https://www.youtube.com/watch?v=YEPtvxMzsBY&t=247s" }
                 },
                 {
                     name: "Shades of Boom",
-                    map: "Resort",
-                    objective: "Go to the fire station in resort and find Igor's sunglasses.",
+                    map: "Dam",
+                    objective: "Go to the lumbercamp in Dam and find Igor's sunglasses.",
                     tips: null,
                     video: { timestamp: "1:36", url: "https://www.youtube.com/watch?v=YEPtvxMzsBY&t=96s" }
+                },
+                {
+                    name: "Hair Comes First",
+                    map: "Any",
+                    objective: "Get 8 kills without wearing a helmet on any map, killing bots or players.",
+                    tips: null,
+                    video: { timestamp: "11:45", url: "https://www.youtube.com/watch?v=YEPtvxMzsBY&t=705s" }
                 },
                 {
                     name: "Firepower Roundup 1",
                     map: "Any",
                     objective: "Turn in M92 and M1928, found in raid or bought from the second floor.",
                     tips: null,
-                    video: { timestamp: "2:00", url: "https://www.youtube.com/watch?v=YEPtvxMzsBY&t=120s" }
+                    video: { timestamp: "2:00", url: "https://www.youtube.com/watch?v=YEPtvxMzsBY&t=120s" },
+                    items: [["M92", 1], ["M1928", 1]]
                 },
                 {
                     name: "Firepower Roundup 2",
                     map: "Any",
                     objective: "Submit AKS74U and AR-15 Hunter, found in raid or bought from the second floor.",
                     tips: null,
-                    video: { timestamp: "2:20", url: "https://www.youtube.com/watch?v=YEPtvxMzsBY&t=140s" }
+                    video: { timestamp: "2:20", url: "https://www.youtube.com/watch?v=YEPtvxMzsBY&t=140s" },
+                    items: [["AKS74U", 1], ["AR-15 Hunter", 1]]
                 },
                 {
                     name: "Firepower Roundup 3",
                     map: "Any",
                     objective: "Submit M67, F1, and RGD5 hand grenades.",
                     tips: "These grenades cannot be bought yet, must be found in raid.",
-                    video: { timestamp: "2:39", url: "https://www.youtube.com/watch?v=YEPtvxMzsBY&t=159s" }
+                    video: { timestamp: "2:39", url: "https://www.youtube.com/watch?v=YEPtvxMzsBY&t=159s" },
+                    items: [["M67 Grenade", 1], ["F1 Grenade", 1], ["RGD5 Grenade", 1]]
                 },
                 {
                     name: "Submachine Guns",
@@ -1188,13 +1345,6 @@
                     video: { timestamp: "3:06", url: "https://www.youtube.com/watch?v=YEPtvxMzsBY&t=186s" }
                 },
                 // Level 2 Tasks
-                {
-                    name: "Shotgun Shock",
-                    map: "Suburbs",
-                    objective: "Get 6 kills with a pump shotgun in suburbs by killing scavengers.",
-                    tips: "Level 2 task.",
-                    video: { timestamp: "4:07", url: "https://www.youtube.com/watch?v=YEPtvxMzsBY&t=247s" }
-                },
                 {
                     name: "Treasure in Sewage",
                     map: "Resort",
@@ -1235,14 +1385,16 @@
                     map: "Any",
                     objective: "Submit 1 flashlight and 3 size D batteries, found on any map.",
                     tips: null,
-                    video: { timestamp: "7:20", url: "https://www.youtube.com/watch?v=YEPtvxMzsBY&t=440s" }
+                    video: { timestamp: "7:20", url: "https://www.youtube.com/watch?v=YEPtvxMzsBY&t=440s" },
+                    items: [["Flashlight", 1], ["Size D Battery", 3]]
                 },
                 {
                     name: "The Best Can",
                     map: "Any",
                     objective: "Submit 5 cans of peace, which can be found on any map.",
                     tips: "Cans don't need to be full.",
-                    video: { timestamp: "7:32", url: "https://www.youtube.com/watch?v=YEPtvxMzsBY&t=452s" }
+                    video: { timestamp: "7:32", url: "https://www.youtube.com/watch?v=YEPtvxMzsBY&t=452s" },
+                    items: [["Can of Peace", 5]]
                 },
                 {
                     name: "Pistol Glory",
@@ -1256,7 +1408,8 @@
                     map: "Resort",
                     objective: "Grab 2 movie discs (Shark and Aurora Alazol) in resort and turn them in.",
                     tips: null,
-                    video: { timestamp: "8:23", url: "https://www.youtube.com/watch?v=YEPtvxMzsBY&t=503s" }
+                    video: { timestamp: "8:23", url: "https://www.youtube.com/watch?v=YEPtvxMzsBY&t=503s" },
+                    items: [["Movie Disc", 2]]
                 },
                 {
                     name: "Hunter",
@@ -1270,7 +1423,8 @@
                     map: "Any",
                     objective: "Submit 2 AKM magazines (common) and 2 330-round magazines.",
                     tips: "330-round magazines are only buyable at level 3 or found in raid/from players.",
-                    video: { timestamp: "10:10", url: "https://www.youtube.com/watch?v=YEPtvxMzsBY&t=610s" }
+                    video: { timestamp: "10:10", url: "https://www.youtube.com/watch?v=YEPtvxMzsBY&t=610s" },
+                    items: [["AKM Magazine", 2], ["330-Round Magazine", 2]]
                 },
                 {
                     name: "My Favourite: G18",
@@ -1280,13 +1434,6 @@
                     video: { timestamp: "10:53", url: "https://www.youtube.com/watch?v=YEPtvxMzsBY&t=653s" }
                 },
                 // Level 3 Tasks
-                {
-                    name: "Hair Comes First",
-                    map: "Any",
-                    objective: "Get 8 kills without wearing a helmet on any map, killing bots or players.",
-                    tips: "Level 3 task.",
-                    video: { timestamp: "11:45", url: "https://www.youtube.com/watch?v=YEPtvxMzsBY&t=705s" }
-                },
                 {
                     name: "Taste of Life 2",
                     map: "Suburbs",
@@ -1320,7 +1467,8 @@
                     map: "Dam",
                     objective: "Find 2 movie discs in the military base area (food room) and turn them in.",
                     tips: null,
-                    video: { timestamp: "16:32", url: "https://www.youtube.com/watch?v=YEPtvxMzsBY&t=992s" }
+                    video: { timestamp: "16:32", url: "https://www.youtube.com/watch?v=YEPtvxMzsBY&t=992s" },
+                    items: [["Movie Disc", 2]]
                 },
                 {
                     name: "Dress the Part",
@@ -1348,14 +1496,16 @@
                     map: "Any",
                     objective: "Find 3 heavy supply cases (17kg each) and leave them at specific locations.",
                     tips: "Cases are very heavy at 17kg each.",
-                    video: { timestamp: "19:28", url: "https://www.youtube.com/watch?v=YEPtvxMzsBY&t=1168s" }
+                    video: { timestamp: "19:28", url: "https://www.youtube.com/watch?v=YEPtvxMzsBY&t=1168s" },
+                    items: [["Heavy Supply Case", 3]]
                 },
                 {
                     name: "Into The Lion's Den",
                     map: "Metro",
                     objective: "In metro, find the officer back room and turn in a Maluk 762 (can be bought or found on the bed with the officer room key).",
                     tips: null,
-                    video: { timestamp: "20:41", url: "https://www.youtube.com/watch?v=YEPtvxMzsBY&t=1241s" }
+                    video: { timestamp: "20:41", url: "https://www.youtube.com/watch?v=YEPtvxMzsBY&t=1241s" },
+                    items: [["Maluk 762", 1]]
                 },
                 {
                     name: "War Within Self",
@@ -1369,7 +1519,8 @@
                     map: "Any",
                     objective: "Submit 1 lighter and 1 lighter fluid to unlock the max level.",
                     tips: "Final task to unlock max Igor level.",
-                    video: { timestamp: "21:42", url: "https://www.youtube.com/watch?v=YEPtvxMzsBY&t=1302s" }
+                    video: { timestamp: "21:42", url: "https://www.youtube.com/watch?v=YEPtvxMzsBY&t=1302s" },
+                    items: [["Lighter", 1], ["Lighter Fluid", 1]]
                 }
             ],
             'anna': [
@@ -1460,21 +1611,24 @@
                     map: "Any",
                     objective: "Deliver 2 bottles of water and 2 cans of food to Maggie.",
                     tips: "Basic delivery task to unlock Maggie.",
-                    video: { timestamp: "0:00", url: "https://www.youtube.com/watch?v=ZOuSedSDlUE&t=0s" }
+                    video: { timestamp: "0:00", url: "https://www.youtube.com/watch?v=ZOuSedSDlUE&t=0s" },
+                    items: [["Bottle of Water", 2], ["Can of Food", 2]]
                 },
                 {
                     name: "Playback Time",
                     map: "Any",
                     objective: "Find and deliver an MP3 player to Maggie.",
                     tips: "MP3 players can be found in jackets and bags.",
-                    video: { timestamp: "0:31", url: "https://www.youtube.com/watch?v=ZOuSedSDlUE&t=31s" }
+                    video: { timestamp: "0:31", url: "https://www.youtube.com/watch?v=ZOuSedSDlUE&t=31s" },
+                    items: [["MP3 Player", 1]]
                 },
                 {
                     name: "Health Basics",
                     map: "Any",
                     objective: "Deliver 3 bandages and 1 first aid kit to Maggie.",
                     tips: "Medical supplies can be found in med bags and medical locations.",
-                    video: { timestamp: "0:55", url: "https://www.youtube.com/watch?v=ZOuSedSDlUE&t=55s" }
+                    video: { timestamp: "0:55", url: "https://www.youtube.com/watch?v=ZOuSedSDlUE&t=55s" },
+                    items: [["Bandage", 3], ["First Aid Kit", 1]]
                 },
                 {
                     name: "A Friendly Visit",
@@ -1495,7 +1649,8 @@
                     map: "Any",
                     objective: "Deliver 4 bottles of water and 4 cans of food to Maggie.",
                     tips: "Increased quantities from Supply Shortage 1.",
-                    video: { timestamp: "2:14", url: "https://www.youtube.com/watch?v=ZOuSedSDlUE&t=134s" }
+                    video: { timestamp: "2:14", url: "https://www.youtube.com/watch?v=ZOuSedSDlUE&t=134s" },
+                    items: [["Bottle of Water", 4], ["Can of Food", 4]]
                 },
                 // Level 2
                 {
@@ -1503,21 +1658,24 @@
                     map: "Any",
                     objective: "Deliver 2 flash drives to Maggie.",
                     tips: "Flash drives can be found in filing cabinets and PC blocks.",
-                    video: { timestamp: "2:38", url: "https://www.youtube.com/watch?v=ZOuSedSDlUE&t=158s" }
+                    video: { timestamp: "2:38", url: "https://www.youtube.com/watch?v=ZOuSedSDlUE&t=158s" },
+                    items: [["Flash Drive", 2]]
                 },
                 {
                     name: "Remedy from the East",
                     map: "Any",
                     objective: "Deliver 3 bottles of ibuprofen to Maggie.",
                     tips: "Ibuprofen can be found in medical locations and pharmacies.",
-                    video: { timestamp: "3:04", url: "https://www.youtube.com/watch?v=ZOuSedSDlUE&t=184s" }
+                    video: { timestamp: "3:04", url: "https://www.youtube.com/watch?v=ZOuSedSDlUE&t=184s" },
+                    items: [["Ibuprofen", 3]]
                 },
                 {
                     name: "Exotic Remedy",
                     map: "Any",
                     objective: "Find and deliver 1 propital injector to Maggie.",
                     tips: "Propital is a rare medical item found in medical crates.",
-                    video: { timestamp: "3:28", url: "https://www.youtube.com/watch?v=ZOuSedSDlUE&t=208s" }
+                    video: { timestamp: "3:28", url: "https://www.youtube.com/watch?v=ZOuSedSDlUE&t=208s" },
+                    items: [["Propital Injector", 1]]
                 },
                 {
                     name: "Clear the Way",
@@ -1552,7 +1710,8 @@
                     map: "Any",
                     objective: "Deliver 3 thermoses to Maggie.",
                     tips: "Thermoses can be found in break rooms and kitchens.",
-                    video: { timestamp: "6:25", url: "https://www.youtube.com/watch?v=ZOuSedSDlUE&t=385s" }
+                    video: { timestamp: "6:25", url: "https://www.youtube.com/watch?v=ZOuSedSDlUE&t=385s" },
+                    items: [["Thermos", 3]]
                 },
                 {
                     name: "N.T.G. Investigation 1",
@@ -1595,14 +1754,16 @@
                     map: "Any",
                     objective: "Deliver a tactical rig to Maggie.",
                     tips: "Any tactical rig will complete this objective.",
-                    video: { timestamp: "10:23", url: "https://www.youtube.com/watch?v=ZOuSedSDlUE&t=623s" }
+                    video: { timestamp: "10:23", url: "https://www.youtube.com/watch?v=ZOuSedSDlUE&t=623s" },
+                    items: [["Tactical Rig", 1]]
                 },
                 {
                     name: "Medical Delivery",
                     map: "Any",
                     objective: "Deliver medical supplies including a surgical kit to Maggie.",
                     tips: "Surgical kits are rare and found in medical areas.",
-                    video: { timestamp: "10:48", url: "https://www.youtube.com/watch?v=ZOuSedSDlUE&t=648s" }
+                    video: { timestamp: "10:48", url: "https://www.youtube.com/watch?v=ZOuSedSDlUE&t=648s" },
+                    items: [["Surgical Kit", 1]]
                 },
                 {
                     name: "Keys to Safety 1",
@@ -1724,6 +1885,7 @@
             saveCompletedTasks();
             filterTasks();
             updateProgressStats();
+            renderItemsSummary();
         }
 
         // Update progress stats display
@@ -1745,6 +1907,63 @@
             document.getElementById('totalCount').textContent = total;
             document.getElementById('progressPercent').textContent = percent + '%';
             document.getElementById('progressBar').style.width = percent + '%';
+        }
+
+        function toggleItemsSummary() {
+            const section = document.getElementById('itemsSummarySection');
+            section.classList.toggle('expanded');
+        }
+
+        function calculateItemTotals() {
+            const itemTotals = {};
+            const tasks = taskData[currentTrader] || [];
+
+            tasks.forEach((task, index) => {
+                const taskId = `${currentTrader}-${index}`;
+                if (!completedTasks.has(taskId) && task.items) {
+                    task.items.forEach(([itemName, quantity]) => {
+                        if (!itemTotals[itemName]) {
+                            itemTotals[itemName] = 0;
+                        }
+                        itemTotals[itemName] += quantity;
+                    });
+                }
+            });
+
+            return itemTotals;
+        }
+
+        function renderItemsSummary() {
+            const itemTotals = calculateItemTotals();
+            const grid = document.getElementById('itemsSummaryGrid');
+            const stats = document.getElementById('itemsSummaryStats');
+            const section = document.getElementById('itemsSummarySection');
+
+            const sortedItems = Object.entries(itemTotals)
+                .sort((a, b) => b[1] - a[1]);
+
+            if (sortedItems.length === 0) {
+                section.style.display = 'none';
+                return;
+            }
+
+            section.style.display = 'block';
+
+            let html = '';
+            sortedItems.forEach(([itemName, quantity]) => {
+                html += `
+                    <div class="summary-item">
+                        <span class="summary-item-name">${itemName}</span>
+                        <span class="summary-item-qty">x${quantity}</span>
+                    </div>
+                `;
+            });
+
+            grid.innerHTML = html;
+
+            const uniqueItems = sortedItems.length;
+            const totalItems = sortedItems.reduce((sum, [, qty]) => sum + qty, 0);
+            stats.innerHTML = `Unique items: <span>${uniqueItems}</span> | Total items: <span>${totalItems}</span>`;
         }
 
         const traderInfo = {
@@ -1788,6 +2007,7 @@
             updateTraderDisplay();
             filterTasks();
             updateProgressStats();
+            renderItemsSummary();
         }
 
         function updateTraderDisplay() {
@@ -1891,6 +2111,7 @@
         loadCompletedTasks();
         filterTasks();
         updateProgressStats();
+        renderItemsSummary();
     </script>
     </div>
 </body>
