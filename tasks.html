@@ -419,6 +419,27 @@
             color: var(--text-secondary);
         }
 
+        .task-type {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            color: var(--accent-orange);
+            margin-bottom: 0.75rem;
+            margin-left: 0.5rem;
+            padding: 0.25rem 0.5rem;
+            background: rgba(255, 165, 0, 0.1);
+            border-radius: 3px;
+        }
+
+        .task-type::before {
+            content: 'TYPE:';
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.65rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+        }
+
         .task-objective {
             font-size: 0.95rem;
             color: var(--text-primary);
@@ -1295,6 +1316,7 @@
                 {
                     name: "Shotgun Shock",
                     map: "Suburbs",
+                    type: "Side-Task",
                     objective: "Get 6 kills with a pump shotgun in suburbs by killing scavengers.",
                     tips: null,
                     video: { timestamp: "4:07", url: "https://www.youtube.com/watch?v=YEPtvxMzsBY&t=247s" }
@@ -1320,6 +1342,23 @@
                     tips: "Visit watchtower 1, watchtower 2 at Toll Station, and Camp #11. Place sausages at each location.",
                     video: { timestamp: "11:45", url: "https://www.youtube.com/watch?v=YEPtvxMzsBY&t=705s" },
                     items: [["Sausage", 3]]
+                },
+                {
+                    name: "Emergency Rations",
+                    map: "Dam",
+                    type: "Contract",
+                    objective: "Find Igor's canned food at the Old Factory Zone A and C, C1 Workshop, and C2 Workshop in Dam Area, then submit 2 cans.",
+                    tips: "Visit Old Factory Zone A and C to find Igor's canned food, then turn in 2 cans.",
+                    video: { timestamp: "0:00", url: "https://www.youtube.com/watch?v=YEPtvxMzsBY&t=0s" },
+                    items: [["Igor's Canned Food", 2]]
+                },
+                {
+                    name: "Hunter",
+                    map: "Any",
+                    type: "Side-Task",
+                    objective: "Eliminate 9 targets with a bolt-action rifle.",
+                    tips: "Use any bolt-action rifle to get 9 kills on any map.",
+                    video: { timestamp: "0:00", url: "https://www.youtube.com/watch?v=YEPtvxMzsBY&t=0s" }
                 },
                 {
                     name: "Firepower Roundup 1",
@@ -2076,7 +2115,7 @@
                             <span class="task-number">#${taskIndex + 1}</span>
                         </div>
                         <div class="task-content">
-                            <div class="task-map">${task.map}</div>
+                            <div class="task-map">${task.map}</div>${task.type ? `<div class="task-type">${task.type}</div>` : ''}
                             <div class="task-objective">${task.objective}</div>
                             ${task.tips ? `
                                 <div class="task-tips">
