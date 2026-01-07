@@ -1040,37 +1040,42 @@
             ],
             'tommy': [
                 {
-                    name: "Extraction from Suburbs",
+                    name: "Handshake",
                     map: "Suburbs",
-                    objective: "Extract from any location in the suburbs.",
-                    tips: null,
+                    type: "Contract",
+                    objective: "Successfully extract from the Suburb Area.",
+                    tips: "Go explore the island and come back alive.",
                     video: { timestamp: "0:18", url: "https://www.youtube.com/watch?v=HLNHp2vxesQ&t=18s" }
                 },
                 {
-                    name: "Kill Scavengers",
+                    name: "Friendly Reminder",
                     map: "Suburbs",
-                    objective: "Eliminate four scavengers in the suburbs.",
-                    tips: "Contractor players do not count - only AI scavengers.",
+                    type: "Contract",
+                    objective: "Eliminate 4 scavengers in the Suburb Area.",
+                    tips: "Go take out some scavengers. Contractor players do not count - only AI scavengers.",
                     video: { timestamp: "0:22", url: "https://www.youtube.com/watch?v=HLNHp2vxesQ&t=22s" }
                 },
                 {
-                    name: "Turn in Intel Items",
+                    name: "Recon 1",
                     map: "Any",
-                    objective: "Submit three \"Intel\" items found in raids.",
-                    tips: "Intel items include notebooks, tapes, hard drives, or books.",
+                    type: "Contract",
+                    objective: "Turn in 3 Intel items found in raid.",
+                    tips: "Intel items can be found in military encampments in both the Suburb Area and Dam Area.",
                     video: { timestamp: "0:40", url: "https://www.youtube.com/watch?v=HLNHp2vxesQ&t=40s" },
                     items: [["Intel Item", 3]]
                 },
                 {
-                    name: "Find and Turn in Ark Soldier's Phone",
+                    name: "Cellular Info",
                     map: "Suburbs",
-                    objective: "Locate a phone on the second floor of the office building near the motel in the suburbs.",
-                    tips: null,
+                    type: "Contract",
+                    objective: "Go to the Office Building in Suburb Area, find the Intel phone, and turn it in.",
+                    tips: "One of our soldiers has gone missing. Her phone contains reconnaissance leads - find it on the second floor of the office building.",
                     video: { timestamp: "0:57", url: "https://www.youtube.com/watch?v=HLNHp2vxesQ&t=57s" }
                 },
                 {
-                    name: "Eliminate Targets with MP5",
+                    name: "Deterrence 1",
                     map: "Any",
+                    type: "Side-Task",
                     objective: "Kill eight targets on any map using an MP5.",
                     tips: "Good locations for bots include Hide Town and the Mall.",
                     video: { timestamp: "1:25", url: "https://www.youtube.com/watch?v=HLNHp2vxesQ&t=85s" }
@@ -1654,26 +1659,46 @@
             'maggie': [
                 // Level 1
                 {
+                    name: "First Contact",
+                    map: "Dam",
+                    type: "Contract",
+                    objective: "Make an extraction from Dam Area.",
+                    tips: "Head to the Dam Area, explore, and extract safely.",
+                    video: { timestamp: "0:00", url: "https://www.youtube.com/watch?v=ZOuSedSDlUE&t=0s" }
+                },
+                {
                     name: "Supply Shortage 1",
                     map: "Any",
-                    objective: "Deliver 2 bottles of water and 2 cans of food to Maggie.",
-                    tips: "Basic delivery task to unlock Maggie.",
+                    type: "Side-Task",
+                    objective: "Turn in 2 bottles of water and 2 cans of food.",
+                    tips: "Basic supplies can be found commonly in residential buildings.",
                     video: { timestamp: "0:00", url: "https://www.youtube.com/watch?v=ZOuSedSDlUE&t=0s" },
                     items: [["Bottle of Water", 2], ["Can of Food", 2]]
                 },
                 {
+                    name: "Supply Shortage 2",
+                    map: "Any",
+                    type: "Side-Task",
+                    objective: "Turn in 3 Household Items found in raid.",
+                    tips: "Household items can be found commonly inside residential buildings.",
+                    video: { timestamp: "0:00", url: "https://www.youtube.com/watch?v=ZOuSedSDlUE&t=0s" },
+                    items: [["Household Item", 3]]
+                },
+                {
                     name: "Borrowed and Returned",
                     map: "Dam",
-                    objective: "Find Maggie's camera at the Mountain Cabin in Dam Area and return it to her.",
-                    tips: "Go to the Mountain Cabin in the Dam Area. Enter the cabin and find Maggie's camera inside, then turn it in.",
+                    type: "Contract",
+                    objective: "Find Maggie's Precious Camera at the Mountain Cabin in Dam Area and return it to her.",
+                    tips: "Go to the Mountain Cabin in the Dam Area. Enter the cabin and find Maggie's Precious Camera inside, then turn it in.",
                     video: { timestamp: "0:00", url: "https://www.youtube.com/watch?v=ZOuSedSDlUE&t=0s" },
-                    items: [["Maggie's Camera", 1]]
+                    items: [["Maggie's Precious Camera", 1]]
                 },
                 {
                     name: "Final Message",
                     map: "Dam",
-                    objective: "Head to the Weather Outpost and Turbine Field in Dam to investigate a missing meteorologist, then find and capture him.",
-                    tips: "Visit the Weather Outpost and Turbine Field to search for clues. Find the meteorologist and capture him.",
+                    type: "Contract",
+                    objective: "Head to the Weather Outpost and Turbine Field in Dam to investigate the missing meteorologist, find him, and capture him.",
+                    tips: "Arrive at the Weather Outpost, then the Turbine Field. Find the meteorologist and capture him. Take photos of the scene.",
                     video: { timestamp: "0:00", url: "https://www.youtube.com/watch?v=ZOuSedSDlUE&t=0s" }
                 },
                 {
