@@ -1887,10 +1887,12 @@
             } else {
                 // First visit - expand the DLC section and scroll to it
                 const dlcSection = document.getElementById('dlcSection');
-                dlcSection.classList.add('expanded');
-                setTimeout(() => {
-                    dlcSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }, 100);
+                if (dlcSection) {
+                    dlcSection.classList.add('expanded');
+                    setTimeout(() => {
+                        dlcSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }, 100);
+                }
             }
             updateDlcUI();
         }
