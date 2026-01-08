@@ -4,7 +4,10 @@
 
 A comprehensive web-based companion tool for **ExfilZone** (Contractors VR DLC). Track your hideout upgrades, view ammo statistics, find key vault locations, and more.
 
-**Live Site:** https://exfilzonebuddyhelper.netlify.app/
+**Live Site:** 
+https://yagercodes.github.io/ExfilZoneTracker/
+or
+https://exfilzonebuddyhelper.netlify.app/
 
 ## Features
 
