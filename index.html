@@ -800,33 +800,35 @@
 
         .items-summary-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 0.5rem;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 0.75rem;
         }
 
         .summary-item {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem;
+            gap: 0.75rem;
+            padding: 0.75rem;
             background: var(--bg-dark);
             border-radius: 4px;
             border: 1px solid var(--border);
+            position: relative;
         }
 
         .summary-item-icon {
-            width: 32px;
-            height: 32px;
+            width: 48px;
+            height: 48px;
             object-fit: contain;
             border: 1px solid var(--border);
             border-radius: 3px;
             background: rgba(0, 0, 0, 0.5);
-            padding: 2px;
+            padding: 3px;
         }
 
         .summary-item-name {
             flex: 1;
-            font-size: 0.85rem;
+            font-size: 1rem;
+            font-weight: 500;
             color: var(--text-primary);
         }
 
@@ -904,6 +906,49 @@
         .summary-item.item-complete {
             border-color: var(--primary-dim);
             opacity: 0.7;
+        }
+
+        .summary-item-unlocks {
+            display: none;
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--bg-dark);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 0.5rem 0.75rem;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+            white-space: nowrap;
+            z-index: 100;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            margin-bottom: 0.5rem;
+        }
+
+        .summary-item-unlocks::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 6px solid transparent;
+            border-top-color: var(--border);
+        }
+
+        .summary-item:hover .summary-item-unlocks {
+            display: block;
+        }
+
+        .summary-item-unlocks span {
+            color: var(--accent-blue);
+        }
+
+        .summary-item-details {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
         }
 
         .items-summary-empty {
@@ -2509,6 +2554,20 @@
             return itemTotals;
         }
 
+        function getUpgradesForItem(itemName) {
+            const upgrades = [];
+            hideoutUpgrades.forEach(upgrade => {
+                const upgradeId = `${upgrade.name}-${upgrade.level}`;
+                if (!completedUpgrades.has(upgradeId)) {
+                    const hasItem = upgrade.items.some(([name]) => name === itemName);
+                    if (hasItem) {
+                        upgrades.push(`${upgrade.name} ${upgrade.level}`);
+                    }
+                }
+            });
+            return upgrades;
+        }
+
         function renderItemsSummary() {
             const itemTotals = calculateItemTotals();
             const grid = document.getElementById('itemsSummaryGrid');
@@ -2536,6 +2595,10 @@
                 const isComplete = owned >= quantity;
                 const itemClass = isComplete ? 'summary-item item-complete' : 'summary-item';
                 const countClass = isComplete ? 'item-count-display complete' : 'item-count-display';
+                const unlocks = getUpgradesForItem(itemName);
+                const unlocksHtml = unlocks.length > 0
+                    ? `<div class="summary-item-unlocks">Unlocks: <span>${unlocks.join('</span>, <span>')}</span></div>`
+                    : '';
 
                 totalOwned += Math.min(owned, quantity);
                 totalNeeded += quantity;
@@ -2543,7 +2606,10 @@
                 html += `
                     <div class="${itemClass}">
                         ${iconHtml}
-                        <span class="summary-item-name"><a href="${itemSearchUrl}" title="Find ${itemName} spawn locations">${itemName}</a></span>
+                        <div class="summary-item-details">
+                            <span class="summary-item-name"><a href="${itemSearchUrl}" title="Find ${itemName} spawn locations">${itemName}</a></span>
+                            ${unlocksHtml}
+                        </div>
                         <div class="summary-item-counter">
                             <button class="counter-btn decrement" onclick="updateItemCount('${itemName.replace(/'/g, "\\'")}', -1)" title="Decrease count">−</button>
                             <span class="${countClass}"><span class="owned">${owned}</span><span class="needed">/${quantity}</span></span>
