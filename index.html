@@ -776,6 +776,19 @@
             transform: rotate(180deg);
         }
 
+        .items-summary-section.items-not-needed .items-summary-title {
+            color: var(--primary);
+        }
+
+        .items-summary-section.items-not-needed .items-summary-title::before {
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%2300ff88' viewBox='0 0 24 24'%3E%3Cpath d='M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z'/%3E%3C/svg%3E") center/contain no-repeat;
+        }
+
+        .items-summary-section.items-not-needed .summary-item {
+            opacity: 0.7;
+            border-color: var(--primary-dim);
+        }
+
         .items-summary-content {
             display: none;
             padding: 1rem;
@@ -835,6 +848,62 @@
             font-size: 0.9rem;
             min-width: 40px;
             text-align: right;
+        }
+
+        .summary-item-counter {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .counter-btn {
+            width: 24px;
+            height: 24px;
+            border: 1px solid var(--border);
+            background: var(--bg-medium);
+            color: var(--text-primary);
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .counter-btn:hover {
+            background: var(--accent-blue);
+            border-color: var(--accent-blue);
+        }
+
+        .counter-btn.decrement:hover {
+            background: var(--accent-red);
+            border-color: var(--accent-red);
+        }
+
+        .item-count-display {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.85rem;
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .item-count-display .owned {
+            color: var(--accent-blue);
+        }
+
+        .item-count-display .needed {
+            color: var(--text-muted);
+        }
+
+        .item-count-display.complete .owned {
+            color: var(--primary);
+        }
+
+        .summary-item.item-complete {
+            border-color: var(--primary-dim);
+            opacity: 0.7;
         }
 
         .items-summary-empty {
@@ -1565,6 +1634,17 @@
             <div class="items-summary-stats" id="itemsSummaryStats"></div>
         </div>
 
+        <div class="items-summary-section items-not-needed" id="itemsNotNeededSection">
+            <div class="items-summary-header" onclick="toggleItemsNotNeeded()">
+                <div class="items-summary-title">Items Not Needed</div>
+                <div class="items-summary-toggle">▼</div>
+            </div>
+            <div class="items-summary-content">
+                <div class="items-summary-grid" id="itemsNotNeededGrid"></div>
+            </div>
+            <div class="items-summary-stats" id="itemsNotNeededStats"></div>
+        </div>
+
         <div class="up-next-section" id="upNextSection">
             <div class="up-next-header" onclick="toggleUpNext()">
                 <div class="up-next-title">Up Next</div>
@@ -1825,10 +1905,12 @@
         const STORAGE_KEY = 'exfilzone-hideout-visual';
         const DLC_STORAGE_KEY = 'exfilzone-dlc-owned';
         const FAVORITES_STORAGE_KEY = 'exfilzone-favorites';
+        const ITEM_COUNTS_STORAGE_KEY = 'exfilzone-item-counts';
         let completedUpgrades = new Set();
         let favoriteUpgrades = new Set();
         let currentFilter = 'all';
         let ownedDlcs = { ntg: false, johnny: false };
+        let itemCounts = {};
 
         // DLC unlock definitions
         const dlcUnlocks = {
@@ -1852,6 +1934,7 @@
             }
             loadFavorites();
             loadDlcStatus();
+            loadItemCounts();
         }
 
         function saveProgress() {
@@ -1867,6 +1950,26 @@
 
         function saveFavorites() {
             localStorage.setItem(FAVORITES_STORAGE_KEY, JSON.stringify([...favoriteUpgrades]));
+        }
+
+        function loadItemCounts() {
+            const saved = localStorage.getItem(ITEM_COUNTS_STORAGE_KEY);
+            if (saved) {
+                itemCounts = JSON.parse(saved);
+            }
+        }
+
+        function saveItemCounts() {
+            localStorage.setItem(ITEM_COUNTS_STORAGE_KEY, JSON.stringify(itemCounts));
+        }
+
+        function updateItemCount(itemName, delta) {
+            if (!itemCounts[itemName]) {
+                itemCounts[itemName] = 0;
+            }
+            itemCounts[itemName] = Math.max(0, itemCounts[itemName] + delta);
+            saveItemCounts();
+            renderItemsSummary();
         }
 
         function toggleFavorite(upgradeId, event) {
@@ -1925,6 +2028,7 @@
             applyDlcUnlocks();
             renderUpgrades();
             renderItemsSummary();
+            renderItemsNotNeeded();
             renderUpNext();
         }
 
@@ -2073,6 +2177,7 @@
             updateStats();
             renderFavorites();
             renderItemsSummary();
+            renderItemsNotNeeded();
             renderUpNext();
         }
 
@@ -2167,6 +2272,15 @@
                 if (favoriteUpgrades.has(upgradeId)) {
                     favoriteUpgrades.delete(upgradeId);
                     saveFavorites();
+                }
+                // Decrease item counts for the completed upgrade
+                if (upgrade && upgrade.items) {
+                    upgrade.items.forEach(([itemName, quantity]) => {
+                        if (itemCounts[itemName]) {
+                            itemCounts[itemName] = Math.max(0, itemCounts[itemName] - quantity);
+                        }
+                    });
+                    saveItemCounts();
                 }
             }
             saveProgress();
@@ -2410,18 +2524,31 @@
             }
 
             let html = '';
+            let totalOwned = 0;
+            let totalNeeded = 0;
             sortedItems.forEach(([itemName, quantity]) => {
                 const imagePath = itemImages[itemName] || '';
                 const iconHtml = imagePath
                     ? `<img src="${imagePath}" class="summary-item-icon" alt="${itemName}" title="${itemName}" onerror="this.style.display='none'">`
                     : '';
                 const itemSearchUrl = `itemspawns.html?search=${encodeURIComponent(itemName)}`;
+                const owned = itemCounts[itemName] || 0;
+                const isComplete = owned >= quantity;
+                const itemClass = isComplete ? 'summary-item item-complete' : 'summary-item';
+                const countClass = isComplete ? 'item-count-display complete' : 'item-count-display';
+
+                totalOwned += Math.min(owned, quantity);
+                totalNeeded += quantity;
 
                 html += `
-                    <div class="summary-item">
+                    <div class="${itemClass}">
                         ${iconHtml}
                         <span class="summary-item-name"><a href="${itemSearchUrl}" title="Find ${itemName} spawn locations">${itemName}</a></span>
-                        <span class="summary-item-qty">x${quantity}</span>
+                        <div class="summary-item-counter">
+                            <button class="counter-btn decrement" onclick="updateItemCount('${itemName.replace(/'/g, "\\'")}', -1)" title="Decrease count">−</button>
+                            <span class="${countClass}"><span class="owned">${owned}</span><span class="needed">/${quantity}</span></span>
+                            <button class="counter-btn increment" onclick="updateItemCount('${itemName.replace(/'/g, "\\'")}', 1)" title="Increase count">+</button>
+                        </div>
                     </div>
                 `;
             });
@@ -2429,8 +2556,64 @@
             grid.innerHTML = html;
 
             const uniqueItems = sortedItems.length;
-            const totalItems = sortedItems.reduce((sum, [, qty]) => sum + qty, 0);
-            stats.innerHTML = `Unique items: <span>${uniqueItems}</span> | Total items: <span>${totalItems}</span>`;
+            const completedItems = sortedItems.filter(([itemName, qty]) => (itemCounts[itemName] || 0) >= qty).length;
+            stats.innerHTML = `Items: <span>${completedItems}/${uniqueItems}</span> | Collected: <span>${totalOwned}/${totalNeeded}</span>`;
+        }
+
+        function toggleItemsNotNeeded() {
+            const section = document.getElementById('itemsNotNeededSection');
+            section.classList.toggle('expanded');
+        }
+
+        function getItemsNotNeeded() {
+            // Get all items that are still needed (from incomplete upgrades)
+            const itemsStillNeeded = new Set();
+            // Get all items that exist in the hideout system
+            const allItems = new Set();
+
+            hideoutUpgrades.forEach(upgrade => {
+                const upgradeId = `${upgrade.name}-${upgrade.level}`;
+                upgrade.items.forEach(([itemName]) => {
+                    allItems.add(itemName);
+                    if (!completedUpgrades.has(upgradeId)) {
+                        itemsStillNeeded.add(itemName);
+                    }
+                });
+            });
+
+            // Items not needed = all items minus items still needed
+            const itemsNotNeeded = [...allItems].filter(item => !itemsStillNeeded.has(item));
+            return itemsNotNeeded.sort();
+        }
+
+        function renderItemsNotNeeded() {
+            const itemsNotNeeded = getItemsNotNeeded();
+            const grid = document.getElementById('itemsNotNeededGrid');
+            const stats = document.getElementById('itemsNotNeededStats');
+
+            if (itemsNotNeeded.length === 0) {
+                grid.innerHTML = '<div class="items-summary-empty">All items are still needed for remaining upgrades.</div>';
+                stats.innerHTML = '';
+                return;
+            }
+
+            let html = '';
+            itemsNotNeeded.forEach(itemName => {
+                const imagePath = itemImages[itemName] || '';
+                const iconHtml = imagePath
+                    ? `<img src="${imagePath}" class="summary-item-icon" alt="${itemName}" title="${itemName}" onerror="this.style.display='none'">`
+                    : '';
+
+                html += `
+                    <div class="summary-item">
+                        ${iconHtml}
+                        <span class="summary-item-name">${itemName}</span>
+                    </div>
+                `;
+            });
+
+            grid.innerHTML = html;
+            stats.innerHTML = `Items no longer needed: <span>${itemsNotNeeded.length}</span>`;
         }
 
         document.getElementById('searchBox').addEventListener('input', renderUpgrades);
@@ -2464,6 +2647,7 @@
         renderUpgrades();
         renderFavorites();
         renderItemsSummary();
+        renderItemsNotNeeded();
         renderUpNext();
     </script>
     </div>
